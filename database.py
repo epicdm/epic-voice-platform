@@ -512,6 +512,16 @@ class BrandKit(Base):
 
 def init_db():
     """Initialize database and create tables."""
+    # Import all models to ensure they're registered with Base.metadata
+    try:
+        from backend.cost_tracking.models import (
+            PricingConfig, CallCostBreakdown, CustomerBalance, 
+            CreditTransaction, MessageCostBreakdown
+        )
+    except ImportError as e:
+        print(f"⚠️  Warning: Could not import cost tracking models: {e}")
+    
+    # Now create all tables
     Base.metadata.create_all(bind=engine)
     print("✅ Database tables created successfully")
 
