@@ -49,20 +49,60 @@ export async function POST(req: NextRequest) {
 
     console.log('📞 Backend response:', data);
 
+    // If backend returned an error, try to forward its ApiResponse shape directly
     if (!response.ok) {
+      // Case 1: Backend already follows our ApiErrorResponse shape
+      if (
+        data &&
+        typeof data === 'object' &&
+        'success' in data &&
+        data.success === false &&
+        (data as any).error &&
+        typeof (data as any).error.message === 'string'
+      ) {
+        return NextResponse.json(data, { status: response.status });
+      }
+
+      // Case 2: Extract best-effort message from various backend formats
+      let backendMessage = 'Failed to provision phone number';
+      if (data) {
+        if (typeof (data as any).error === 'string') {
+          backendMessage = (data as any).error;
+        } else if (
+          (data as any).error &&
+          typeof (data as any).error.message === 'string'
+        ) {
+          backendMessage = (data as any).error.message;
+        } else if (typeof (data as any).message === 'string') {
+          backendMessage = (data as any).message;
+        }
+      }
+
       return NextResponse.json(
         {
           success: false,
           error: {
-            message: data.error || 'Failed to provision phone number',
-            code: 'BACKEND_ERROR'
-          }
+            message: backendMessage,
+            code: 'BACKEND_ERROR',
+          },
         },
         { status: response.status }
       );
     }
 
-    return NextResponse.json({ success: true, data });
+    // For success, if backend already returned ApiSuccessResponse<T>, just forward it
+    if (data && typeof data === 'object' && 'success' in data) {
+      return NextResponse.json(data, { status: response.status });
+    }
+
+    // Fallback: wrap plain data into standard success envelope
+    return NextResponse.json(
+      {
+        success: true,
+        data,
+      },
+      { status: response.status }
+    );
   } catch (error) {
     console.error('Error provisioning phone number:', error);
     return NextResponse.json(

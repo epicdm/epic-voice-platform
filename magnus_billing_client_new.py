@@ -3,6 +3,10 @@ import random
 import json
 from typing import Dict, Optional, Any, List
 from datetime import datetime
+import urllib3
+
+# Disable SSL warnings for self-signed certificates
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 class MagnusBillingClientNew:
     def __init__(self, api_key: str, secret_key: str, base_url: str):

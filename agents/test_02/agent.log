@@ -1,0 +1,31 @@
+Traceback (most recent call last):
+  File "/opt/livekit1/agents/test_02/main.py", line 6, in <module>
+    from livekit.agents import WorkerOptions, cli
+ModuleNotFoundError: No module named 'livekit.agents'
+2025-10-26 17:04:07,320 [INFO] __main__: Starting test 02 worker...
+2025-10-26 17:04:07,324 [INFO] livekit.agents: starting worker
+{"message": "starting worker", "level": "INFO", "name": "livekit.agents", "version": "1.2.15", "rtc-version": "1.0.17", "timestamp": "2025-10-26T17:04:07.324450+00:00"}
+2025-10-26 17:04:07,324 [INFO] livekit.agents: preloading plugins
+{"message": "preloading plugins", "level": "INFO", "name": "livekit.agents", "packages": ["livekit.plugins.deepgram", "livekit.plugins.openai", "livekit.plugins.silero", "av"], "timestamp": "2025-10-26T17:04:07.324726+00:00"}
+2025-10-26 17:04:08,941 [INFO] livekit.agents: initializing process
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 263466, "timestamp": "2025-10-26T17:04:08.941388+00:00"}
+2025-10-26 17:04:08,947 [INFO] livekit.agents: initializing process
+{"message": "initializing process", "level": "INFO", "name": "livekit.agents", "pid": 263468, "timestamp": "2025-10-26T17:04:08.947257+00:00"}
+2025-10-26 17:04:08,976 [INFO] livekit.agents: process initialized
+2025-10-26 17:04:08,974 [DEBUG] asyncio: Using selector: EpollSelector
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 263466, "elapsed_time": 0.03, "timestamp": "2025-10-26T17:04:08.976225+00:00"}
+2025-10-26 17:04:08,982 [INFO] livekit.agents: process initialized
+{"message": "process initialized", "level": "INFO", "name": "livekit.agents", "pid": 263468, "elapsed_time": 0.03, "timestamp": "2025-10-26T17:04:08.982589+00:00"}
+2025-10-26 17:04:08,979 [DEBUG] asyncio: Using selector: EpollSelector
+2025-10-26 17:04:09,080 [INFO] livekit.agents: registered worker
+{"message": "registered worker", "level": "INFO", "name": "livekit.agents", "id": "AW_mY8drmbeCaCa", "url": "wss://ai-agent-dl6ldsi8.livekit.cloud", "region": "US East B", "protocol": 16, "timestamp": "2025-10-26T17:04:09.080562+00:00"}
+2025-10-26 17:14:22,655 [INFO] livekit.agents: draining worker
+{"message": "draining worker", "level": "INFO", "name": "livekit.agents", "id": "AW_mY8drmbeCaCa", "timeout": 1800, "timestamp": "2025-10-26T17:14:22.655455+00:00"}
+2025-10-26 17:14:22,660 [INFO] livekit.agents: shutting down worker
+{"message": "shutting down worker", "level": "INFO", "name": "livekit.agents", "id": "AW_mY8drmbeCaCa", "timestamp": "2025-10-26T17:14:22.660445+00:00"}
+2025-10-26 17:14:22,672 [ERROR] livekit.agents: process exited with non-zero exit code 255
+{"message": "process exited with non-zero exit code 255", "level": "ERROR", "name": "livekit.agents", "pid": 263468, "timestamp": "2025-10-26T17:14:22.672822+00:00"}
+2025-10-26 17:14:22,683 [ERROR] livekit.agents: process exited with non-zero exit code 255
+{"message": "process exited with non-zero exit code 255", "level": "ERROR", "name": "livekit.agents", "pid": 263466, "timestamp": "2025-10-26T17:14:22.683189+00:00"}
+2025-10-26 17:14:22,683 [WARNING] livekit.agents: exiting forcefully
+{"message": "exiting forcefully", "level": "WARNING", "name": "livekit.agents", "timestamp": "2025-10-26T17:14:22.683750+00:00"}
