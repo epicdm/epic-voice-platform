@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Voice Agents</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <nav class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex items-center">
+                        <h1 class="text-2xl font-bold text-indigo-600">🎙️ Voice Agent Platform</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span id="user-email" class="text-gray-600"></span>
+                        <a href="/logout" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="text-sm text-gray-500 mb-1">Total Agents</div>
+                    <div id="stat-agents" class="text-3xl font-bold text-indigo-600">0</div>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="text-sm text-gray-500 mb-1">Total Calls</div>
+                    <div id="stat-calls" class="text-3xl font-bold text-green-600">0</div>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="text-sm text-gray-500 mb-1">Phone Numbers</div>
+                    <div id="stat-phones" class="text-3xl font-bold text-blue-600">0</div>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="text-sm text-gray-500 mb-1">Total Cost</div>
+                    <div id="stat-cost" class="text-3xl font-bold text-purple-600">$0.00</div>
+                </div>
+            </div>
+
+            <!-- Agents Section -->
+            <div class="bg-white rounded-lg shadow mb-8">
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h2 class="text-2xl font-semibold text-gray-800">🤖 My Voice Agents</h2>
+                    <button onclick="showCreateAgent()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                        + Create New Agent
+                    </button>
+                </div>
+                <div id="agents-list" class="p-6">
+                    <p class="text-gray-500 text-center py-8">Loading agents...</p>
+                </div>
+            </div>
+
+            <!-- Phone Numbers Section -->
+            <div class="bg-white rounded-lg shadow mb-8">
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h2 class="text-2xl font-semibold text-gray-800">📞 Phone Numbers</h2>
+                    <button onclick="showAssignPhone()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                        + Assign Phone Number
+                    </button>
+                </div>
+                <div id="phones-list" class="p-6">
+                    <p class="text-gray-500 text-center py-8">Loading phone numbers...</p>
+                </div>
+            </div>
+
+            <!-- Call Logs Section -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="p-6 border-b">
+                    <h2 class="text-2xl font-semibold text-gray-800">📋 Recent Calls</h2>
+                </div>
+                <div id="calls-list" class="p-6">
+                    <p class="text-gray-500 text-center py-8">Loading call history...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create/Edit Agent Modal -->
+    <div id="agent-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full m-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b">
+                <h3 id="modal-title" class="text-2xl font-semibold">Create New Agent</h3>
+            </div>
+            <form id="agent-form" class="p-6 space-y-4">
+                <input type="hidden" id="agent-id">
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Agent Name</label>
+                    <input type="text" id="agent-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Instructions (System Prompt)</label>
+                    <textarea id="agent-instructions" rows="6" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 font-mono text-sm"></textarea>
+                    <div class="mt-2 flex flex-wrap gap-2">
+                        <button type="button" onclick="loadPreset('customer_service')" class="px-3 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200">📞 Customer Service</button>
+                        <button type="button" onclick="loadPreset('sales')" class="px-3 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200">💰 Sales</button>
+                        <button type="button" onclick="loadPreset('receptionist')" class="px-3 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200">🏢 Receptionist</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">LLM Model</label>
+                        <select id="agent-model" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                            <option value="gpt-4o-mini">GPT-4o Mini (Fastest)</option>
+                            <option value="gpt-4o">GPT-4o (Best)</option>
+                            <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Voice</label>
+                        <select id="agent-voice" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                            <option value="alloy">Alloy</option>
+                            <option value="echo">Echo</option>
+                            <option value="fable">Fable</option>
+                            <option value="onyx">Onyx</option>
+                            <option value="nova">Nova</option>
+                            <option value="shimmer">Shimmer</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Temperature</label>
+                        <input type="number" id="agent-temperature" step="0.1" min="0" max="2" value="0.7" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Language</label>
+                        <input type="text" id="agent-language" value="en-US" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" onclick="hideModal()" class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Cancel</button>
+                    <button type="submit" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Save Agent</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Assign Phone Modal -->
+    <div id="phone-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full m-4">
+            <div class="p-6 border-b">
+                <h3 class="text-2xl font-semibold">Assign Phone Number</h3>
+            </div>
+            <form id="phone-form" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                    <input type="text" id="phone-number" required placeholder="+1234567890" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Assign to Agent</label>
+                    <select id="phone-agent" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        <option value="">Select an agent...</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="hidePhoneModal()" class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Cancel</button>
+                    <button type="submit" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Assign</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProfile();
+            loadStats();
+            loadAgents();
+            loadPhones();
+            loadCalls();
+        });
+
+        async function loadProfile() {
+            const response = await fetch('/api/user/profile');
+            const profile = await response.json();
+            document.getElementById('user-email').textContent = profile.email;
+        }
+
+        async function loadStats() {
+            const response = await fetch('/api/user/stats');
+            const stats = await response.json();
+            document.getElementById('stat-agents').textContent = stats.agents;
+            document.getElementById('stat-calls').textContent = stats.calls;
+            document.getElementById('stat-phones').textContent = stats.phone_numbers;
+            document.getElementById('stat-cost').textContent = '$' + stats.total_cost.toFixed(2);
+        }
+
+        async function loadAgents() {
+            const response = await fetch('/api/user/agents');
+            const agents = await response.json();
+            
+            const container = document.getElementById('agents-list');
+            
+            if (agents.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">No agents yet. Create your first agent to get started!</p>';
+                return;
+            }
+
+            container.innerHTML = agents.map(agent => `
+                <div class="border rounded-lg p-4 mb-3 hover:border-indigo-500 transition">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-semibold text-gray-800">${agent.name}</h3>
+                            <p class="text-sm text-gray-600 mt-1 line-clamp-2">${agent.instructions.substring(0, 150)}...</p>
+                            <div class="flex gap-3 mt-2 text-xs text-gray-500">
+                                <span>🤖 ${agent.llm_model}</span>
+                                <span>🎤 ${agent.voice}</span>
+                                <span>🌍 ${agent.language}</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick='editAgent(${JSON.stringify(agent)})' class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200">Edit</button>
+                            <button onclick="deleteAgent('${agent.id}')" class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function loadPhones() {
+            const response = await fetch('/api/user/phone-numbers');
+            const phones = await response.json();
+            
+            const container = document.getElementById('phones-list');
+            
+            if (phones.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">No phone numbers assigned yet.</p>';
+                return;
+            }
+
+            container.innerHTML = phones.map(phone => `
+                <div class="border rounded-lg p-4 mb-3">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <div class="font-semibold text-lg">${phone.phone_number}</div>
+                            <div class="text-sm text-gray-600">→ ${phone.agent_name || 'No agent'}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function loadCalls() {
+            const response = await fetch('/api/user/call-logs');
+            const calls = await response.json();
+            
+            const container = document.getElementById('calls-list');
+            
+            if (calls.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">No calls yet.</p>';
+                return;
+            }
+
+            container.innerHTML = `
+                <table class="w-full">
+                    <thead class="bg-gray-50 border-b">
+                        <tr>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">Date</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">Phone</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">Agent</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">Duration</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${calls.map(call => `
+                            <tr class="border-b">
+                                <td class="px-4 py-2 text-sm">${new Date(call.started_at).toLocaleString()}</td>
+                                <td class="px-4 py-2 text-sm">${call.phone_number || 'Unknown'}</td>
+                                <td class="px-4 py-2 text-sm">${call.agent_name}</td>
+                                <td class="px-4 py-2 text-sm">${call.duration_seconds ? Math.floor(call.duration_seconds / 60) + 'm ' + (call.duration_seconds % 60) + 's' : '-'}</td>
+                                <td class="px-4 py-2 text-sm">$${(call.cost || 0).toFixed(4)}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function showCreateAgent() {
+            document.getElementById('modal-title').textContent = 'Create New Agent';
+            document.getElementById('agent-form').reset();
+            document.getElementById('agent-id').value = '';
+            document.getElementById('agent-modal').classList.remove('hidden');
+        }
+
+        function editAgent(agent) {
+            document.getElementById('modal-title').textContent = 'Edit Agent';
+            document.getElementById('agent-id').value = agent.id;
+            document.getElementById('agent-name').value = agent.name;
+            document.getElementById('agent-instructions').value = agent.instructions;
+            document.getElementById('agent-model').value = agent.llm_model;
+            document.getElementById('agent-voice').value = agent.voice;
+            document.getElementById('agent-temperature').value = agent.temperature;
+            document.getElementById('agent-language').value = agent.language;
+            document.getElementById('agent-modal').classList.remove('hidden');
+        }
+
+        async function showAssignPhone() {
+            // Load agents for dropdown
+            const response = await fetch('/api/user/agents');
+            const agents = await response.json();
+            
+            const select = document.getElementById('phone-agent');
+            select.innerHTML = '<option value="">Select an agent...</option>' + 
+                agents.map(a => `<option value="${a.id}">${a.name}</option>`).join('');
+            
+            document.getElementById('phone-modal').classList.remove('hidden');
+        }
+
+        function hideModal() {
+            document.getElementById('agent-modal').classList.add('hidden');
+        }
+
+        function hidePhoneModal() {
+            document.getElementById('phone-modal').classList.add('hidden');
+        }
+
+        document.getElementById('agent-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const agentId = document.getElementById('agent-id').value;
+            const data = {
+                name: document.getElementById('agent-name').value,
+                instructions: document.getElementById('agent-instructions').value,
+                llm_model: document.getElementById('agent-model').value,
+                voice: document.getElementById('agent-voice').value,
+                temperature: parseFloat(document.getElementById('agent-temperature').value),
+                language: document.getElementById('agent-language').value
+            };
+
+            const url = agentId ? `/api/user/agents/${agentId}` : '/api/user/agents';
+            const method = agentId ? 'PUT' : 'POST';
+
+            const response = await fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                hideModal();
+                loadAgents();
+                loadStats();
+                alert(agentId ? 'Agent updated!' : 'Agent created!');
+            }
+        });
+
+        document.getElementById('phone-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const data = {
+                phone_number: document.getElementById('phone-number').value,
+                agent_id: document.getElementById('phone-agent').value
+            };
+
+            const response = await fetch('/api/user/phone-numbers', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                hidePhoneModal();
+                loadPhones();
+                loadStats();
+                alert('Phone number assigned!');
+            } else {
+                const error = await response.json();
+                alert('Error: ' + error.error);
+            }
+        });
+
+        async function deleteAgent(agentId) {
+            if (!confirm('Are you sure you want to delete this agent?')) return;
+
+            await fetch(`/api/user/agents/${agentId}`, { method: 'DELETE' });
+            loadAgents();
+            loadStats();
+        }
+
+        function loadPreset(type) {
+            const presets = {
+                customer_service: `You are a professional customer service representative.
+
+Answer questions politely, help resolve issues, and provide clear information.
+Be patient, empathetic, and solution-oriented.`,
+
+                sales: `You are an enthusiastic sales assistant.
+
+Help customers find products, explain benefits, and guide toward purchase decisions.
+Be friendly and consultative.`,
+
+                receptionist: `You are a professional receptionist.
+
+Greet callers warmly, answer general questions, and route calls appropriately.
+Be efficient and friendly.`
+            };
+
+            document.getElementById('agent-instructions').value = presets[type];
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+{
+  "dashboard": {
+    "title": "LiveKit Voice Agent Platform Metrics",
+    "tags": ["livekit", "campaigns", "webhooks"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Campaign Calls - Initiated vs Completed",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(rate(campaign_calls_initiated_total[5m]))",
+            "legendFormat": "Initiated",
+            "refId": "A"
+          },
+          {
+            "expr": "sum(rate(campaign_calls_completed_total[5m]))",
+            "legendFormat": "Completed",
+            "refId": "B"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+      },
+      {
+        "id": 2,
+        "title": "Campaign Success Rate",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "sum(rate(campaign_calls_completed_total{outcome=\"success\"}[5m])) / sum(rate(campaign_calls_completed_total[5m]))",
+            "legendFormat": "Success Rate",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percentunit",
+            "min": 0,
+            "max": 1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "red"},
+                {"value": 0.5, "color": "yellow"},
+                {"value": 0.7, "color": "green"}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 3,
+        "title": "Call Duration (p95)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(campaign_call_duration_seconds_bucket[5m])) by (le, outcome))",
+            "legendFormat": "{{outcome}}",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}
+      },
+      {
+        "id": 4,
+        "title": "Active Campaigns",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "sum(campaign_active_campaigns)",
+            "legendFormat": "Active Campaigns",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 12, "y": 8}
+      },
+      {
+        "id": 5,
+        "title": "Concurrent Calls",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "campaign_concurrent_calls",
+            "legendFormat": "Concurrent",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 18, "y": 8}
+      },
+      {
+        "id": 6,
+        "title": "Webhook Queue Size",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "webhook_queue_size",
+            "legendFormat": "Queue Size",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16}
+      },
+      {
+        "id": 7,
+        "title": "Webhook Delivery Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(rate(webhook_delivered_total[5m]))",
+            "legendFormat": "Delivered",
+            "refId": "A"
+          },
+          {
+            "expr": "sum(rate(webhook_failed_total[5m]))",
+            "legendFormat": "Failed",
+            "refId": "B"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16}
+      },
+      {
+        "id": 8,
+        "title": "Webhook Delivery Latency (p95)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(webhook_delivery_latency_seconds_bucket[5m])) by (le, partner_id))",
+            "legendFormat": "{{partner_id}}",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24}
+      },
+      {
+        "id": 9,
+        "title": "Active Webhook Workers",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "webhook_active_workers",
+            "legendFormat": "Workers",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 12, "y": 24}
+      },
+      {
+        "id": 10,
+        "title": "Oldest Webhook Age",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "webhook_queue_oldest_age_seconds",
+            "legendFormat": "Age (seconds)",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 18, "y": 24},
+        "fieldConfig": {
+          "defaults": {
+            "unit": "s",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "green"},
+                {"value": 300, "color": "yellow"},
+                {"value": 1800, "color": "red"}
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "refresh": "30s",
+    "schemaVersion": 27,
+    "version": 1
+  }
+}

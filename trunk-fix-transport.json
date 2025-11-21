@@ -1,0 +1,8 @@
+{
+  "name": "epic-agent-outbound",
+  "address": "voice.epic.dm",
+  "transport": "SIP_TRANSPORT_TCP",
+  "numbers": ["+17678183366"],
+  "authUsername": "17678183366",
+  "authPassword": "werwqerwqrwq555"
+}

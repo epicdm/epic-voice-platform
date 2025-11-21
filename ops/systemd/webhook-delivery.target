@@ -1,0 +1,7 @@
+[Unit]
+Description=Webhook Delivery Worker Target (All Instances)
+Documentation=file:///opt/livekit1/backend/webhook_worker/DEPLOYMENT_GUIDE.md
+Wants=webhook-delivery@1.service webhook-delivery@2.service webhook-delivery@3.service
+
+[Install]
+WantedBy=multi-user.target

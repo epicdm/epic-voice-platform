@@ -1,0 +1,94 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - img [ref=e8]
+          - generic [ref=e11]:
+            - heading "Epic.ai" [level=1] [ref=e12]
+            - paragraph [ref=e13]: Voice AI Platform
+        - button "Toggle theme" [ref=e14] [cursor=pointer]:
+          - img [ref=e15]
+      - navigation [ref=e17]:
+        - link "Dashboard" [ref=e18] [cursor=pointer]:
+          - /url: /dashboard
+          - img [ref=e19]
+          - text: Dashboard
+        - link "AI Agents" [ref=e22] [cursor=pointer]:
+          - /url: /dashboard/agents
+          - img [ref=e23]
+          - text: AI Agents
+        - link "Phone Numbers" [ref=e26] [cursor=pointer]:
+          - /url: /dashboard/phone-numbers
+          - img [ref=e27]
+          - text: Phone Numbers
+        - link "Testing" [ref=e29] [cursor=pointer]:
+          - /url: /dashboard/testing
+          - img [ref=e30]
+          - text: Testing
+        - link "Calls" [ref=e33] [cursor=pointer]:
+          - /url: /dashboard/calls
+          - img [ref=e34]
+          - text: Calls
+        - link "Leads" [ref=e36] [cursor=pointer]:
+          - /url: /dashboard/leads
+          - img [ref=e37]
+          - text: Leads
+        - link "Campaigns" [ref=e42] [cursor=pointer]:
+          - /url: /dashboard/campaigns
+          - img [ref=e43]
+          - text: Campaigns
+        - link "Analytics" [ref=e48] [cursor=pointer]:
+          - /url: /dashboard/analytics
+          - img [ref=e49]
+          - text: Analytics
+        - link "Marketplace" [ref=e51] [cursor=pointer]:
+          - /url: /dashboard/marketplace
+          - img [ref=e52]
+          - text: Marketplace
+        - link "White-Label" [ref=e56] [cursor=pointer]:
+          - /url: /dashboard/white-label
+          - img [ref=e57]
+          - text: White-Label
+        - link "API Keys" [ref=e61] [cursor=pointer]:
+          - /url: /dashboard/api-keys
+          - img [ref=e62]
+          - text: API Keys
+        - link "Webhooks" [ref=e66] [cursor=pointer]:
+          - /url: /dashboard/integrations/webhooks
+          - img [ref=e67]
+          - text: Webhooks
+        - link "Settings" [ref=e71] [cursor=pointer]:
+          - /url: /dashboard/settings
+          - img [ref=e72]
+          - text: Settings
+      - generic [ref=e78]:
+        - generic [ref=e79]: U
+        - generic [ref=e80]:
+          - paragraph [ref=e81]: User
+          - paragraph [ref=e82]: user@example.com
+        - button "Logout" [ref=e83] [cursor=pointer]:
+          - img [ref=e84]
+    - main [ref=e87]:
+      - generic [ref=e90]:
+        - heading "404" [level=1] [ref=e91]
+        - heading "This page could not be found." [level=2] [ref=e93]
+  - region "Notifications alt+T"
+  - generic [ref=e98] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e99]:
+      - img [ref=e100]
+    - generic [ref=e103]:
+      - button "Open issues overlay" [ref=e104]:
+        - generic [ref=e105]:
+          - generic [ref=e106]: "1"
+          - generic [ref=e107]: "2"
+        - generic [ref=e108]:
+          - text: Issue
+          - generic [ref=e109]: s
+      - button "Collapse issues badge" [ref=e110]:
+        - img [ref=e111]
+  - alert [ref=e113]
+```
