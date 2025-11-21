@@ -3815,19 +3815,17 @@ try:
 except Exception as e:
     print(f"❌ Error setting up cost tracking API endpoints: {e}")
 
+# Initialize database tables on startup (runs regardless of how file is executed)
+print("🔧 Initializing database tables...")
+try:
+    from database import engine
+    Base.metadata.create_all(bind=engine)
+    print("✅ Database tables created successfully")
+except Exception as e:
+    print(f"⚠️  Database initialization error: {e}")
+
 if __name__ == '__main__':
     import os
-    
-    # Initialize database tables on startup (safe to run multiple times)
-    print("🔧 Initializing database...")
-    try:
-        from database import engine
-        Base.metadata.create_all(bind=engine)
-        print("✅ Database tables initialized successfully")
-    except Exception as e:
-        print(f"⚠️  Database initialization warning: {e}")
-        print("   (This is normal if tables already exist)")
-    
     port = int(os.environ.get('PORT', 5001))
     print("🚀 Starting User Dashboard")
     print(f"📊 Dashboard will be available at: http://0.0.0.0:{port}")
