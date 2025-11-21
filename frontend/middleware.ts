@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { auth } from "@/auth"
 
 // Routes that require authentication
 const protectedRoutes = [
@@ -40,11 +39,6 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Get session
-  const session = await auth()
-  
-  console.log(` Middleware check: ${pathname}, session: ${session?.user?.email || 'NONE'}`)
-
   // Check if route requires authentication
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathname.startsWith(route)
@@ -52,8 +46,15 @@ export default async function middleware(request: NextRequest) {
   const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route))
   const isPublicRoute = publicRoutes.some((route) => pathname === route)
 
+  // Lightweight auth check based on NextAuth session cookies
+  const hasSessionCookie =
+    request.cookies.has("authjs.session-token") ||
+    request.cookies.has("__Secure-authjs.session-token") ||
+    request.cookies.has("next-auth.session-token") ||
+    request.cookies.has("__Secure-next-auth.session-token")
+
   // Redirect unauthenticated users to sign in
-  if (isProtectedRoute && !session?.user) {
+  if (isProtectedRoute && !hasSessionCookie) {
     console.log(` Redirecting to sign-in: ${pathname} (no session)`)
     const signInUrl = new URL("/auth/signin", request.url)
     signInUrl.searchParams.set("callbackUrl", pathname)
@@ -61,26 +62,8 @@ export default async function middleware(request: NextRequest) {
   }
 
   // Redirect authenticated users away from auth pages
-  if (isAuthRoute && session?.user) {
+  if (isAuthRoute && hasSessionCookie) {
     return NextResponse.redirect(new URL("/dashboard", request.url))
-  }
-
-  // Check trial status for protected routes (DISABLED - allow all authenticated users)
-  if (isProtectedRoute && session?.user) {
-    const hasActiveSubscription = session.user.hasActiveSubscription
-
-    // Log subscription status for monitoring
-    if (!hasActiveSubscription) {
-      console.log(`⚠️  User ${session.user.email} - no active subscription (showing trial banner)`, {
-        email: session.user.email,
-        subscriptionStatus: session.user.subscriptionStatus,
-      })
-    } else {
-      console.log(`✅ User ${session.user.email} - has active subscription`)
-    }
-
-    // Allow access - trial banner will be shown in UI via TrialBanner component
-    return NextResponse.next()
   }
 
   return NextResponse.next()
