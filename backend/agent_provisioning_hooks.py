@@ -88,12 +88,10 @@ def on_agent_created(
         logger.info(f"   Provisioning DID for existing Magnus user...")
 
         # Provision DID for existing user (creates SIP account + DID + routing)
-        # Now includes agent_name for proper SIP username generation (firstname_DID format)
         magnus_result = magnus_client.provision_did_for_existing_user(
             user_id=existing_magnus_user,
             username=magnus_username,
-            email=user_email,
-            agent_name=agent_name  # ✅ Pass agent name for SIP username
+            email=user_email
         )
 
         if not magnus_result.get('success'):
