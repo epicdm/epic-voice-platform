@@ -8,7 +8,7 @@ from flask_cors import CORS
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user, UserMixin
 from flasgger import Swagger
 from database import Base, User, AgentConfig, PhoneMapping, CallLog, SIPConfig, LiveKitAgent, SessionLocal
-from sqlalchemy import func
+from sqlalchemy import func, cast, Float
 import uuid
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -2124,7 +2124,7 @@ def get_stats():
 
     # Cost today
     cost_today_result = db.query(
-        func.sum(CallLog.cost)
+        func.sum(cast(func.nullif(CallLog.cost, ''), Float))
     ).filter(
         CallLog.userId == user_id,
         CallLog.startedAt >= today_start
@@ -2133,7 +2133,7 @@ def get_stats():
 
     # Cost this month
     cost_month_result = db.query(
-        func.sum(CallLog.cost)
+        func.sum(cast(func.nullif(CallLog.cost, ''), Float))
     ).filter(
         CallLog.userId == user_id,
         CallLog.startedAt >= month_start
@@ -3564,7 +3564,7 @@ def get_analytics_stats():
         ).scalar() or 0
         
         # Total cost
-        total_cost = db.query(func.sum(CallLog.cost)).filter(
+        total_cost = db.query(func.sum(cast(func.nullif(CallLog.cost, ''), Float))).filter(
             CallLog.userId == user_id
         ).scalar() or 0.0
         
@@ -3587,7 +3587,7 @@ def get_analytics_stats():
         ).scalar() or 0
         
         # Cost this week
-        cost_this_week = db.query(func.sum(CallLog.cost)).filter(
+        cost_this_week = db.query(func.sum(cast(func.nullif(CallLog.cost, ''), Float))).filter(
             CallLog.userId == user_id,
             CallLog.startedAt >= week_ago
         ).scalar() or 0.0
