@@ -4,10 +4,8 @@ Cost Tracking SQLAlchemy Models
 
 from sqlalchemy import Column, String, Numeric, Integer, Boolean, Text, TIMESTAMP, ForeignKey, text
 from sqlalchemy.dialects.postgresql import UUID, JSONB
-from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
-
-Base = declarative_base()
+from database import Base
 
 
 class PricingConfig(Base):
