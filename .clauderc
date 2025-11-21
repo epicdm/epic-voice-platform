@@ -1,4 +1,0 @@
-{
-  "customInstructions": "ALWAYS read .claude/PROJECT_RULES.md before ANY action",
-  "beforeAction": ["read .claude/PROJECT_RULES.md"]
-}

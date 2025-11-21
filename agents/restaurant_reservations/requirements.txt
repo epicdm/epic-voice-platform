@@ -1,8 +1,0 @@
-# LiveKit Agents Framework
-livekit-agents[openai,deepgram,silero]>=1.0.0
-python-dotenv>=1.0.0
-
-# Additional dependencies (uncomment as needed)
-# livekit-plugins-elevenlabs
-# livekit-plugins-cartesia
-# livekit-plugins-anthropic

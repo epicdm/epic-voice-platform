@@ -1,1 +1,0 @@
-"""Call outcomes tests package"""

@@ -1,1 +1,0 @@
-Test document content curl -X POST http://localhost:5001/api/user/agents/8b7f8d81-90bc-4988-952c-a3e6b1b11b0f/knowledge-base/documents  -H X-User-Email: giraud.eric@gmail.com  -F file=@/tmp/test_upload.txt

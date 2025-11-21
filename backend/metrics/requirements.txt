@@ -1,5 +1,0 @@
-# Prometheus Metrics Exporter Dependencies
-# Install with: uv add prometheus_client
-# or: pip install -r backend/metrics/requirements.txt
-
-prometheus_client>=0.19.0

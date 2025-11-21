@@ -1,3 +1,0 @@
-"""
-Epic Voice - CRM Integrations
-"""
