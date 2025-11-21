@@ -2876,11 +2876,11 @@ def provision_phone_number():
             print(f"🔍 Provision request: use_magnus={use_magnus}, magnus_client_exists={phone_manager.magnus_client is not None}")
             if use_magnus and phone_manager.magnus_client:
                 print(f"🚀 Attempting Magnus Billing provisioning...")
-                result = phone_manager.provision_number_from_magnus(db, user_id, country, prefix)
-                print(f"📊 Magnus result: {result}")
-                if result['success']:
-                    phone_number = result['phone_number']
-                    magnus_data = result
+                magnus_result = phone_manager.provision_number_from_magnus(db, user_id, country, prefix)
+                print(f"📊 Magnus result: {magnus_result}")
+                if magnus_result['success']:
+                    phone_number = magnus_result['phone_number']
+                    magnus_data = magnus_result
 
                     # Get LiveKit SIP domain from environment
                     import os
@@ -3012,7 +3012,17 @@ def provision_phone_number():
                         'message': 'Phone number fully provisioned with bidirectional calling'
                     })
 
-            # Fallback to local generation
+                # Magnus was explicitly requested but failed – do NOT silently fall back to local
+                error_message = magnus_result.get('error', 'Magnus DID provisioning failed')
+                print(f"❌ Magnus Billing provisioning failed, not falling back to local: {error_message}")
+                return jsonify({
+                    'success': False,
+                    'error': {
+                        'message': error_message
+                    }
+                }), 500
+
+            # If Magnus is not requested or Magnus client is not configured, fall back to local generation
             result = phone_manager.provision_number(db, user_id, country, prefix)
 
             if result['success']:
