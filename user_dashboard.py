@@ -3818,8 +3818,9 @@ except Exception as e:
 # Initialize database tables on startup (runs regardless of how file is executed)
 print("🔧 Initializing database tables...")
 try:
-    from database import engine
-    Base.metadata.create_all(bind=engine)
+    from database import engine, init_db
+    # Use init_db() which ensures all models are loaded
+    init_db()
     print("✅ Database tables created successfully")
 except Exception as e:
     print(f"⚠️  Database initialization error: {e}")
