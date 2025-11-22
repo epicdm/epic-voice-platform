@@ -3829,6 +3829,43 @@ try:
 except Exception as e:
     print(f"❌ Error setting up cost tracking API endpoints: {e}")
 
+# Register AMI (Asterisk Manager Interface) API endpoints
+try:
+    from backend.ami.routes import ami_bp, set_ami_manager
+    from backend.ami.manager import AMIManager
+    import threading
+
+    app.register_blueprint(ami_bp)
+    print("✅ AMI API endpoints registered at /api/ami")
+
+    # Initialize AMI manager in background thread
+    ami_manager_instance = AMIManager()
+    set_ami_manager(ami_manager_instance)
+
+    def start_ami_manager():
+        """Start AMI manager in event loop"""
+        import asyncio
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        try:
+            loop.run_until_complete(ami_manager_instance.connect())
+            print("✅ AMI Manager connected and listening for events")
+            # Keep event loop running
+            loop.run_forever()
+        except Exception as e:
+            print(f"❌ AMI Manager error: {e}")
+        finally:
+            loop.close()
+
+    # Start AMI manager in background thread
+    ami_thread = threading.Thread(target=start_ami_manager, daemon=True)
+    ami_thread.start()
+    print("✅ AMI Manager started in background thread")
+
+except Exception as e:
+    print(f"⚠️  AMI initialization skipped: {e}")
+    print("   (AMI features will not be available)")
+
 # Initialize database tables on startup (runs regardless of how file is executed)
 print("🔧 Initializing database tables...")
 try:
