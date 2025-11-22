@@ -39,3 +39,15 @@ export function getCallStatusColor(status: CallStatus | string): string {
       return "default";
   }
 }
+
+export function formatDuration(seconds?: number): string {
+  if (!seconds) return "0s";
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+}
+
+export function formatCost(cost?: number): string {
+  if (!cost) return "$0.00";
+  return `$${cost.toFixed(2)}`;
+}

@@ -9,9 +9,10 @@ const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5001'
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { callLogId: string } }
+  props: { params: Promise<{ callLogId: string }> }
 ) {
   try {
+    const params = await props.params
     // Get user from NextAuth session
     const session = await auth()
 
