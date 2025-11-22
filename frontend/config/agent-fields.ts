@@ -18,3 +18,11 @@ export const STEP2_FIELDS = {
     required: true,
   },
 };
+
+export const STEP3_FIELDS = {
+  phoneNumber: {
+    label: "Phone Number",
+    placeholder: "Select a phone number",
+    required: false,
+  },
+};
