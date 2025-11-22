@@ -5,8 +5,10 @@ const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5001";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { phoneNumber: string } }
+
+  props: { params: Promise<{ phoneNumber: string }> }
 ) {
+  const params = await props.params
   try {
     const session = await auth();
     if (!session?.user?.email) {

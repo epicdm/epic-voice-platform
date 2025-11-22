@@ -6,8 +6,10 @@ const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5001'
 // POST /api/user/agents/:id/knowledge-base/faqs/bulk-import - Bulk import FAQs
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     // LOCALHOST BYPASS: Use test user email for local development
     const hostname = req.headers.get('host') || '';

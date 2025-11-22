@@ -22,8 +22,10 @@ async function authenticateRequest(req: NextRequest) {
 // GET /api/v1/agents/[id] - Get specific agent
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     const auth = await authenticateRequest(req)
     
@@ -62,8 +64,10 @@ export async function GET(
 // DELETE /api/v1/agents/[id] - Delete agent
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     const auth = await authenticateRequest(req)
     

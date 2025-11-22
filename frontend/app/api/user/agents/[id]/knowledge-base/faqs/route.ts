@@ -6,8 +6,10 @@ const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5001'
 // GET /api/user/agents/:id/knowledge-base/faqs - List FAQs
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     // LOCALHOST BYPASS: Use test user email for local development
     const hostname = req.headers.get('host') || '';
@@ -76,8 +78,10 @@ export async function GET(
 // POST /api/user/agents/:id/knowledge-base/faqs - Create FAQ
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     // LOCALHOST BYPASS: Use test user email for local development
     const hostname = req.headers.get('host') || '';

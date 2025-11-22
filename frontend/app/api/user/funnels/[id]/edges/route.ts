@@ -31,8 +31,10 @@ async function getUserEmail(request: NextRequest): Promise<string | null> {
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     const userEmail = await getUserEmail(request);
 

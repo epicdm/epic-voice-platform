@@ -32,8 +32,10 @@ async function getUserEmail(request: NextRequest): Promise<string | null> {
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string; nodeId: string } }
+
+  props: { params: Promise<{ id: string; nodeId: string }> }
 ) {
+  const params = await props.params
   try {
     const userEmail = await getUserEmail(request);
 
@@ -84,8 +86,10 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string; nodeId: string } }
+
+  props: { params: Promise<{ id: string; nodeId: string }> }
 ) {
+  const params = await props.params
   try {
     const userEmail = await getUserEmail(request);
 

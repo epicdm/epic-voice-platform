@@ -6,8 +6,10 @@ const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5001'
 // DELETE /api/user/agents/:id/knowledge-base/documents/:documentId - Delete document
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string; documentId: string } }
+
+  props: { params: Promise<{ id: string; documentId: string }> }
 ) {
+  const params = await props.params
   try {
     // LOCALHOST BYPASS: Use test user email for local development
     const hostname = req.headers.get('host') || '';

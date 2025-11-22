@@ -6,8 +6,10 @@ const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5001';
 // GET /api/user/agents/[id] - Get single agent
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     // LOCALHOST BYPASS: Use test user email for local development
     const hostname = req.headers.get('host') || '';
@@ -65,8 +67,10 @@ export async function GET(
 // PUT /api/user/agents/[id] - Update agent
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     // LOCALHOST BYPASS: Use test user email for local development
     const hostname = req.headers.get('host') || '';
@@ -126,8 +130,10 @@ export async function PUT(
 // DELETE /api/user/agents/[id] - Delete agent
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     // LOCALHOST BYPASS: Use test user email for local development
     const hostname = req.headers.get('host') || '';

@@ -6,8 +6,10 @@ const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5001';
 // POST /api/user/agents/[id]/deploy - Deploy agent to LiveKit
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     const session = await auth();
     

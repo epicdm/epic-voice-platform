@@ -6,8 +6,10 @@ const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5001'
 // PUT /api/user/agents/:id/knowledge-base/faqs/:faqId - Update FAQ
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string; faqId: string } }
+
+  props: { params: Promise<{ id: string; faqId: string }> }
 ) {
+  const params = await props.params
   try {
     // LOCALHOST BYPASS: Use test user email for local development
     const hostname = req.headers.get('host') || '';
@@ -80,8 +82,10 @@ export async function PUT(
 // DELETE /api/user/agents/:id/knowledge-base/faqs/:faqId - Delete FAQ
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string; faqId: string } }
+
+  props: { params: Promise<{ id: string; faqId: string }> }
 ) {
+  const params = await props.params
   try {
     // LOCALHOST BYPASS: Use test user email for local development
     const hostname = req.headers.get('host') || '';
