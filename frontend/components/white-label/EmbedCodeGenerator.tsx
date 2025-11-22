@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@heroui/react";
 
-export function EmbedCodeGenerator() {
+export default function EmbedCodeGenerator() {
   const [embedCode] = useState('<script src="https://example.com/embed.js"></script>');
 
   const handleCopy = () => {

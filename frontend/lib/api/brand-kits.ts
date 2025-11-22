@@ -4,6 +4,10 @@ export async function getBrandKits() {
   return res.json();
 }
 
+export async function listBrandKits() {
+  return getBrandKits();
+}
+
 export async function createBrandKit(data: any) {
   const res = await fetch("/api/user/brand-kits", {
     method: "POST",

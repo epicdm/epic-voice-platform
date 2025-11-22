@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Input, Button } from "@heroui/react";
 
-export function CustomDomainSettings() {
+export default function CustomDomainSettings() {
   const [domain, setDomain] = useState("");
 
   const handleSave = () => {

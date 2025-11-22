@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Input, Button } from "@heroui/react";
 
-export function BrandingSettings() {
+export default function BrandingSettings() {
   const [companyName, setCompanyName] = useState("");
   const [logoUrl, setLogoUrl] = useState("");
 

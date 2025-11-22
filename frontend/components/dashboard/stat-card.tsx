@@ -28,3 +28,27 @@ export function StatCard({ title, value, change, icon, trend }: StatCardProps) {
     </div>
   );
 }
+
+export function TotalAgentsCard(props: Omit<StatCardProps, "title">) {
+  return <StatCard title="Total Agents" {...props} />;
+}
+
+export function PhoneNumbersCard(props: Omit<StatCardProps, "title">) {
+  return <StatCard title="Phone Numbers" {...props} />;
+}
+
+export function CallsTodayCard(props: Omit<StatCardProps, "title">) {
+  return <StatCard title="Calls Today" {...props} />;
+}
+
+export function CallsMonthCard(props: Omit<StatCardProps, "title">) {
+  return <StatCard title="Calls This Month" {...props} />;
+}
+
+export function CostTodayCard(props: Omit<StatCardProps, "title">) {
+  return <StatCard title="Cost Today" {...props} />;
+}
+
+export function CostMonthCard(props: Omit<StatCardProps, "title">) {
+  return <StatCard title="Cost This Month" {...props} />;
+}

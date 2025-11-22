@@ -1,3 +1,9 @@
+export const TEMPLATE_CATEGORIES = [
+  { id: "support", name: "Support" },
+  { id: "sales", name: "Sales" },
+  { id: "scheduling", name: "Scheduling" },
+];
+
 export const AGENT_TEMPLATES = [
   {
     id: "customer-support",
@@ -25,4 +31,8 @@ export function getTemplate(id: string) {
 
 export function getAllTemplates() {
   return AGENT_TEMPLATES;
+}
+
+export function getPopularTemplates() {
+  return AGENT_TEMPLATES.slice(0, 3);
 }

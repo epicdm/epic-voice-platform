@@ -1,4 +1,4 @@
-export function UsageAnalytics() {
+export default function UsageAnalytics() {
   return (
     <div className="space-y-4">
       <h3 className="font-semibold">Usage Analytics</h3>

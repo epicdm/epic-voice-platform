@@ -39,3 +39,5 @@ export function SipConfigTab() {
     </div>
   );
 }
+
+export { SipConfigTab as SIPConfigTab };

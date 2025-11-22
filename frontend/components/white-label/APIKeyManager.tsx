@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@heroui/react";
 
-export function APIKeyManager() {
+export default function APIKeyManager() {
   const [apiKeys, setApiKeys] = useState<any[]>([]);
 
   useEffect(() => {
