@@ -4,6 +4,16 @@ export async function getFunnel(id: string) {
   return res.json();
 }
 
+export async function createFunnel(data: any) {
+  const res = await fetch("/api/user/funnels", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error("Failed to create funnel");
+  return res.json();
+}
+
 export async function updateFunnel(id: string, data: any) {
   const res = await fetch(`/api/user/funnels/${id}`, {
     method: "PUT",
@@ -11,6 +21,14 @@ export async function updateFunnel(id: string, data: any) {
     body: JSON.stringify(data),
   });
   if (!res.ok) throw new Error("Failed to update funnel");
+  return res.json();
+}
+
+export async function deleteFunnel(id: string) {
+  const res = await fetch(`/api/user/funnels/${id}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("Failed to delete funnel");
   return res.json();
 }
 

@@ -9,9 +9,10 @@ const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5001'
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { roomName: string } }
+  props: { params: Promise<{ roomName: string }> }
 ) {
   try {
+    const params = await props.params
     const session = await auth()
 
     if (!session?.user?.id) {

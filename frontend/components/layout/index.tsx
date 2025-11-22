@@ -16,3 +16,11 @@ export function PageHeader({ title, description }: { title: string; description?
     </div>
   );
 }
+
+export function Toolbar({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex items-center justify-between py-4 px-6 border-b bg-white">
+      {children}
+    </div>
+  );
+}

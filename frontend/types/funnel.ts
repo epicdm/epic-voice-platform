@@ -1,9 +1,17 @@
+export enum FunnelStatus {
+  DRAFT = "draft",
+  ACTIVE = "active",
+  PAUSED = "paused",
+  ARCHIVED = "archived"
+}
+
 export interface Funnel {
   id: string;
   name: string;
   description?: string;
   userId: string;
   isActive: boolean;
+  status?: FunnelStatus;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -20,4 +28,19 @@ export interface FunnelEdge {
   source: string;
   target: string;
   type?: string;
+}
+
+export function getFunnelStatusLabel(status: FunnelStatus | string): string {
+  switch (status) {
+    case FunnelStatus.DRAFT:
+      return "Draft";
+    case FunnelStatus.ACTIVE:
+      return "Active";
+    case FunnelStatus.PAUSED:
+      return "Paused";
+    case FunnelStatus.ARCHIVED:
+      return "Archived";
+    default:
+      return "Unknown";
+  }
 }

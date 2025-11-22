@@ -7,7 +7,7 @@ interface FunnelEditorProps {
   children?: ReactNode;
 }
 
-export function FunnelEditor({ funnelId, children }: FunnelEditorProps) {
+export default function FunnelEditor({ funnelId, children }: FunnelEditorProps) {
   return (
     <div className="w-full h-full">
       <div className="p-4 border rounded-lg">
