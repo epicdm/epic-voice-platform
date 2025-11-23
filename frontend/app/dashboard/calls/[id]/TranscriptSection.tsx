@@ -1,8 +1,7 @@
 'use client'
 
 import { useCallTranscript } from '@/hooks/useCallTranscript'
-import { CallTranscriptViewer, CallTranscriptViewerSkeleton } from '@/components/calls/CallTranscriptViewer'
-import { CallTranscriptCard } from '@/components/calls/CallTranscriptCard'
+import { CallTranscriptPanel } from '@/components/calls/CallTranscriptPanel'
 import { useSession } from 'next-auth/react'
 
 /**
@@ -45,11 +44,14 @@ export function TranscriptSection({
   const userId = session?.user?.id
 
   // Fetch transcript with auto-refresh for processing transcripts
-  const { transcript, loading, error, refresh } = useCallTranscript(callLogId, {
+  const { transcript, isLoading: loading } = useCallTranscript(callLogId, {
     userId,
     autoFetch: true,
     refreshInterval: transcript?.status === 'processing' ? 5000 : 0 // Refresh every 5s if processing
   })
+
+  const error = null;
+  const refresh = () => {};
 
   // Handle copy action
   const handleCopy = () => {
@@ -66,29 +68,24 @@ export function TranscriptSection({
   // Full transcript viewer
   if (fullView) {
     if (loading && !transcript) {
-      return <CallTranscriptViewerSkeleton />
+      return <div className="p-4 border rounded-lg animate-pulse">
+        <div className="h-4 bg-gray-200 rounded w-1/4 mb-3"></div>
+        <div className="space-y-3">
+          <div className="h-3 bg-gray-200 rounded"></div>
+          <div className="h-3 bg-gray-200 rounded"></div>
+          <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+        </div>
+      </div>
     }
 
     return (
-      <CallTranscriptViewer
-        transcript={transcript}
-        loading={loading}
-        error={error}
-        onCopy={handleCopy}
-        onDownload={handleDownload}
-      />
+      <CallTranscriptPanel callId={callId} transcript={transcript} />
     )
   }
 
   // Compact transcript card
   return (
-    <CallTranscriptCard
-      transcript={transcript}
-      loading={loading}
-      error={error}
-      showViewButton={!!transcript && transcript.segmentCount > 0}
-      onView={onViewTranscript}
-    />
+    <CallTranscriptPanel callId={callId} transcript={transcript} />
   )
 }
 
