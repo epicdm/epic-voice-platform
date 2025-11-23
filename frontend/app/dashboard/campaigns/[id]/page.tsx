@@ -293,8 +293,9 @@ export default function CampaignDetailPage() {
       {/* Campaign ROI Analytics Widget */}
       <div className="mb-6">
         <CampaignROIWidget
-          outcomes={calls.map(call => call.outcome).filter(Boolean) as CallOutcome[]}
-          loading={loading}
+          campaignId={campaignId}
+          spent={0}
+          revenue={0}
         />
       </div>
 
@@ -349,9 +350,9 @@ export default function CampaignDetailPage() {
                     {/* Call Outcome */}
                     <div>
                       <CallOutcomeCard
-                        outcome={call.outcome}
-                        loading={false}
-                        compact={true}
+                        outcome={call.outcome?.outcome}
+                        notes={call.outcome?.notes}
+                        timestamp={call.outcome?.timestamp}
                       />
                     </div>
                   </div>

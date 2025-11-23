@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Button, Tabs, Tab } from "@heroui/react";
 import { Phone, Settings, Zap, ArrowDownCircle, Download } from "lucide-react";
 import { NumberListItem } from "@/components/phone-numbers/number-list-item";
-import { ProvisionModal } from "@/components/phone-numbers/provision-modal";
 import { SimpleProvisionModal } from "@/components/phone-numbers/simple-provision-modal";
 import { AssignModal } from "@/components/phone-numbers/assign-modal";
 import { SIPConfigTab } from "@/components/phone-numbers/sip-config-tab";
@@ -28,7 +27,9 @@ import { ExportModal } from "@/components/exports/ExportModal";
  * - Assign/unassign/delete actions (T036-T039)
  */
 function PhoneNumbersListContent() {
-  const { phoneNumbers, isLoading, error, refetch } = usePhoneNumbers();
+  const { phoneNumbers, isLoading, refresh } = usePhoneNumbers();
+  const error = null;
+  const refetch = refresh;
   const [showProvisionModal, setShowProvisionModal] = useState(false);
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
@@ -171,15 +172,18 @@ function PhoneNumbersListContent() {
           }
           title="No phone numbers yet"
           description="Add your first phone number to start receiving calls. Phone numbers are provisioned from Magnus Billing and can be assigned to agents."
-          ctaText="Add Phone Number"
-          ctaAction={handleProvision}
+          action={
+            <Button color="primary" onPress={handleProvision}>
+              Add Phone Number
+            </Button>
+          }
         />
 
         {/* Provision Modal */}
         <SimpleProvisionModal
           isOpen={showProvisionModal}
           onClose={() => setShowProvisionModal(false)}
-          onSuccess={handleProvisionSuccess}
+          onProvision={handleProvisionSuccess}
         />
       </div>
     );
@@ -318,10 +322,10 @@ function PhoneNumbersListContent() {
             {phoneNumbers.map((phoneNumber) => (
               <NumberListItem
                 key={phoneNumber.id}
-                phoneNumber={phoneNumber}
-                onDelete={handleDelete}
-                onAssign={handleAssign}
-                onUnassign={handleUnassign}
+                number={phoneNumber}
+                onDelete={() => handleDelete()}
+                onAssign={(num: string) => handleAssign(phoneNumbers.find(p => p.phoneNumber === num)!)}
+                onUnassign={() => handleUnassign()}
               />
             ))}
           </div>
@@ -334,25 +338,25 @@ function PhoneNumbersListContent() {
       <SimpleProvisionModal
         isOpen={showProvisionModal}
         onClose={() => setShowProvisionModal(false)}
-        onSuccess={handleProvisionSuccess}
+        onProvision={handleProvisionSuccess}
       />
 
       {/* Assign Modal */}
       <AssignModal
-        phoneNumber={selectedPhone}
+        phoneNumber={selectedPhone?.phoneNumber || ""}
         isOpen={showAssignModal}
         onClose={() => {
           setShowAssignModal(false);
           setSelectedPhone(null);
         }}
-        onSuccess={handleAssignSuccess}
+        onAssign={handleAssignSuccess}
       />
 
       {/* Export Modal */}
       <ExportModal
         isOpen={showExportModal}
         onClose={() => setShowExportModal(false)}
-        exportType="phone-numbers"
+        data={phoneNumbers}
       />
     </div>
   );

@@ -5,7 +5,7 @@ import { Card, CardBody, Input, Chip, Button, Modal, ModalContent, ModalHeader, 
 import { Search, Star, Download, Clock, TrendingUp, Filter, ArrowRight, Check } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { AGENT_TEMPLATES, TEMPLATE_CATEGORIES, getTemplatesByCategory, getPopularTemplates, type AgentTemplate } from '@/lib/agent-templates'
+import { AGENT_TEMPLATES, TEMPLATE_CATEGORIES, getPopularTemplates, type AgentTemplate } from '@/lib/agent-templates'
 import { toast } from 'sonner'
 import { api } from '@/lib/api'
 
@@ -57,8 +57,8 @@ export default function MarketplacePage() {
         greeting_message: selectedTemplate.config.greeting_message || '',
       }
       
-      await api.createAgent(agentData)
-      
+      await api.post('/api/user/agents', agentData)
+
       toast.success('Agent created!', {
         description: `${selectedTemplate.name} has been created successfully.`,
         duration: 3000,

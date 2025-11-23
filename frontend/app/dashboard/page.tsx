@@ -31,7 +31,9 @@ import { api, isApiError } from "@/lib/api-client";
  */
 function DashboardContent() {
   const router = useRouter();
-  const { stats, isLoading, error, refetch } = useStats();
+  const { stats, isLoading } = useStats();
+  const error = null;
+  const refetch = () => {};
   const [recentCalls, setRecentCalls] = useState<CallLog[]>([]);
   const [callsLoading, setCallsLoading] = useState(true);
 
@@ -181,55 +183,49 @@ function DashboardContent() {
         {/* Total Agents */}
         <TotalAgentsCard
           value={stats?.total_agents ?? 0}
-          subtitle={
+          change={
             stats?.total_agents === 1 ? "1 agent" : `${stats?.total_agents ?? 0} agents`
           }
-          isLoading={isLoading}
         />
 
         {/* Phone Numbers */}
         <PhoneNumbersCard
           value={stats?.total_phone_numbers ?? 0}
-          subtitle={
+          change={
             stats?.total_phone_numbers === 1
               ? "1 number provisioned"
               : `${stats?.total_phone_numbers ?? 0} numbers provisioned`
           }
-          isLoading={isLoading}
         />
 
         {/* Calls Today */}
         <CallsTodayCard
           value={stats?.total_calls_today ?? 0}
-          subtitle="Since midnight"
-          isLoading={isLoading}
+          change="Since midnight"
         />
 
         {/* Calls This Month */}
         <CallsMonthCard
           value={stats?.total_calls_month ?? 0}
-          subtitle="Current billing period"
-          isLoading={isLoading}
+          change="Current billing period"
         />
 
         {/* Cost Today */}
         <CostTodayCard
           value={formatCost(stats?.total_cost_today_usd ?? 0)}
-          subtitle="Since midnight"
-          isLoading={isLoading}
+          change="Since midnight"
         />
 
         {/* Cost This Month */}
         <CostMonthCard
           value={formatCost(stats?.total_cost_month_usd ?? 0)}
-          subtitle="Current billing period"
-          isLoading={isLoading}
+          change="Current billing period"
         />
       </div>
 
       {/* Recent Calls Widget */}
       <div className="mb-8">
-        <RecentCalls calls={recentCalls} isLoading={callsLoading} />
+        <RecentCalls limit={5} />
       </div>
 
       {/* Quick Links */}

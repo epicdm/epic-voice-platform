@@ -3,13 +3,18 @@
 import { useState } from "react";
 import { Button, Input } from "@heroui/react";
 
-export function CallSimulator() {
+interface CallSimulatorProps {
+  agentId: string;
+  agentName: string;
+}
+
+export function CallSimulator({ agentId, agentName }: CallSimulatorProps) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isRunning, setIsRunning] = useState(false);
 
   const handleStartCall = () => {
     setIsRunning(true);
-    // TODO: Implement call simulation
+    // TODO: Implement call simulation using agentId
     setTimeout(() => setIsRunning(false), 5000);
   };
 

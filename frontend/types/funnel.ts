@@ -12,9 +12,12 @@ export interface Funnel {
   userId: string;
   isActive: boolean;
   status?: FunnelStatus;
+  settings?: any;  // Funnel settings/configuration
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type FunnelListItem = Funnel;  // Alias for list view
 
 export interface FunnelNode {
   id: string;

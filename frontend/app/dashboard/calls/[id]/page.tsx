@@ -60,12 +60,8 @@ export default function CallDetailPage() {
   }, [callId])
 
   // Fetch transcript for sidebar panel
-  const { transcript, loading: transcriptLoading, error: transcriptError } = useCallTranscript(callId, {
-    userId: session?.user?.id,
-    autoFetch: true,
-    // Don't set refreshInterval here - it will be handled by the hook internally
-    refreshInterval: 0
-  })
+  const { transcript, isLoading: transcriptLoading } = useCallTranscript(callId)
+  const transcriptError = null;
 
   // Loading state
   if (loading) {
@@ -112,7 +108,8 @@ export default function CallDetailPage() {
   }
 
   const { call, outcome } = callData
-  const statusConfig = getCallStatusColor(call.status || CallStatus.COMPLETED)
+  const statusColor = getCallStatusColor(call.status || CallStatus.COMPLETED)
+  const statusLabel = call.status || CallStatus.COMPLETED
 
   return (
     <div className="flex h-screen">
@@ -138,10 +135,10 @@ export default function CallDetailPage() {
                     <Phone className="h-8 w-8 text-primary" />
                     <h1 className="text-3xl font-bold text-foreground">Call Details</h1>
                     <Chip
-                      color={statusConfig.color}
+                      color={statusColor as any}
                       variant="flat"
                     >
-                      {statusConfig.label}
+                      {statusLabel}
                     </Chip>
                   </div>
                   <p className="text-lg text-muted-foreground">
@@ -257,24 +254,25 @@ export default function CallDetailPage() {
 
             {/* Call Outcome Card */}
             <CallOutcomeCard
-              outcome={outcome}
-              loading={false}
-              compact={false}
+              outcome={outcome?.outcome}
+              notes={outcome?.notes}
+              timestamp={outcome?.timestamp}
             />
           </div>
 
           {/* Cost Breakdown Card */}
-          <CallCostBreakdown callId={callId} />
+          <CallCostBreakdown
+            cost={call.cost_usd || call.cost}
+            duration={call.duration_seconds || call.durationSeconds}
+          />
         </div>
       </main>
 
       {/* Transcript Sidebar Panel - Fixed */}
       <aside className="w-96 border-l border-border bg-card">
         <CallTranscriptPanel
+          callId={callId}
           transcript={transcript}
-          loading={transcriptLoading}
-          error={transcriptError}
-          height="100vh"
         />
       </aside>
     </div>

@@ -169,19 +169,19 @@ function FunnelEditorContent() {
   if (error || !funnel) {
     return (
       <div className="flex flex-col h-screen">
-        <PageHeader
-          title="Edit Funnel"
-          subtitle="Funnel not found"
-          actions={
-            <Button
-              variant="flat"
-              startContent={<ArrowLeft className="h-4 w-4" />}
-              onPress={() => router.push("/dashboard/funnels")}
-            >
-              Back to Funnels
-            </Button>
-          }
-        />
+        <div className="flex items-center justify-between p-6 border-b">
+          <div>
+            <h1 className="text-2xl font-bold">Edit Funnel</h1>
+            <p className="text-sm text-muted-foreground">Funnel not found</p>
+          </div>
+          <Button
+            variant="flat"
+            startContent={<ArrowLeft className="h-4 w-4" />}
+            onPress={() => router.push("/dashboard/funnels")}
+          >
+            Back to Funnels
+          </Button>
+        </div>
         <div className="flex-1 flex items-center justify-center p-8">
           <div className="text-center">
             <p className="text-danger-600 mb-4">
@@ -202,57 +202,57 @@ function FunnelEditorContent() {
   return (
     <div className="flex flex-col h-screen">
       {/* Page Header */}
-      <PageHeader
-        title={funnel.name}
-        subtitle={getFunnelStatusLabel(funnel.status)}
-        actions={
-          <div className="flex gap-3">
+      <div className="flex items-center justify-between p-6 border-b">
+        <div>
+          <h1 className="text-2xl font-bold">{funnel.name}</h1>
+          <p className="text-sm text-muted-foreground">{getFunnelStatusLabel(funnel.status)}</p>
+        </div>
+        <div className="flex gap-3">
+          <Button
+            variant="flat"
+            startContent={<ArrowLeft className="h-4 w-4" />}
+            onPress={() => router.push("/dashboard/funnels")}
+          >
+            Back
+          </Button>
+
+          {(status === FunnelStatus.ACTIVE ||
+            status === FunnelStatus.PAUSED) && (
             <Button
               variant="flat"
-              startContent={<ArrowLeft className="h-4 w-4" />}
-              onPress={() => router.push("/dashboard/funnels")}
-            >
-              Back
-            </Button>
-
-            {(status === FunnelStatus.ACTIVE ||
-              status === FunnelStatus.PAUSED) && (
-              <Button
-                variant="flat"
-                color={
-                  status === FunnelStatus.ACTIVE ? "warning" : "success"
-                }
-                startContent={
-                  status === FunnelStatus.ACTIVE ? (
-                    <Pause className="h-4 w-4" />
-                  ) : (
-                    <Play className="h-4 w-4" />
-                  )
-                }
-                onPress={handleToggleStatus}
-              >
-                {status === FunnelStatus.ACTIVE ? "Pause" : "Activate"}
-              </Button>
-            )}
-
-            <Button
-              color="primary"
-              startContent={
-                <>
-                  <Save className="h-4 w-4" />
-                  {isDirty && (
-                    <Circle className="h-2 w-2 fill-current ml-1" />
-                  )}
-                </>
+              color={
+                status === FunnelStatus.ACTIVE ? "warning" : "success"
               }
-              onPress={handleSave}
-              isLoading={isSaving}
+              startContent={
+                status === FunnelStatus.ACTIVE ? (
+                  <Pause className="h-4 w-4" />
+                ) : (
+                  <Play className="h-4 w-4" />
+                )
+              }
+              onPress={handleToggleStatus}
             >
-              Save Changes
+              {status === FunnelStatus.ACTIVE ? "Pause" : "Activate"}
             </Button>
-          </div>
-        }
-      />
+          )}
+
+          <Button
+            color="primary"
+            startContent={
+              <>
+                <Save className="h-4 w-4" />
+                {isDirty && (
+                  <Circle className="h-2 w-2 fill-current ml-1" />
+                )}
+              </>
+            }
+            onPress={handleSave}
+            isLoading={isSaving}
+          >
+            Save Changes
+          </Button>
+        </div>
+      </div>
 
       {/* Settings Section */}
       <div className="p-6 border-b border-border bg-muted/30">
@@ -283,19 +283,19 @@ function FunnelEditorContent() {
                     setIsDirty(true);
                   }}
                 >
-                  <SelectItem key="manual" value="manual">
+                  <SelectItem key="manual">
                     Manual
                   </SelectItem>
-                  <SelectItem key="lead_created" value="lead_created">
+                  <SelectItem key="lead_created">
                     Lead Created
                   </SelectItem>
-                  <SelectItem key="landing_page" value="landing_page">
+                  <SelectItem key="landing_page">
                     Landing Page
                   </SelectItem>
-                  <SelectItem key="campaign" value="campaign">
+                  <SelectItem key="campaign">
                     Campaign
                   </SelectItem>
-                  <SelectItem key="webhook" value="webhook">
+                  <SelectItem key="webhook">
                     Webhook
                   </SelectItem>
                 </Select>
@@ -308,28 +308,16 @@ function FunnelEditorContent() {
                     setIsDirty(true);
                   }}
                 >
-                  <SelectItem
-                    key={FunnelStatus.DRAFT}
-                    value={FunnelStatus.DRAFT}
-                  >
+                  <SelectItem key={FunnelStatus.DRAFT}>
                     Draft
                   </SelectItem>
-                  <SelectItem
-                    key={FunnelStatus.ACTIVE}
-                    value={FunnelStatus.ACTIVE}
-                  >
+                  <SelectItem key={FunnelStatus.ACTIVE}>
                     Active
                   </SelectItem>
-                  <SelectItem
-                    key={FunnelStatus.PAUSED}
-                    value={FunnelStatus.PAUSED}
-                  >
+                  <SelectItem key={FunnelStatus.PAUSED}>
                     Paused
                   </SelectItem>
-                  <SelectItem
-                    key={FunnelStatus.ARCHIVED}
-                    value={FunnelStatus.ARCHIVED}
-                  >
+                  <SelectItem key={FunnelStatus.ARCHIVED}>
                     Archived
                   </SelectItem>
                 </Select>
@@ -608,7 +596,7 @@ function FunnelEditorContent() {
 
       {/* Funnel Editor (Visual Builder) */}
       <div className="flex-1 overflow-hidden p-6">
-        <FunnelEditor funnel={funnel} onFunnelUpdated={handleFunnelUpdated} />
+        <FunnelEditor funnelId={funnel.id} />
       </div>
     </div>
   );

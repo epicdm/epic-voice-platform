@@ -82,11 +82,11 @@ export default function LeadUploadPage() {
         setUploadProgress(prev => Math.min(prev + 10, 90))
       }, 200)
 
-      const response = await api.post('/api/user/leads/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+      const res = await fetch('/api/user/leads/upload', {
+        method: 'POST',
+        body: formData,
       })
+      const response = await res.json()
 
       clearInterval(progressInterval)
       setUploadProgress(100)
@@ -192,11 +192,11 @@ export default function LeadUploadPage() {
                       setSelectedCampaign(selected)
                     }}
                   >
-                    {campaigns.map((campaign) => (
-                      <SelectItem key={campaign.id} value={campaign.id}>
+                    {campaigns.map((campaign: any) => (
+                      <SelectItem key={campaign.id}>
                         {campaign.name}
                       </SelectItem>
-                    ))}
+                    )) as any}
                   </Select>
                   <p className="text-xs text-muted-foreground mt-1">
                     If not selected, leads will be uploaded without a campaign assignment

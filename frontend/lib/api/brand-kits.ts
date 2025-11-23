@@ -1,3 +1,21 @@
+export interface BrandKit {
+  id: string;
+  name: string;
+  logoUrl?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
+  fontFamily?: string;
+  isDefault?: boolean;
+  sourceType?: string;
+  sourceUrl?: string;
+  companyName?: string;
+  industry?: string;
+  brandColors?: string[];
+  fonts?: string[];
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+}
+
 export async function getBrandKits() {
   const res = await fetch("/api/user/brand-kits");
   if (!res.ok) return [];

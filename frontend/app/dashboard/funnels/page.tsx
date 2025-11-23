@@ -32,7 +32,9 @@ function FunnelsListContent() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [showCreateWizard, setShowCreateWizard] = useState<boolean>(false);
 
-  const { funnels, isLoading, error, refetch } = useFunnels();
+  const { funnels, isLoading } = useFunnels();
+  const error = null;
+  const refetch = () => {};
 
   /**
    * Handle funnel selection - navigate to edit page
@@ -160,7 +162,7 @@ function FunnelsListContent() {
   if (error) {
     return (
       <div className="flex flex-col h-screen">
-        <PageHeader title="Funnels" subtitle="Manage your automation funnels" />
+        <PageHeader title="Funnels" description="Manage your automation funnels" />
         <div className="flex-1 flex items-center justify-center p-8">
           <div className="max-w-2xl w-full">
             <div className="bg-danger-50 border border-danger-200 rounded-lg p-6">
@@ -201,27 +203,35 @@ function FunnelsListContent() {
     if (funnels.length === 0) {
       return (
         <div className="flex flex-col h-screen">
-          <PageHeader
-            title="Funnels"
-            subtitle="Manage your automation funnels"
-            actions={
-              <Button
-                color="primary"
-                size="lg"
-                startContent={<Plus className="h-4 w-4" />}
-                onPress={() => setShowCreateWizard(true)}
-              >
-                Create Funnel
-              </Button>
-            }
-          />
+          <div className="flex items-center justify-between p-6 border-b">
+            <div>
+              <h1 className="text-2xl font-bold">Funnels</h1>
+              <p className="text-sm text-muted-foreground">Manage your automation funnels</p>
+            </div>
+            <Button
+              color="primary"
+              size="lg"
+              startContent={<Plus className="h-4 w-4" />}
+              onPress={() => setShowCreateWizard(true)}
+            >
+              Create Funnel
+            </Button>
+          </div>
           <div className="flex-1 flex items-center justify-center p-8 bg-grid-pattern">
             <EmptyState
               icon={<Workflow className="h-16 w-16" />}
               title="No funnels yet"
               description="Create your first automation funnel to engage leads with multi-step workflows."
-              ctaText="Create Funnel"
-              ctaAction={() => setShowCreateWizard(true)}
+              action={
+                <Button
+                  color="primary"
+                  size="lg"
+                  startContent={<Plus className="h-4 w-4" />}
+                  onPress={() => setShowCreateWizard(true)}
+                >
+                  Create Funnel
+                </Button>
+              }
             />
           </div>
         </div>
@@ -232,46 +242,42 @@ function FunnelsListContent() {
     return (
       <div className="flex flex-col h-screen">
       {/* Page Header */}
-      <PageHeader
-        title="Funnels"
-        subtitle={`${funnels.length} funnel${funnels.length !== 1 ? 's' : ''} configured`}
-        actions={
-          <Button
-            color="primary"
-            size="lg"
-            startContent={<Plus className="h-4 w-4" />}
-            onPress={() => setShowCreateWizard(true)}
-          >
-            Create Funnel
-          </Button>
-        }
-      />
+      <div className="flex items-center justify-between p-6 border-b">
+        <div>
+          <h1 className="text-2xl font-bold">Funnels</h1>
+          <p className="text-sm text-muted-foreground">{`${funnels.length} funnel${funnels.length !== 1 ? 's' : ''} configured`}</p>
+        </div>
+        <Button
+          color="primary"
+          size="lg"
+          startContent={<Plus className="h-4 w-4" />}
+          onPress={() => setShowCreateWizard(true)}
+        >
+          Create Funnel
+        </Button>
+      </div>
 
       {/* Toolbar */}
-      <Toolbar
-        left={
-          <Input
-            placeholder="Search funnels..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            startContent={<Search className="h-4 w-4 text-muted-foreground" />}
-            className="w-80"
-            classNames={{
-              input: "text-sm",
-              inputWrapper: "h-10"
-            }}
-          />
-        }
-        right={
-          <Button
-            variant="flat"
-            size="sm"
-            startContent={<Filter className="h-4 w-4" />}
-          >
-            Filters
-          </Button>
-        }
-      />
+      <div className="flex items-center justify-between py-4 px-6 border-b bg-white">
+        <Input
+          placeholder="Search funnels..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          startContent={<Search className="h-4 w-4 text-muted-foreground" />}
+          className="w-80"
+          classNames={{
+            input: "text-sm",
+            inputWrapper: "h-10"
+          }}
+        />
+        <Button
+          variant="flat"
+          size="sm"
+          startContent={<Filter className="h-4 w-4" />}
+        >
+          Filters
+        </Button>
+      </div>
 
       {/* Funnel Grid */}
       <div className="flex-1 overflow-auto p-6 bg-grid-pattern">

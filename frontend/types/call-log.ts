@@ -14,12 +14,25 @@ export interface CallLog {
   userId: string;
   agentConfigId?: string;
   phoneNumber?: string;
+  phone_number?: string;  // API returns snake_case
   roomName?: string;
+  room_name?: string;  // API returns snake_case
   durationSeconds?: number;
-  startedAt: Date;
-  endedAt?: Date;
+  duration_seconds?: number;  // API returns snake_case
+  duration?: number;  // Additional duration field
+  startedAt: Date | string;
+  started_at?: string;  // API returns snake_case
+  endedAt?: Date | string;
+  ended_at?: string;  // API returns snake_case
+  createdAt?: Date | string;  // Created timestamp
+  created_at?: string;  // API returns snake_case
   cost?: number;
+  cost_usd?: number;  // API returns snake_case
   status?: CallStatus;
+  direction?: "inbound" | "outbound";  // Call direction
+  caller_number?: string;  // Additional API field
+  call_sid?: string;  // Additional API field
+  agent_name?: string;  // Additional API field
 }
 
 export function getCallStatusColor(status: CallStatus | string): string {

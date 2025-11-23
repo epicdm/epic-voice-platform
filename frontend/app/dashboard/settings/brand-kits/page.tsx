@@ -95,7 +95,6 @@ export default function BrandKitsPage() {
     return (
       <div className="min-h-screen bg-background">
         <BrandKitWizard
-          editingKit={editingKit}
           onComplete={handleWizardComplete}
           onCancel={() => {
             setShowWizard(false);
@@ -214,7 +213,7 @@ export default function BrandKitsPage() {
 
               <CardBody className="space-y-4">
                 {/* Brand Preview */}
-                <BrandKitPreviewCard brandKit={kit} compact />
+                <BrandKitPreviewCard brandKit={kit} />
 
                 {/* Company Info */}
                 {kit.companyName && (

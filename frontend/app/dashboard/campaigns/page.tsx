@@ -152,13 +152,13 @@ export default function CampaignsPage() {
               }}
               label="Filter by Status"
             >
-              <SelectItem key="" value="">All Statuses</SelectItem>
-              <SelectItem key="draft" value="draft">Draft</SelectItem>
-              <SelectItem key="scheduled" value="scheduled">Scheduled</SelectItem>
-              <SelectItem key="running" value="running">Running</SelectItem>
-              <SelectItem key="paused" value="paused">Paused</SelectItem>
-              <SelectItem key="completed" value="completed">Completed</SelectItem>
-              <SelectItem key="cancelled" value="cancelled">Cancelled</SelectItem>
+              <SelectItem key="">All Statuses</SelectItem>
+              <SelectItem key="draft">Draft</SelectItem>
+              <SelectItem key="scheduled">Scheduled</SelectItem>
+              <SelectItem key="running">Running</SelectItem>
+              <SelectItem key="paused">Paused</SelectItem>
+              <SelectItem key="completed">Completed</SelectItem>
+              <SelectItem key="cancelled">Cancelled</SelectItem>
             </Select>
           </div>
         </CardBody>
