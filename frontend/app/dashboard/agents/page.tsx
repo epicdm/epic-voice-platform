@@ -261,8 +261,11 @@ function AgentsListContent() {
           }
           title="No agents yet"
           description="Create your first AI voice agent to start handling calls automatically. It only takes a few minutes!"
-          ctaText="Create Agent"
-          ctaAction={handleCreateAgent}
+          action={
+            <Button color="primary" onPress={handleCreateAgent}>
+              Create Agent
+            </Button>
+          }
         />
       </div>
     );
