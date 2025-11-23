@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 import { addDays } from "date-fns"
+import { randomUUID } from "crypto"
 
 export async function POST(req: Request) {
   try {
@@ -30,38 +31,49 @@ export async function POST(req: Request) {
     const hashedPassword = await bcrypt.hash(password, 10)
 
     // Create user with organization and trial
+    // Note: We create the organization and membership separately to avoid circular references
+    const userId = randomUUID()
+    const organizationId = randomUUID()
+
     const user = await prisma.users.create({
       data: {
+        id: userId,
         email,
         password: hashedPassword,
         name,
         organizations: {
           create: {
+            id: organizationId,
             name: name ? `${name}'s Organization` : `${email}'s Organization`,
-            memberships: {
+            updatedAt: new Date(),
+            subscriptions: {
               create: {
-                role: "owner",
-                user: {
-                  connect: { email }
-                }
-              }
-            },
-            subscription: {
-              create: {
+                id: randomUUID(),
                 status: "trialing",
                 trialEndsAt: addDays(new Date(), parseInt(process.env.TRIAL_DAYS || "14")),
                 provider: "stripe",
+                updatedAt: new Date(),
               }
             }
           }
         }
-      },
+      } as any,
       include: {
         organizations: {
           include: {
-            subscription: true
+            subscriptions: true
           }
         }
+      }
+    })
+
+    // Create membership linking user to their organization
+    await prisma.memberships.create({
+      data: {
+        id: randomUUID(),
+        userId: userId,
+        organizationId: organizationId,
+        role: "owner"
       }
     })
 
