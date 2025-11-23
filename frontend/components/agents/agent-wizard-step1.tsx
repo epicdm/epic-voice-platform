@@ -3,204 +3,278 @@
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { Card, CardBody, Button, Chip, Input } from "@heroui/react";
-import { Sparkles } from "lucide-react";
+import { Sparkles, ArrowLeft } from "lucide-react";
 import { FormField } from "@/components/form/FormField";
 import { AutoTextarea } from "@/components/form/AutoTextarea";
 import { AgentCreate } from "@/lib/schemas/agent-schema";
-import { AGENT_TEMPLATES, AgentTemplate } from "@/lib/agent-templates";
+import { AGENT_TEMPLATES, TEMPLATE_CATEGORIES, AgentTemplate } from "@/lib/agent-templates";
 
 /**
- * Agent Wizard Step 1: Select Template or Start From Scratch
+ * Agent Wizard Step 1: Two-Level Template Selection
  *
  * Features:
- * - Template selection from lib/agent-templates.ts
+ * - First: Select agent category (Support, Sales, Scheduling)
+ * - Second: Select specific template within category
  * - Rich template metadata (features, use cases, requirements)
  * - Pre-filled configurations
  * - Custom agent option
- * - Visual cards with icons and descriptions
  */
 
-// Template ID to color/icon mapping for UI
-const TEMPLATE_UI_CONFIG: Record<string, { color: string; icon: string; badge?: string }> = {
+// Template ID to color mapping for UI
+const TEMPLATE_UI_CONFIG: Record<string, { color: string; badge?: string }> = {
   "customer-support": {
     color: "from-blue-500 to-cyan-500",
-    icon: "🎧",
     badge: "Popular",
   },
   "sales-assistant": {
     color: "from-green-500 to-emerald-500",
-    icon: "💼",
     badge: "Recommended",
   },
   "appointment-setter": {
     color: "from-purple-500 to-pink-500",
-    icon: "📅",
   },
+};
+
+// Category to color mapping
+const CATEGORY_COLORS: Record<string, string> = {
+  "support": "from-blue-500 to-cyan-500",
+  "sales": "from-green-500 to-emerald-500",
+  "scheduling": "from-purple-500 to-pink-500",
 };
 
 export function AgentWizardStep1() {
   const { setValue, watch } = useFormContext<AgentCreate>();
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
 
   const currentName = watch("name");
   const currentDescription = watch("description");
   const currentInstructions = watch("instructions");
 
-  // Add "Start from Scratch" option to the templates list
-  const allTemplates = [
-    ...AGENT_TEMPLATES,
-    {
-      id: "custom",
-      name: "Custom Agent",
-      description: "Build a completely custom agent tailored to your specific needs",
-      category: "Custom",
-      tags: ["custom"],
-      config: {
-        instructions: "",
-        llm_model: "gpt-4o-mini",
-        voice: "echo",
-        voice_id: "echo",
-        stt_provider: "deepgram",
-        tts_provider: "openai",
-        vad_enabled: true,
-        greeting_enabled: false,
-      },
-    } as AgentTemplate,
-  ];
+  // Get templates for selected category
+  const getTemplatesForCategory = (categoryId: string) => {
+    if (categoryId === "custom") return [];
+    return AGENT_TEMPLATES.filter(t => t.category.toLowerCase() === categoryId.toLowerCase());
+  };
 
-  const handleTemplateSelect = (template: AgentTemplate) => {
-    setSelectedTemplate(template.id);
+  const categoryTemplates = selectedCategory ? getTemplatesForCategory(selectedCategory) : [];
 
-    if (template.id !== "custom" && template.config) {
-      // Pre-fill form with rich template data from lib/agent-templates.ts
-      setValue("name", template.name, { shouldValidate: true, shouldDirty: true });
-      setValue("description", template.description, { shouldValidate: true, shouldDirty: true });
-      setValue("instructions", template.config.instructions, { shouldValidate: true, shouldDirty: true });
+  const handleCategorySelect = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+    setSelectedTemplate(null); // Reset template when category changes
 
-      // Set model and voice from template config
-      setValue("llm_model", template.config.llm_model, { shouldValidate: true });
-      setValue("voice", template.config.voice, { shouldValidate: true });
-      setValue("temperature", 0.7, { shouldValidate: true });
-      setValue("vad_enabled", template.config.vad_enabled, { shouldValidate: true });
-      setValue("noise_cancellation", true, { shouldValidate: true });
-      setValue("turn_detection", "semantic", { shouldValidate: true });
-
-      // Note: Tools configuration will be handled in Step 5
-    } else {
-      // Clear for custom agent
+    // If custom category, skip to form
+    if (categoryId === "custom") {
       setValue("name", "", { shouldValidate: false });
       setValue("description", "", { shouldValidate: false });
       setValue("instructions", "", { shouldValidate: false });
     }
   };
 
-  // If a template is selected, show the form
+  const handleTemplateSelect = (template: AgentTemplate) => {
+    setSelectedTemplate(template.id);
+
+    // Pre-fill form with rich template data from lib/agent-templates.ts
+    setValue("name", template.name, { shouldValidate: true, shouldDirty: true });
+    setValue("description", template.description, { shouldValidate: true, shouldDirty: true });
+    setValue("instructions", template.config.instructions, { shouldValidate: true, shouldDirty: true });
+
+    // Set model and voice from template config
+    setValue("llm_model", template.config.llm_model, { shouldValidate: true });
+    setValue("voice", template.config.voice, { shouldValidate: true });
+    setValue("temperature", 0.7, { shouldValidate: true });
+    setValue("vad_enabled", template.config.vad_enabled, { shouldValidate: true });
+    setValue("noise_cancellation", true, { shouldValidate: true });
+    setValue("turn_detection", "semantic", { shouldValidate: true });
+
+    // Note: Tools configuration will be handled in Step 5
+  };
+
+  const handleBackToCategories = () => {
+    setSelectedCategory(null);
+    setSelectedTemplate(null);
+  };
+
+  const handleBackToTemplates = () => {
+    setSelectedTemplate(null);
+  };
+
+  // Show form only if template is selected
   const showCustomForm = selectedTemplate !== null;
 
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div>
-        <h2 className="text-2xl font-bold mb-2">Choose Your Agent Type</h2>
-        <p className="text-gray-600 dark:text-gray-400">
-          Start with a template or build from scratch
-        </p>
-      </div>
+      {/* Step 1: Category Selection */}
+      {!selectedCategory && !showCustomForm && (
+        <>
+          <div>
+            <h2 className="text-2xl font-bold mb-2">Choose Agent Category</h2>
+            <p className="text-gray-600 dark:text-gray-400">
+              Select the type of agent you want to create
+            </p>
+          </div>
 
-      {/* Template Selection */}
-      {!showCustomForm && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {allTemplates.map((template) => {
-            const uiConfig = TEMPLATE_UI_CONFIG[template.id] || {
-              color: "from-gray-500 to-gray-600",
-              icon: template.id === "custom" ? "✨" : "🤖",
-            };
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[...TEMPLATE_CATEGORIES, { id: "custom", name: "Custom", icon: "✨", count: 0 }].map((category) => {
+              const color = CATEGORY_COLORS[category.id] || "from-gray-500 to-gray-600";
 
-            return (
-              <Card
-                key={template.id}
-                isPressable
-                onPress={() => handleTemplateSelect(template)}
-                className={`${
-                  selectedTemplate === template.id
-                    ? "ring-2 ring-primary border-primary"
-                    : "hover:border-primary"
-                } transition-all duration-200`}
-              >
-                <CardBody className="p-6">
-                  <div className="flex flex-col h-full">
-                    {/* Icon and Badge */}
-                    <div className="flex items-start justify-between mb-3">
-                      <div className={`p-3 rounded-xl bg-gradient-to-br ${uiConfig.color} text-white text-2xl`}>
-                        {uiConfig.icon}
+              return (
+                <Card
+                  key={category.id}
+                  isPressable
+                  onPress={() => handleCategorySelect(category.id)}
+                  className="hover:border-primary transition-all duration-200 hover:scale-105"
+                >
+                  <CardBody className="p-8">
+                    <div className="flex flex-col items-center text-center gap-4">
+                      <div className={`p-6 rounded-2xl bg-gradient-to-br ${color} text-white text-5xl`}>
+                        {category.icon}
                       </div>
-                      <div className="flex flex-col gap-1 items-end">
-                        {uiConfig.badge && (
-                          <Chip size="sm" color="primary" variant="flat">
-                            {uiConfig.badge}
-                          </Chip>
+                      <div>
+                        <h3 className="text-xl font-bold mb-1">{category.name}</h3>
+                        {category.id !== "custom" && (
+                          <p className="text-sm text-gray-500">
+                            {category.count} {category.count === 1 ? 'template' : 'templates'} available
+                          </p>
                         )}
-                        {template.popular && (
-                          <Chip size="sm" color="success" variant="flat">
-                            Popular
-                          </Chip>
+                        {category.id === "custom" && (
+                          <p className="text-sm text-gray-500">Build from scratch</p>
                         )}
                       </div>
                     </div>
+                  </CardBody>
+                </Card>
+              );
+            })}
+          </div>
+        </>
+      )}
 
-                    {/* Title and Category */}
-                    <h3 className="text-lg font-semibold mb-1">{template.name}</h3>
-                    {template.estimatedSetupTime && (
-                      <p className="text-xs text-gray-500 mb-2">⏱️ {template.estimatedSetupTime}</p>
-                    )}
+      {/* Step 2: Template Selection (within category) */}
+      {selectedCategory && !selectedTemplate && selectedCategory !== "custom" && (
+        <>
+          <div>
+            <Button
+              size="sm"
+              variant="light"
+              startContent={<ArrowLeft className="h-4 w-4" />}
+              onPress={handleBackToCategories}
+              className="mb-4"
+            >
+              Back to Categories
+            </Button>
+            <h2 className="text-2xl font-bold mb-2">
+              Choose {TEMPLATE_CATEGORIES.find(c => c.id === selectedCategory)?.name} Template
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400">
+              Select a pre-configured template to get started quickly
+            </p>
+          </div>
 
-                    {/* Description */}
-                    <p className="text-sm text-gray-600 dark:text-gray-400 flex-1 mb-3">
-                      {template.description}
-                    </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {categoryTemplates.map((template) => {
+              const uiConfig = TEMPLATE_UI_CONFIG[template.id] || {
+                color: "from-gray-500 to-gray-600",
+              };
 
-                    {/* Features Preview */}
-                    {template.features && template.features.length > 0 && (
-                      <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
-                        <p className="text-xs text-gray-500 mb-2 font-medium">Key Features:</p>
-                        <div className="flex flex-wrap gap-1">
-                          {template.features.slice(0, 3).map((feature, idx) => (
-                            <Chip key={idx} size="sm" variant="flat" className="text-xs">
-                              {feature}
+              return (
+                <Card
+                  key={template.id}
+                  isPressable
+                  onPress={() => handleTemplateSelect(template)}
+                  className="hover:border-primary transition-all duration-200"
+                >
+                  <CardBody className="p-6">
+                    <div className="flex flex-col h-full">
+                      {/* Icon and Badge */}
+                      <div className="flex items-start justify-between mb-3">
+                        <div className={`p-3 rounded-xl bg-gradient-to-br ${uiConfig.color} text-white text-2xl`}>
+                          {template.icon}
+                        </div>
+                        <div className="flex flex-col gap-1 items-end">
+                          {uiConfig.badge && (
+                            <Chip size="sm" color="primary" variant="flat">
+                              {uiConfig.badge}
                             </Chip>
-                          ))}
-                          {template.features.length > 3 && (
-                            <Chip size="sm" variant="flat" className="text-xs">
-                              +{template.features.length - 3} more
+                          )}
+                          {template.popular && (
+                            <Chip size="sm" color="success" variant="flat">
+                              Popular
                             </Chip>
                           )}
                         </div>
                       </div>
-                    )}
-                  </div>
-                </CardBody>
-              </Card>
-            );
-          })}
-        </div>
+
+                      {/* Title */}
+                      <h3 className="text-lg font-semibold mb-1">{template.name}</h3>
+                      {template.estimatedSetupTime && (
+                        <p className="text-xs text-gray-500 mb-2">⏱️ {template.estimatedSetupTime}</p>
+                      )}
+
+                      {/* Description */}
+                      <p className="text-sm text-gray-600 dark:text-gray-400 flex-1 mb-3">
+                        {template.description}
+                      </p>
+
+                      {/* Features Preview */}
+                      {template.features && template.features.length > 0 && (
+                        <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                          <p className="text-xs text-gray-500 mb-2 font-medium">Key Features:</p>
+                          <div className="flex flex-wrap gap-1">
+                            {template.features.slice(0, 3).map((feature, idx) => (
+                              <Chip key={idx} size="sm" variant="flat" className="text-xs">
+                                {feature}
+                              </Chip>
+                            ))}
+                            {template.features.length > 3 && (
+                              <Chip size="sm" variant="flat" className="text-xs">
+                                +{template.features.length - 3} more
+                              </Chip>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </CardBody>
+                </Card>
+              );
+            })}
+          </div>
+        </>
       )}
 
-      {/* Custom Form (shown after template selection) */}
-      {showCustomForm && (
+      {/* Step 3: Customization Form (after template selection or custom) */}
+      {(showCustomForm || selectedCategory === "custom") && (
         <div className="space-y-6">
           {(() => {
-            const selectedTemplateData = allTemplates.find(t => t.id === selectedTemplate);
-            const uiConfig = TEMPLATE_UI_CONFIG[selectedTemplate || ""] || {
-              color: "from-gray-500 to-gray-600",
-              icon: selectedTemplate === "custom" ? "✨" : "🤖",
-            };
+            const selectedTemplateData = selectedTemplate
+              ? AGENT_TEMPLATES.find(t => t.id === selectedTemplate)
+              : null;
+
+            const uiConfig = selectedTemplate
+              ? (TEMPLATE_UI_CONFIG[selectedTemplate] || {
+                  color: "from-gray-500 to-gray-600",
+                })
+              : { color: "from-gray-500 to-gray-600" };
 
             return (
               <>
+                <div>
+                  <Button
+                    size="sm"
+                    variant="light"
+                    startContent={<ArrowLeft className="h-4 w-4" />}
+                    onPress={selectedCategory === "custom" ? handleBackToCategories : handleBackToTemplates}
+                    className="mb-4"
+                  >
+                    {selectedCategory === "custom" ? "Back to Categories" : "Back to Templates"}
+                  </Button>
+                </div>
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className={`p-2 rounded-lg bg-gradient-to-br ${uiConfig.color} text-white text-xl`}>
-                      {uiConfig.icon}
+                      {selectedTemplateData?.icon || "✨"}
                     </div>
                     <div>
                       <h3 className="font-semibold">
@@ -209,18 +283,6 @@ export function AgentWizardStep1() {
                       <p className="text-sm text-gray-500">Customize the details below</p>
                     </div>
                   </div>
-                  <Button
-                    size="sm"
-                    variant="light"
-                    onPress={() => {
-                      setSelectedTemplate(null);
-                      setValue("name", "");
-                      setValue("description", "");
-                      setValue("instructions", "");
-                    }}
-                  >
-                    Change Template
-                  </Button>
                 </div>
 
                 {/* Show template features if available */}
