@@ -2,17 +2,30 @@
 
 import { useState, useEffect } from "react";
 
-export function BalanceWidget() {
+interface BalanceWidgetProps {
+  compact?: boolean;
+}
+
+export function BalanceWidget({ compact }: BalanceWidgetProps = {}) {
   const [balance, setBalance] = useState<number | null>(null);
 
   useEffect(() => {
     fetch("/api/v1/balance")
-      .then((res) => res.json())
-      .then((data) => setBalance(data.balance))
-      .catch(() => {});
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to fetch balance');
+        return res.json();
+      })
+      .then((data) => {
+        if (typeof data.balance === 'number') {
+          setBalance(data.balance);
+        }
+      })
+      .catch(() => {
+        // Silently fail - user might not be authenticated
+      });
   }, []);
 
-  if (balance === null) return null;
+  if (balance === null || balance === undefined) return null;
 
   return (
     <div className="flex items-center gap-2 px-3 py-1 bg-green-50 dark:bg-green-900/20 rounded-lg">
