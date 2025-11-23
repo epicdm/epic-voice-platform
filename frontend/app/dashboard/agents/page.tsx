@@ -33,7 +33,7 @@ import { api } from "@/lib/api-client";
 function AgentsListContent() {
   const router = useRouter();
   const { agents, isLoading, error, refetch } = useAgents();
-  const { metrics: agentMetrics, isLoading: metricsLoading } = useAgentMetrics(24);
+  const { metrics: agentMetrics, isLoading: metricsLoading } = useAgentMetrics();
 
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const [inspectorOpen, setInspectorOpen] = useState(false);
