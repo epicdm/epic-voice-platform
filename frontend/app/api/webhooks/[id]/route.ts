@@ -8,8 +8,9 @@ export const runtime = 'nodejs'
 // PUT /api/webhooks/[id] - Update webhook
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  props: { params: Promise<{ id: string> } }
 ) {
+  const params = await props.params
   try {
     const session = await auth()
 
@@ -51,8 +52,9 @@ export async function PUT(
 // DELETE /api/webhooks/[id] - Delete webhook
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  props: { params: Promise<{ id: string> } }
 ) {
+  const params = await props.params
   try {
     const session = await auth()
 
