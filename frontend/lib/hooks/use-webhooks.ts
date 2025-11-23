@@ -6,18 +6,32 @@ export function useWebhooks() {
 
   useEffect(() => {
     fetch("/api/webhooks")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then((data) => {
-        setWebhooks(data);
+        setWebhooks(Array.isArray(data) ? data : []);
         setIsLoading(false);
       })
-      .catch(() => setIsLoading(false));
+      .catch((err) => {
+        console.error("Failed to fetch webhooks:", err);
+        setWebhooks([]);
+        setIsLoading(false);
+      });
   }, []);
 
   const refresh = () => {
     fetch("/api/webhooks")
-      .then((res) => res.json())
-      .then((data) => setWebhooks(data));
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((data) => setWebhooks(Array.isArray(data) ? data : []))
+      .catch((err) => {
+        console.error("Failed to refresh webhooks:", err);
+        setWebhooks([]);
+      });
   };
 
   return { webhooks, isLoading, refresh };
