@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+*.egg
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+.next/
+out/
+build/
+dist/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+
+# Vercel
+.vercel
+
+# Private/Sensitive
+private_backups/
+*.pem
+*.key
+credentials.json
+
+# Cache
+.cache/
+.turbo/
+tsconfig.tsbuildinfo
+
+# Test
+coverage/
+.nyc_output/
+
+# Misc
+.git/gc.log

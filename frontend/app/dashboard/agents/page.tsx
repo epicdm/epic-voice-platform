@@ -33,7 +33,7 @@ import { api } from "@/lib/api-client";
 function AgentsListContent() {
   const router = useRouter();
   const { agents, isLoading, error, refetch } = useAgents();
-  const { metrics: agentMetrics, isLoading: metricsLoading } = useAgentMetrics(24);
+  const { metrics: agentMetrics, isLoading: metricsLoading } = useAgentMetrics();
 
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const [inspectorOpen, setInspectorOpen] = useState(false);
@@ -189,7 +189,7 @@ function AgentsListContent() {
                   <Skeleton className="w-32 h-6" />
                   <Skeleton className="w-20 h-5" />
                 </div>
-                <Skeleton variant="circular" width={48} height={48} />
+                <Skeleton className="w-12 h-12 rounded-full" />
               </div>
               <Skeleton className="w-full h-16" />
               <div className="grid grid-cols-2 gap-2">
@@ -261,8 +261,11 @@ function AgentsListContent() {
           }
           title="No agents yet"
           description="Create your first AI voice agent to start handling calls automatically. It only takes a few minutes!"
-          ctaText="Create Agent"
-          ctaAction={handleCreateAgent}
+          action={
+            <Button color="primary" onPress={handleCreateAgent}>
+              Create Agent
+            </Button>
+          }
         />
       </div>
     );
