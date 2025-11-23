@@ -8,7 +8,7 @@ export const runtime = 'nodejs'
 // GET /api/user/leads/[id] - Get lead by ID
 export async function GET(
   request: Request,
-  props: { params: Promise<{ id: string> } }
+  props: { params: Promise<{ id: string }> }
 ) {
   const params = await props.params
   try {
@@ -48,7 +48,7 @@ export async function GET(
 // PUT /api/user/leads/[id] - Update lead
 export async function PUT(
   request: Request,
-  props: { params: Promise<{ id: string> } }
+  props: { params: Promise<{ id: string }> }
 ) {
   const params = await props.params
   try {
@@ -92,7 +92,7 @@ export async function PUT(
 // DELETE /api/user/leads/[id] - Delete lead
 export async function DELETE(
   request: Request,
-  props: { params: Promise<{ id: string> } }
+  props: { params: Promise<{ id: string }> }
 ) {
   const params = await props.params
   try {

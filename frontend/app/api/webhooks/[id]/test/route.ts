@@ -8,7 +8,7 @@ export const runtime = 'nodejs'
 // POST /api/webhooks/[id]/test - Send test webhook
 export async function POST(
   request: Request,
-  props: { params: Promise<{ id: string> } }
+  props: { params: Promise<{ id: string }> }
 ) {
   const params = await props.params
   try {
