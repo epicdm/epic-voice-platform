@@ -77,7 +77,7 @@ function AgentsListContent() {
    */
   const handleStartAgent = async (agent: Agent) => {
     try {
-      await api.post(`/api/user/agents/${agent.id}/deploy`);
+      await api.post(`/api/user/agents/${agent.id}/deploy`, {});
       toast.success("Agent deployed successfully", {
         description: `${agent.name} is starting up...`,
       });
@@ -94,7 +94,7 @@ function AgentsListContent() {
    */
   const handleStopAgent = async (agent: Agent) => {
     try {
-      await api.post(`/api/user/agents/${agent.id}/undeploy`);
+      await api.post(`/api/user/agents/${agent.id}/undeploy`, {});
       toast.success("Agent stopped", {
         description: `${agent.name} has been stopped.`,
       });
