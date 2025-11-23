@@ -4,6 +4,15 @@ export async function getUsers() {
   return res.json();
 }
 
+export async function listAllUsers() {
+  // Server-side function to list all users from backend
+  const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5001';
+  const res = await fetch(`${BACKEND_URL}/api/admin/users`);
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.users || [];
+}
+
 export async function getUser(userId: string) {
   const res = await fetch(`/api/admin-api/users/${userId}`);
   if (!res.ok) return null;
