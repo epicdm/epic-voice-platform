@@ -1,10 +1,10 @@
 export const api = {
-  async get(url: string) {
+  async get<T = any>(url: string): Promise<T> {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   },
-  async post(url: string, data: any) {
+  async post<T = any>(url: string, data: any): Promise<T> {
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -13,7 +13,7 @@ export const api = {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   },
-  async put(url: string, data: any) {
+  async put<T = any>(url: string, data: any): Promise<T> {
     const res = await fetch(url, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -22,7 +22,7 @@ export const api = {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   },
-  async delete(url: string) {
+  async delete<T = any>(url: string): Promise<T> {
     const res = await fetch(url, { method: "DELETE" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
@@ -32,3 +32,6 @@ export const api = {
 export function isApiError(error: any): boolean {
   return error instanceof Error;
 }
+
+// Export alias for backwards compatibility
+export { api as apiClient };

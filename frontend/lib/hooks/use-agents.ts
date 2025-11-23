@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export function useAgents() {
   const [agents, setAgents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
+  const fetchAgents = useCallback(() => {
+    setIsLoading(true);
     fetch("/api/user/agents")
       .then((res) => res.json())
       .then((data) => {
@@ -18,5 +19,9 @@ export function useAgents() {
       });
   }, []);
 
-  return { agents, isLoading, error };
+  useEffect(() => {
+    fetchAgents();
+  }, [fetchAgents]);
+
+  return { agents, isLoading, error, refetch: fetchAgents };
 }

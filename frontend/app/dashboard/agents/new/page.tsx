@@ -61,7 +61,7 @@ export default function AgentWizardPage() {
 
     // Validate current step fields
     if (currentStep === 1) {
-      isValid = await trigger(["agent_type", "name", "description"]);
+      isValid = await trigger(["name", "description"]);
     } else if (currentStep === 2) {
       isValid = await trigger(["instructions", "llm_model", "voice", "temperature"]);
     } else if (currentStep === 3) {
