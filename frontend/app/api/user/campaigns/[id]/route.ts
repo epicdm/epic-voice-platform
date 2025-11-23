@@ -8,8 +8,9 @@ export const runtime = 'nodejs'
 // GET /api/user/campaigns/[id] - Get campaign by ID
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     const session = await auth()
 
@@ -47,8 +48,9 @@ export async function GET(
 // PUT /api/user/campaigns/[id] - Update campaign
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     const session = await auth()
 
@@ -90,8 +92,9 @@ export async function PUT(
 // DELETE /api/user/campaigns/[id] - Delete campaign
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     const session = await auth()
 
