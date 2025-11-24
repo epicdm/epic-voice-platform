@@ -47,18 +47,29 @@ export function AgentWizardStep4() {
     setIsProvisioning(true);
     try {
       const result = await api.post<{ phoneNumber: PhoneNumber }>("/api/user/phone-numbers/provision", {
-        country_code: selectedCountry,
+        country: "Dominica",
+        prefix: "1767818",
+        use_magnus: true,
       });
 
+      // Handle response structure - API route may double-wrap the backend response
+      // Backend returns: { success: true, data: { phoneNumber: {...} } }
+      // After api-client unwrapping: either { phoneNumber: {...} } or { data: { phoneNumber: {...} } }
+      const phoneNumber = result.data?.phoneNumber || result.phoneNumber;
+
+      if (!phoneNumber) {
+        throw new Error("Invalid response from server - missing phone number data");
+      }
+
       toast.success("Phone number provisioned successfully!", {
-        description: `${formatPhoneNumber(result.phoneNumber.phoneNumber)} is now available`,
+        description: `${formatPhoneNumber(phoneNumber.phone_number)} is now available`,
       });
 
       // Refresh phone numbers list
       await refreshPhoneNumbers();
 
       // Auto-select the newly provisioned number (REPLACE any previous selection since only one number allowed per agent)
-      setValue("phone_number_ids", [result.phoneNumber.id]);
+      setValue("phone_number_ids", [phoneNumber.id]);
 
       onClose();
     } catch (error) {
