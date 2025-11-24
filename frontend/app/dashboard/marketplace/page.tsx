@@ -47,14 +47,9 @@ export default function MarketplacePage() {
         name: selectedTemplate.name,
         description: selectedTemplate.description,
         instructions: selectedTemplate.config.instructions,
-        llm_model: selectedTemplate.config.llm_model,
-        voice: selectedTemplate.config.voice,
-        voice_id: selectedTemplate.config.voice_id,
-        stt_provider: selectedTemplate.config.stt_provider,
-        tts_provider: selectedTemplate.config.tts_provider,
-        vad_enabled: selectedTemplate.config.vad_enabled,
-        greeting_enabled: selectedTemplate.config.greeting_enabled,
-        greeting_message: selectedTemplate.config.greeting_message || '',
+        voice: selectedTemplate.config.voice || 'alloy',
+        language: selectedTemplate.config.language || 'en-US',
+        temperature: selectedTemplate.config.temperature || 0.7,
       }
       
       await api.post('/api/user/agents', agentData)
