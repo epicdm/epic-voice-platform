@@ -170,7 +170,7 @@ export async function setDefaultBrandKit(id: string): Promise<BrandKit> {
  * Refresh brand kit from source URL
  */
 export async function refreshBrandKit(id: string): Promise<BrandKit> {
-  const response = await api.post(`/api/user/brand-kits/${id}/refresh`);
+  const response = await api.post(`/api/user/brand-kits/${id}/refresh`, {});
   return response.data;
 }
 
