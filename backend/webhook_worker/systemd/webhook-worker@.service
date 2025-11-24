@@ -1,0 +1,50 @@
+[Unit]
+Description=Webhook Delivery Worker (Instance %i)
+Documentation=file:///opt/livekit1/backend/webhook_worker/DESIGN_SPECIFICATION.md
+After=network.target postgresql.service
+Wants=postgresql.service
+PartOf=webhook-worker.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/livekit1
+
+# Environment Configuration
+EnvironmentFile=/etc/webhook-worker/webhook-worker.env
+
+# Service Execution
+ExecStart=/opt/livekit1/venv/bin/python3 /opt/livekit1/backend/webhook_worker/worker.py --instance %i
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStop=/bin/kill -TERM $MAINPID
+
+# Restart Policy
+Restart=always
+RestartSec=10
+StartLimitBurst=5
+StartLimitInterval=60
+
+# Resource Limits
+MemoryLimit=512M
+CPUQuota=50%
+TasksMax=50
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=webhook-worker-%i
+
+# Security Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/livekit1/logs
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictRealtime=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=webhook-worker.target

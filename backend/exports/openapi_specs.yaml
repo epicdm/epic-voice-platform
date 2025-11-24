@@ -1,0 +1,518 @@
+definitions:
+  CallExport:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Unique call identifier
+      livekitRoomName:
+        type: string
+        description: LiveKit room name
+      livekitRoomSid:
+        type: string
+        description: LiveKit room SID
+      direction:
+        type: string
+        enum: [inbound, outbound]
+        description: Call direction
+      phoneNumber:
+        type: string
+        description: Masked phone number (PII protected)
+      sipCallId:
+        type: string
+        description: SIP call identifier
+      duration:
+        type: integer
+        description: Call duration in seconds
+      startedAt:
+        type: string
+        format: date-time
+        description: Call start timestamp
+      endedAt:
+        type: string
+        format: date-time
+        description: Call end timestamp
+      status:
+        type: string
+        enum: [answered, missed, failed, completed]
+        description: Call status
+      outcome:
+        type: string
+        description: Call outcome classification
+      recordingUrl:
+        type: string
+        description: URL to call recording
+      cost:
+        type: number
+        format: float
+        description: Call cost in USD
+      metadata:
+        type: string
+        description: JSON string of additional metadata
+      createdAt:
+        type: string
+        format: date-time
+        description: Record creation timestamp
+
+  LeadExport:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Unique lead identifier
+      phoneNumber:
+        type: string
+        description: Contact phone number
+      firstName:
+        type: string
+        description: First name
+      lastName:
+        type: string
+        description: Last name
+      email:
+        type: string
+        description: Email address
+      company:
+        type: string
+        description: Company name
+      status:
+        type: string
+        enum: [new, queued, calling, completed, failed, dnc]
+        description: Lead status
+      source:
+        type: string
+        description: Lead source
+      timesCalled:
+        type: integer
+        description: Number of call attempts
+      lastCalledAt:
+        type: string
+        format: date-time
+        description: Last call attempt timestamp
+      lastCallStatus:
+        type: string
+        description: Last call result
+      createdAt:
+        type: string
+        format: date-time
+        description: Lead creation timestamp
+
+  AgentExport:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Agent configuration ID
+      name:
+        type: string
+        description: Agent name
+      description:
+        type: string
+        description: Agent description
+      agentMode:
+        type: string
+        enum: [inbound, outbound, both]
+        description: Agent operating mode
+      status:
+        type: string
+        enum: [active, deploying, failed, stopped]
+        description: Agent deployment status
+      isActive:
+        type: boolean
+        description: Whether agent is active
+      instructions:
+        type: string
+        description: Agent instructions/prompt
+      voiceId:
+        type: string
+        description: TTS voice identifier
+      createdAt:
+        type: string
+        format: date-time
+        description: Agent creation timestamp
+
+  PhoneNumberExport:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Phone number record ID
+      phoneNumber:
+        type: string
+        description: Phone number
+      agentId:
+        type: string
+        description: Assigned agent ID
+      agentName:
+        type: string
+        description: Assigned agent name
+      isActive:
+        type: boolean
+        description: Whether number is active
+      livekitInboundTrunkId:
+        type: string
+        description: LiveKit inbound trunk ID
+      livekitOutboundTrunkId:
+        type: string
+        description: LiveKit outbound trunk ID
+      magnusDidId:
+        type: string
+        description: Magnus DID identifier
+      createdAt:
+        type: string
+        format: date-time
+        description: Number provisioning timestamp
+
+  ErrorResponse:
+    type: object
+    properties:
+      error:
+        type: string
+        description: Error type
+      message:
+        type: string
+        description: Error message
+
+paths:
+  /api/exports/health:
+    get:
+      tags:
+        - CSV Exports
+      summary: Health check endpoint
+      description: Verify export API is operational
+      responses:
+        200:
+          description: Service is healthy
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: "healthy"
+              service:
+                type: string
+                example: "csv-exports"
+              timestamp:
+                type: string
+                format: date-time
+
+  /api/exports/calls:
+    get:
+      tags:
+        - CSV Exports
+      summary: Export call logs as CSV
+      description: |
+        Stream call logs as CSV with optional filtering by date range, status, agent, and outcome.
+        Supports multi-tenant isolation and PII masking.
+
+        **Rate Limit**: HEAVY tier (10 requests per 60 seconds)
+
+        **Authentication**: Requires active session or X-User-Email header
+      security:
+        - SessionAuth: []
+        - EmailHeader: []
+      parameters:
+        - name: start_date
+          in: query
+          description: Filter calls after this date (ISO 8601 format)
+          required: false
+          type: string
+          format: date-time
+          example: "2025-10-01T00:00:00Z"
+        - name: end_date
+          in: query
+          description: Filter calls before this date (ISO 8601 format)
+          required: false
+          type: string
+          format: date-time
+          example: "2025-10-31T23:59:59Z"
+        - name: status
+          in: query
+          description: Filter by call status
+          required: false
+          type: string
+          enum: [answered, missed, failed, completed]
+        - name: agent_id
+          in: query
+          description: Filter by agent configuration ID
+          required: false
+          type: string
+        - name: outcome
+          in: query
+          description: Filter by call outcome
+          required: false
+          type: string
+      produces:
+        - text/csv
+      responses:
+        200:
+          description: CSV file download
+          headers:
+            Content-Type:
+              type: string
+              description: text/csv; charset=utf-8
+            Content-Disposition:
+              type: string
+              description: attachment; filename="calls_export_YYYYMMDD_HHMMSS.csv"
+          schema:
+            type: file
+        401:
+          description: Authentication required
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        429:
+          description: Rate limit exceeded
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  /api/exports/leads:
+    get:
+      tags:
+        - CSV Exports
+      summary: Export campaign leads as CSV
+      description: |
+        Stream lead data as CSV with filtering by status, campaign, and source.
+
+        **Rate Limit**: HEAVY tier (10 requests per 60 seconds)
+
+        **Authentication**: Requires active session or X-User-Email header
+      security:
+        - SessionAuth: []
+        - EmailHeader: []
+      parameters:
+        - name: start_date
+          in: query
+          description: Filter leads created after this date
+          required: false
+          type: string
+          format: date-time
+        - name: end_date
+          in: query
+          description: Filter leads created before this date
+          required: false
+          type: string
+          format: date-time
+        - name: status
+          in: query
+          description: Filter by lead status
+          required: false
+          type: string
+          enum: [new, queued, calling, completed, failed, dnc]
+        - name: campaign_id
+          in: query
+          description: Filter by campaign ID
+          required: false
+          type: string
+        - name: source
+          in: query
+          description: Filter by lead source
+          required: false
+          type: string
+      produces:
+        - text/csv
+      responses:
+        200:
+          description: CSV file download
+          headers:
+            Content-Type:
+              type: string
+              description: text/csv; charset=utf-8
+            Content-Disposition:
+              type: string
+              description: attachment; filename="leads_export_YYYYMMDD_HHMMSS.csv"
+          schema:
+            type: file
+        401:
+          description: Authentication required
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        429:
+          description: Rate limit exceeded
+        500:
+          description: Internal server error
+
+  /api/exports/agents:
+    get:
+      tags:
+        - CSV Exports
+      summary: Export agent configurations as CSV
+      description: |
+        Stream agent configuration data as CSV with filtering by active status and mode.
+
+        **Rate Limit**: HEAVY tier (10 requests per 60 seconds)
+      security:
+        - SessionAuth: []
+        - EmailHeader: []
+      parameters:
+        - name: is_active
+          in: query
+          description: Filter by active status
+          required: false
+          type: boolean
+        - name: agent_mode
+          in: query
+          description: Filter by agent mode
+          required: false
+          type: string
+          enum: [inbound, outbound, both]
+      produces:
+        - text/csv
+      responses:
+        200:
+          description: CSV file download
+          schema:
+            type: file
+        401:
+          description: Authentication required
+        429:
+          description: Rate limit exceeded
+        500:
+          description: Internal server error
+
+  /api/exports/phone-numbers:
+    get:
+      tags:
+        - CSV Exports
+      summary: Export phone number mappings as CSV
+      description: |
+        Stream phone number configuration data with agent assignments.
+
+        **Rate Limit**: HEAVY tier (10 requests per 60 seconds)
+      security:
+        - SessionAuth: []
+        - EmailHeader: []
+      parameters:
+        - name: is_active
+          in: query
+          description: Filter by active status
+          required: false
+          type: boolean
+        - name: agent_id
+          in: query
+          description: Filter by assigned agent
+          required: false
+          type: string
+      produces:
+        - text/csv
+      responses:
+        200:
+          description: CSV file download
+          schema:
+            type: file
+        401:
+          description: Authentication required
+        429:
+          description: Rate limit exceeded
+        500:
+          description: Internal server error
+
+  /api/exports/events:
+    get:
+      tags:
+        - CSV Exports
+      summary: Export LiveKit call events as CSV
+      description: |
+        Stream LiveKit event logs for debugging and monitoring.
+
+        **Rate Limit**: HEAVY tier (10 requests per 60 seconds)
+      security:
+        - SessionAuth: []
+        - EmailHeader: []
+      parameters:
+        - name: start_date
+          in: query
+          description: Filter events after this date
+          required: false
+          type: string
+          format: date-time
+        - name: end_date
+          in: query
+          description: Filter events before this date
+          required: false
+          type: string
+          format: date-time
+        - name: event
+          in: query
+          description: Filter by event type
+          required: false
+          type: string
+        - name: room_name
+          in: query
+          description: Filter by room name
+          required: false
+          type: string
+      produces:
+        - text/csv
+      responses:
+        200:
+          description: CSV file download
+          schema:
+            type: file
+        401:
+          description: Authentication required
+        429:
+          description: Rate limit exceeded
+        500:
+          description: Internal server error
+
+  /api/exports/agent-configs:
+    get:
+      tags:
+        - CSV Exports
+      summary: Export detailed agent configurations
+      description: |
+        Stream comprehensive agent configuration data including instructions and voice settings.
+
+        **Rate Limit**: HEAVY tier (10 requests per 60 seconds)
+      security:
+        - SessionAuth: []
+        - EmailHeader: []
+      parameters:
+        - name: is_active
+          in: query
+          description: Filter by active status
+          required: false
+          type: boolean
+      produces:
+        - text/csv
+      responses:
+        200:
+          description: CSV file download
+          schema:
+            type: file
+        401:
+          description: Authentication required
+        429:
+          description: Rate limit exceeded
+        500:
+          description: Internal server error
+
+  /api/exports/sip-inbound-trunks:
+    get:
+      tags:
+        - CSV Exports
+      summary: Export SIP inbound trunk configurations
+      description: |
+        Stream SIP trunk configuration data for telephony integration.
+
+        **Rate Limit**: HEAVY tier (10 requests per 60 seconds)
+      security:
+        - SessionAuth: []
+        - EmailHeader: []
+      produces:
+        - text/csv
+      responses:
+        200:
+          description: CSV file download
+          schema:
+            type: file
+        401:
+          description: Authentication required
+        429:
+          description: Rate limit exceeded
+        500:
+          description: Internal server error
