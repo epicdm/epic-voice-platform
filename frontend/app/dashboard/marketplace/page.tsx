@@ -52,7 +52,7 @@ export default function MarketplacePage() {
         temperature: selectedTemplate.config.temperature || 0.7,
       }
       
-      await api.post('/api/user/agents', agentData)
+      await api.createAgent(agentData)
 
       toast.success('Agent created!', {
         description: `${selectedTemplate.name} has been created successfully.`,
