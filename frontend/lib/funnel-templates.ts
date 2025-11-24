@@ -3,9 +3,11 @@
  * Pre-built funnel workflows for common use cases
  */
 
+import { NodeType } from "@/types/funnel";
+
 export interface FunnelNodeTemplate {
   id: string;
-  node_type: "delay" | "call" | "email" | "sms" | "webhook" | "condition" | "end";
+  node_type: NodeType;
   label: string;
   config: Record<string, any>;
   position: { x: number; y: number };
@@ -41,7 +43,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
     nodes: [
       {
         id: "start-call",
-        node_type: "call",
+        node_type: NodeType.CALL,
         label: "Welcome Call",
         config: {
           agent_id: null, // User will select
@@ -51,7 +53,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "wait-1hr",
-        node_type: "delay",
+        node_type: NodeType.DELAY,
         label: "Wait 1 Hour",
         config: {
           duration: 3600, // 1 hour in seconds
@@ -60,7 +62,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "followup-email",
-        node_type: "email",
+        node_type: NodeType.EMAIL,
         label: "Follow-up Email",
         config: {
           subject: "Thanks for your interest!",
@@ -70,7 +72,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "wait-1day",
-        node_type: "delay",
+        node_type: NodeType.DELAY,
         label: "Wait 1 Day",
         config: {
           duration: 86400, // 24 hours
@@ -79,7 +81,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "reminder-sms",
-        node_type: "sms",
+        node_type: NodeType.SMS,
         label: "Reminder SMS",
         config: {
           message: "Hi! Just following up on our conversation.",
@@ -88,7 +90,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "end",
-        node_type: "end",
+        node_type: NodeType.END,
         label: "Complete",
         config: {},
         position: { x: 250, y: 700 },
@@ -112,7 +114,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
     nodes: [
       {
         id: "initial-call",
-        node_type: "call",
+        node_type: NodeType.CALL,
         label: "Qualification Call",
         config: {
           agent_id: null,
@@ -122,7 +124,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "check-interest",
-        node_type: "condition",
+        node_type: NodeType.CONDITION,
         label: "Check Interest Level",
         config: {
           condition: "call_outcome == 'interested'",
@@ -131,7 +133,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "hot-lead-sms",
-        node_type: "sms",
+        node_type: NodeType.SMS,
         label: "Hot Lead - Immediate SMS",
         config: {
           message: "Great! Our team will contact you within 24 hours.",
@@ -140,7 +142,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "nurture-email",
-        node_type: "email",
+        node_type: NodeType.EMAIL,
         label: "Not Ready - Nurture Email",
         config: {
           subject: "Stay in touch",
@@ -150,7 +152,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "hot-webhook",
-        node_type: "webhook",
+        node_type: NodeType.WEBHOOK,
         label: "Notify Sales Team",
         config: {
           url: "https://your-crm.com/webhook",
@@ -160,7 +162,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "end",
-        node_type: "end",
+        node_type: NodeType.END,
         label: "Complete",
         config: {},
         position: { x: 250, y: 650 },
@@ -185,7 +187,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
     nodes: [
       {
         id: "week-before-email",
-        node_type: "email",
+        node_type: NodeType.EMAIL,
         label: "1 Week Reminder",
         config: {
           subject: "Your event is coming up!",
@@ -195,7 +197,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "wait-5days",
-        node_type: "delay",
+        node_type: NodeType.DELAY,
         label: "Wait 5 Days",
         config: {
           duration: 432000, // 5 days
@@ -204,7 +206,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "day-before-sms",
-        node_type: "sms",
+        node_type: NodeType.SMS,
         label: "1 Day Before SMS",
         config: {
           message: "Reminder: Your event is tomorrow!",
@@ -213,7 +215,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "wait-20hrs",
-        node_type: "delay",
+        node_type: NodeType.DELAY,
         label: "Wait 20 Hours",
         config: {
           duration: 72000, // 20 hours
@@ -222,7 +224,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "day-of-call",
-        node_type: "call",
+        node_type: NodeType.CALL,
         label: "Event Day Call",
         config: {
           agent_id: null,
@@ -232,7 +234,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "end",
-        node_type: "end",
+        node_type: NodeType.END,
         label: "Complete",
         config: {},
         position: { x: 250, y: 700 },
@@ -256,7 +258,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
     nodes: [
       {
         id: "wait-2hrs",
-        node_type: "delay",
+        node_type: NodeType.DELAY,
         label: "Wait 2 Hours",
         config: {
           duration: 7200,
@@ -265,7 +267,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "reminder-email",
-        node_type: "email",
+        node_type: NodeType.EMAIL,
         label: "Cart Reminder Email",
         config: {
           subject: "You left items in your cart",
@@ -275,7 +277,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "wait-1day",
-        node_type: "delay",
+        node_type: NodeType.DELAY,
         label: "Wait 1 Day",
         config: {
           duration: 86400,
@@ -284,7 +286,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "personal-call",
-        node_type: "call",
+        node_type: NodeType.CALL,
         label: "Personal Outreach Call",
         config: {
           agent_id: null,
@@ -294,7 +296,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "discount-sms",
-        node_type: "sms",
+        node_type: NodeType.SMS,
         label: "10% Discount Offer",
         config: {
           message: "Complete your purchase now and get 10% off!",
@@ -303,7 +305,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "end",
-        node_type: "end",
+        node_type: NodeType.END,
         label: "Complete",
         config: {},
         position: { x: 250, y: 700 },
@@ -327,7 +329,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
     nodes: [
       {
         id: "welcome-call",
-        node_type: "call",
+        node_type: NodeType.CALL,
         label: "Welcome Call",
         config: {
           agent_id: null,
@@ -337,7 +339,7 @@ export const FUNNEL_TEMPLATES: FunnelTemplate[] = [
       },
       {
         id: "end",
-        node_type: "end",
+        node_type: NodeType.END,
         label: "Complete",
         config: {},
         position: { x: 250, y: 200 },
