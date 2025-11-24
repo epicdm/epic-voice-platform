@@ -73,16 +73,16 @@ export default function NodeConfigPanel({
               selectedKeys={[localConfig.method || "POST"]}
               onChange={(e) => updateField("method", e.target.value)}
             >
-              <SelectItem key="GET" value="GET">
+              <SelectItem key="GET">
                 GET
               </SelectItem>
-              <SelectItem key="POST" value="POST">
+              <SelectItem key="POST">
                 POST
               </SelectItem>
-              <SelectItem key="PUT" value="PUT">
+              <SelectItem key="PUT">
                 PUT
               </SelectItem>
-              <SelectItem key="PATCH" value="PATCH">
+              <SelectItem key="PATCH">
                 PATCH
               </SelectItem>
             </Select>
@@ -119,19 +119,19 @@ export default function NodeConfigPanel({
               selectedKeys={[localConfig.operator || "equals"]}
               onChange={(e) => updateField("operator", e.target.value)}
             >
-              <SelectItem key="equals" value="equals">
+              <SelectItem key="equals">
                 Equals
               </SelectItem>
-              <SelectItem key="not_equals" value="not_equals">
+              <SelectItem key="not_equals">
                 Not Equals
               </SelectItem>
-              <SelectItem key="greater_than" value="greater_than">
+              <SelectItem key="greater_than">
                 Greater Than
               </SelectItem>
-              <SelectItem key="less_than" value="less_than">
+              <SelectItem key="less_than">
                 Less Than
               </SelectItem>
-              <SelectItem key="contains" value="contains">
+              <SelectItem key="contains">
                 Contains
               </SelectItem>
             </Select>
