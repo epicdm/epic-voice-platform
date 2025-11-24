@@ -97,17 +97,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         )
 
         if (!hasGoogleAccount) {
+          const { randomUUID } = await import('crypto')
           await prisma.accounts.create({
             data: {
+              id: randomUUID(),
               userId: existingUser.id,
               type: account.type,
               provider: account.provider,
               providerAccountId: account.providerAccountId,
-              access_token: account.access_token,
-              expires_at: account.expires_at,
-              token_type: account.token_type,
-              scope: account.scope,
-              id_token: account.id_token,
+              access_token: account.access_token ?? null,
+              expires_at: account.expires_at ?? null,
+              token_type: account.token_type ?? null,
+              scope: account.scope ?? null,
+              id_token: account.id_token ?? null,
             }
           })
           console.log(`✅ Linked Google account for: ${user.email}`)
@@ -115,44 +117,36 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         // Create organization and trial if user doesn't have one
         if (existingUser.organizations.length === 0) {
+          const { randomUUID } = await import('crypto')
           const orgName = user.name ? `${user.name}'s Organization` : `${user.email}'s Organization`
           const trialDays = parseInt(process.env.TRIAL_DAYS || "14")
           const trialEndsAt = addDays(new Date(), trialDays)
-          
+
           await prisma.organizations.create({
             data: {
+              id: randomUUID(),
               name: orgName,
               ownerId: existingUser.id,
+              updatedAt: new Date(),
               memberships: {
                 create: {
+                  id: randomUUID(),
                   userId: existingUser.id,
                   role: "owner"
                 }
               },
-              subscription: {
+              subscriptions: {
                 create: {
+                  id: randomUUID(),
                   status: "trialing",
                   trialEndsAt: trialEndsAt,
                   provider: "stripe",
+                  updatedAt: new Date(),
                 }
               }
             }
           })
           console.log(`✅ Created org and trial for: ${user.email}`)
-          
-          // Send welcome email (non-blocking)
-          try {
-            const { sendWelcomeEmail } = await import('./lib/email')
-            await sendWelcomeEmail({
-              name: user.name || user.email?.split('@')[0] || 'there',
-              email: user.email,
-              trialEndsAt: trialEndsAt,
-              loginUrl: `${process.env.NEXTAUTH_URL}/dashboard`
-            })
-          } catch (emailError) {
-            console.error('Failed to send welcome email:', emailError)
-            // Don't block sign-in if email fails
-          }
         }
 
           // Update user.id to match database ID

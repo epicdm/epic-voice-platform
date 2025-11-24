@@ -39,13 +39,23 @@ export default function NewCampaignPage() {
     loadAgents()
   }, [])
 
+  interface AgentsResponse {
+    agents: Agent[]
+  }
+
   const loadAgents = async () => {
     try {
-      const response = await api.get('/api/user/agents')
+      const response = await api.get<AgentsResponse>('/api/user/agents')
       setAgents(response.agents || [])
     } catch (error) {
       console.error('Failed to load agents:', error)
     }
+  }
+
+  interface CreateCampaignResponse {
+    success: boolean
+    campaign_id: string
+    error?: string
   }
 
   const handleCreateCampaign = async () => {
@@ -65,7 +75,7 @@ export default function NewCampaignPage() {
         timezone: timezone
       }
 
-      const response = await api.post('/api/user/campaigns', {
+      const response = await api.post<CreateCampaignResponse>('/api/user/campaigns', {
         name: campaignName,
         description: campaignDescription,
         agent_id: selectedAgent || null,

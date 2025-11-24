@@ -45,6 +45,14 @@ interface CampaignCall {
   outcome?: CallOutcome
 }
 
+interface CampaignResponse {
+  campaign: Campaign
+}
+
+interface CallsResponse {
+  calls: CampaignCall[]
+}
+
 export default function CampaignDetailPage() {
   const router = useRouter()
   const params = useParams()
@@ -67,11 +75,11 @@ export default function CampaignDetailPage() {
       setError(null)
 
       // Load campaign details
-      const campaignResponse = await api.get(`/api/user/campaigns/${campaignId}`)
+      const campaignResponse = await api.get<CampaignResponse>(`/api/user/campaigns/${campaignId}`)
       setCampaign(campaignResponse.campaign)
 
       // Load campaign calls with outcomes
-      const callsResponse = await api.get(`/api/user/campaigns/${campaignId}/calls`)
+      const callsResponse = await api.get<CallsResponse>(`/api/user/campaigns/${campaignId}/calls`)
       setCalls(callsResponse.calls || [])
     } catch (err) {
       console.error('Failed to load campaign:', err)

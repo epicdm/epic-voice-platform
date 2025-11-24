@@ -107,7 +107,7 @@ export async function updateFunnel(
  * await deleteFunnel("funnel-uuid");
  */
 export async function deleteFunnel(id: string): Promise<void> {
-  return api.delete(`/api/user/funnels/${id}`);
+  return api.delete<void>(`/api/user/funnels/${id}`);
 }
 
 /**
@@ -178,7 +178,7 @@ export async function listFunnelExecutions(
   const query = queryParams.toString();
   const url = `/api/user/funnels/${funnelId}/executions${query ? `?${query}` : ""}`;
 
-  return api.get(url);
+  return api.get<{ executions: FunnelExecution[]; total: number }>(url);
 }
 
 /**
@@ -201,7 +201,7 @@ export async function addFunnelNode(
   funnelId: string,
   data: NodeCreatePayload
 ): Promise<{ node_id: string }> {
-  return api.post(`/api/user/funnels/${funnelId}/nodes`, data);
+  return api.post<{ node_id: string }>(`/api/user/funnels/${funnelId}/nodes`, data);
 }
 
 /**
@@ -217,7 +217,7 @@ export async function updateFunnelNode(
   nodeId: string,
   data: Partial<NodeCreatePayload>
 ): Promise<void> {
-  return api.put(`/api/user/funnels/${funnelId}/nodes/${nodeId}`, data);
+  return api.put<void>(`/api/user/funnels/${funnelId}/nodes/${nodeId}`, data);
 }
 
 /**
@@ -231,7 +231,7 @@ export async function deleteFunnelNode(
   funnelId: string,
   nodeId: string
 ): Promise<void> {
-  return api.delete(`/api/user/funnels/${funnelId}/nodes/${nodeId}`);
+  return api.delete<void>(`/api/user/funnels/${funnelId}/nodes/${nodeId}`);
 }
 
 /**
@@ -245,7 +245,7 @@ export async function addFunnelEdge(
   funnelId: string,
   data: EdgeCreatePayload
 ): Promise<{ edge_id: string }> {
-  return api.post(`/api/user/funnels/${funnelId}/edges`, data);
+  return api.post<{ edge_id: string }>(`/api/user/funnels/${funnelId}/edges`, data);
 }
 
 /**
@@ -259,5 +259,5 @@ export async function deleteFunnelEdge(
   funnelId: string,
   edgeId: string
 ): Promise<void> {
-  return api.delete(`/api/user/funnels/${funnelId}/edges/${edgeId}`);
+  return api.delete<void>(`/api/user/funnels/${funnelId}/edges/${edgeId}`);
 }

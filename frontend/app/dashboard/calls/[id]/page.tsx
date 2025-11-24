@@ -41,7 +41,7 @@ export default function CallDetailPage() {
       setError(null)
 
       // Load call details with outcome
-      const response = await api.get(`/api/v1/calls/${callId}`)
+      const response = await api.get<CallDetailResponse>(`/api/v1/calls/${callId}`)
       setCallData(response)
     } catch (err) {
       console.error('Failed to load call:', err)

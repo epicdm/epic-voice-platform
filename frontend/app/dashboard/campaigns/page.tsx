@@ -53,6 +53,11 @@ export default function CampaignsPage() {
     loadCampaigns()
   }, [pagination.page, statusFilter])
 
+  interface CampaignsResponse {
+    campaigns: Campaign[]
+    pagination: Pagination
+  }
+
   const loadCampaigns = async () => {
     try {
       setLoading(true)
@@ -63,7 +68,7 @@ export default function CampaignsPage() {
 
       if (statusFilter) params.append('status', statusFilter)
 
-      const response = await api.get(`/api/user/campaigns?${params}`)
+      const response = await api.get<CampaignsResponse>(`/api/user/campaigns?${params}`)
       setCampaigns(response.campaigns || [])
       setPagination(response.pagination)
     } catch (error) {
@@ -79,7 +84,7 @@ export default function CampaignsPage() {
     }
 
     try {
-      await api.delete(`/api/user/campaigns/${campaignId}`)
+      await api.delete<void>(`/api/user/campaigns/${campaignId}`)
       loadCampaigns()
     } catch (error) {
       console.error('Failed to delete campaign:', error)

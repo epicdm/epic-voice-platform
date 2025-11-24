@@ -33,11 +33,15 @@ export default function LeadUploadPage() {
   const [uploadErrors, setUploadErrors] = useState<UploadError[]>([])
   const [showResults, setShowResults] = useState(false)
 
+  interface CampaignsResponse {
+    campaigns: any[]
+  }
+
   // Load campaigns on mount
   useState(() => {
     const loadCampaigns = async () => {
       try {
-        const response = await api.get('/api/user/campaigns')
+        const response = await api.get<CampaignsResponse>('/api/user/campaigns')
         setCampaigns(response.campaigns || [])
       } catch (error) {
         console.error('Failed to load campaigns:', error)

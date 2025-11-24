@@ -69,6 +69,11 @@ export default function LeadsPage() {
     return () => clearTimeout(timer)
   }, [searchQuery])
 
+  interface LeadsResponse {
+    leads: Lead[]
+    pagination: Pagination
+  }
+
   const loadLeads = async () => {
     try {
       setLoading(true)
@@ -81,7 +86,7 @@ export default function LeadsPage() {
       if (statusFilter) params.append('status', statusFilter)
       if (campaignFilter) params.append('campaign_id', campaignFilter)
 
-      const response = await api.get(`/api/user/leads?${params}`)
+      const response = await api.get<LeadsResponse>(`/api/user/leads?${params}`)
       setLeads(response.leads || [])
       setPagination(response.pagination)
     } catch (error) {
@@ -91,9 +96,13 @@ export default function LeadsPage() {
     }
   }
 
+  interface CampaignsResponse {
+    campaigns: any[]
+  }
+
   const loadCampaigns = async () => {
     try {
-      const response = await api.get('/api/user/campaigns')
+      const response = await api.get<CampaignsResponse>('/api/user/campaigns')
       setCampaigns(response.campaigns || [])
     } catch (error) {
       console.error('Failed to load campaigns:', error)
@@ -104,7 +113,7 @@ export default function LeadsPage() {
     if (!confirm('Are you sure you want to delete this lead?')) return
 
     try {
-      await api.delete(`/api/user/leads/${leadId}`)
+      await api.delete<void>(`/api/user/leads/${leadId}`)
       loadLeads()
     } catch (error) {
       console.error('Failed to delete lead:', error)

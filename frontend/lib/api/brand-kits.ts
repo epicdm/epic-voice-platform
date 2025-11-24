@@ -107,11 +107,24 @@ export interface UpdateBrandKitInput {
   isDefault?: boolean;
 }
 
+// API Response interfaces
+interface BrandKitsListResponse {
+  data: BrandKit[];
+}
+
+interface BrandKitResponse {
+  data: BrandKit;
+}
+
+interface DefaultBrandKitResponse {
+  data: BrandKit | null;
+}
+
 /**
  * List all brand kits for current user
  */
 export async function listBrandKits(): Promise<BrandKit[]> {
-  const response = await api.get('/api/user/brand-kits');
+  const response = await api.get<BrandKitsListResponse>('/api/user/brand-kits');
   return response.data || [];
 }
 
@@ -119,7 +132,7 @@ export async function listBrandKits(): Promise<BrandKit[]> {
  * Get a specific brand kit by ID
  */
 export async function getBrandKit(id: string): Promise<BrandKit> {
-  const response = await api.get(`/api/user/brand-kits/${id}`);
+  const response = await api.get<BrandKitResponse>(`/api/user/brand-kits/${id}`);
   return response.data;
 }
 
@@ -127,7 +140,7 @@ export async function getBrandKit(id: string): Promise<BrandKit> {
  * Get user's default brand kit
  */
 export async function getDefaultBrandKit(): Promise<BrandKit | null> {
-  const response = await api.get('/api/user/brand-kits/default');
+  const response = await api.get<DefaultBrandKitResponse>('/api/user/brand-kits/default');
   return response.data;
 }
 
@@ -135,7 +148,7 @@ export async function getDefaultBrandKit(): Promise<BrandKit | null> {
  * Create a manual brand kit
  */
 export async function createBrandKit(input: CreateBrandKitInput): Promise<BrandKit> {
-  const response = await api.post('/api/user/brand-kits', input);
+  const response = await api.post<BrandKitResponse>('/api/user/brand-kits', input);
   return response.data;
 }
 
@@ -143,7 +156,7 @@ export async function createBrandKit(input: CreateBrandKitInput): Promise<BrandK
  * Extract brand kit from a website URL
  */
 export async function extractBrandKit(input: ExtractBrandKitInput): Promise<BrandKit> {
-  const response = await api.post('/api/user/brand-kits/extract', input);
+  const response = await api.post<BrandKitResponse>('/api/user/brand-kits/extract', input);
   return response.data;
 }
 
@@ -154,7 +167,7 @@ export async function updateBrandKit(
   id: string,
   input: UpdateBrandKitInput
 ): Promise<BrandKit> {
-  const response = await api.put(`/api/user/brand-kits/${id}`, input);
+  const response = await api.put<BrandKitResponse>(`/api/user/brand-kits/${id}`, input);
   return response.data;
 }
 
@@ -162,7 +175,7 @@ export async function updateBrandKit(
  * Set a brand kit as default
  */
 export async function setDefaultBrandKit(id: string): Promise<BrandKit> {
-  const response = await api.post(`/api/user/brand-kits/${id}/set-default`, {});
+  const response = await api.post<BrandKitResponse>(`/api/user/brand-kits/${id}/set-default`, {});
   return response.data;
 }
 
@@ -170,7 +183,7 @@ export async function setDefaultBrandKit(id: string): Promise<BrandKit> {
  * Refresh brand kit from source URL
  */
 export async function refreshBrandKit(id: string): Promise<BrandKit> {
-  const response = await api.post(`/api/user/brand-kits/${id}/refresh`, {});
+  const response = await api.post<BrandKitResponse>(`/api/user/brand-kits/${id}/refresh`, {});
   return response.data;
 }
 
@@ -178,5 +191,5 @@ export async function refreshBrandKit(id: string): Promise<BrandKit> {
  * Delete a brand kit
  */
 export async function deleteBrandKit(id: string): Promise<void> {
-  await api.delete(`/api/user/brand-kits/${id}`);
+  await api.delete<void>(`/api/user/brand-kits/${id}`);
 }

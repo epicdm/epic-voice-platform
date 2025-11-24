@@ -64,7 +64,7 @@ function SettingsContent() {
 
     try {
       // Call PUT /api/user/profile
-      await api.put("/api/user/profile", data);
+      await api.put<void>("/api/user/profile", data);
 
       // Success toast (FR-UX-003)
       toast.success("Profile updated successfully", {
