@@ -162,7 +162,7 @@ export async function updateBrandKit(
  * Set a brand kit as default
  */
 export async function setDefaultBrandKit(id: string): Promise<BrandKit> {
-  const response = await api.post(`/api/user/brand-kits/${id}/set-default`);
+  const response = await api.post(`/api/user/brand-kits/${id}/set-default`, {});
   return response.data;
 }
 
