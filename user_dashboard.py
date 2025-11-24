@@ -150,13 +150,17 @@ from backend.agent_tools.routes import register_agent_tools_routes
 register_agent_tools_routes(app)
 
 # Enable CORS for frontend (including WebSocket)
+# When using credentials, specific origins must be listed (cannot use wildcard)
 CORS(app, supports_credentials=True, origins=[
     'http://localhost:3001',
     'http://localhost:3000',
     'http://localhost:3003',
     'https://ai.epic.dm',
-    'http://ai.epic.dm'
-], resources={r"/*": {"origins": "*"}})
+    'http://ai.epic.dm',
+    'https://epic-voice-platform.vercel.app',
+    'https://epic-voice-platform-d3ppl1fw5.vercel.app',
+    'https://epic-voice-platform-khm464elm.vercel.app'
+])
 
 # Swagger/OpenAPI Documentation Configuration
 swagger_template = {

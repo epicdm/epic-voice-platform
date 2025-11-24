@@ -1,6 +1,8 @@
 export const api = {
   async get<T = any>(url: string): Promise<T> {
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      credentials: 'include',
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
     // Unwrap { success: true, data: ... } responses
@@ -10,6 +12,7 @@ export const api = {
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify(data),
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -21,6 +24,7 @@ export const api = {
     const res = await fetch(url, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify(data),
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -29,7 +33,10 @@ export const api = {
     return json.data !== undefined ? json.data : json;
   },
   async delete<T = any>(url: string): Promise<T> {
-    const res = await fetch(url, { method: "DELETE" });
+    const res = await fetch(url, {
+      method: "DELETE",
+      credentials: 'include',
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
     // Unwrap { success: true, data: ... } responses
