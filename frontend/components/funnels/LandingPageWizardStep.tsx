@@ -200,7 +200,7 @@ export default function LandingPageWizardStep({
             <Textarea
               label="What is this landing page for?"
               placeholder="Example: Real estate lead generation - free home valuation for homeowners considering selling"
-              value={purpose}
+
               onChange={(e) => setPurpose(e.target.value)}
               minRows={3}
               isRequired
@@ -214,28 +214,28 @@ export default function LandingPageWizardStep({
                 onChange={(e) => setIndustry(e.target.value)}
                 description="Helps AI choose appropriate language"
               >
-                <SelectItem key="general" value="general">
+                <SelectItem key="general">
                   General / Other
                 </SelectItem>
-                <SelectItem key="real_estate" value="real_estate">
+                <SelectItem key="real_estate">
                   Real Estate
                 </SelectItem>
-                <SelectItem key="healthcare" value="healthcare">
+                <SelectItem key="healthcare">
                   Healthcare
                 </SelectItem>
-                <SelectItem key="finance" value="finance">
+                <SelectItem key="finance">
                   Finance
                 </SelectItem>
-                <SelectItem key="legal" value="legal">
+                <SelectItem key="legal">
                   Legal
                 </SelectItem>
-                <SelectItem key="automotive" value="automotive">
+                <SelectItem key="automotive">
                   Automotive
                 </SelectItem>
-                <SelectItem key="technology" value="technology">
+                <SelectItem key="technology">
                   Technology
                 </SelectItem>
-                <SelectItem key="education" value="education">
+                <SelectItem key="education">
                   Education
                 </SelectItem>
               </Select>
@@ -246,13 +246,13 @@ export default function LandingPageWizardStep({
                 onChange={(e) => setTone(e.target.value)}
                 description="Voice and personality"
               >
-                <SelectItem key="professional" value="professional">
+                <SelectItem key="professional">
                   Professional
                 </SelectItem>
-                <SelectItem key="friendly" value="friendly">
+                <SelectItem key="friendly">
                   Friendly & Casual
                 </SelectItem>
-                <SelectItem key="urgent" value="urgent">
+                <SelectItem key="urgent">
                   Urgent & Direct
                 </SelectItem>
               </Select>
@@ -314,7 +314,7 @@ export default function LandingPageWizardStep({
           <div className="grid grid-cols-1 gap-4">
             <Input
               label="Headline"
-              value={config.headline}
+
               onChange={(e) => updateConfig({ headline: e.target.value })}
               placeholder="Get Your Free Consultation"
               description="6-10 words, benefit-focused"
@@ -323,7 +323,7 @@ export default function LandingPageWizardStep({
 
             <Input
               label="Subheadline"
-              value={config.subheadline}
+
               onChange={(e) => updateConfig({ subheadline: e.target.value })}
               placeholder="Talk to an expert in minutes, not days"
               description="15-25 words, expand on headline"
@@ -332,7 +332,7 @@ export default function LandingPageWizardStep({
 
             <Textarea
               label="Description"
-              value={config.description}
+
               onChange={(e) => updateConfig({ description: e.target.value })}
               placeholder="Our AI assistant will call you within 60 seconds..."
               minRows={3}
@@ -345,7 +345,7 @@ export default function LandingPageWizardStep({
               {config.benefits.map((benefit, index) => (
                 <Input
                   key={index}
-                  value={benefit}
+
                   onChange={(e) => updateBenefit(index, e.target.value)}
                   placeholder={`Benefit ${index + 1}`}
                   startContent={<span className="text-green-600">✓</span>}
@@ -356,7 +356,7 @@ export default function LandingPageWizardStep({
             <div className="grid grid-cols-2 gap-4">
               <Input
                 label="CTA Button Text"
-                value={config.cta_text}
+
                 onChange={(e) => updateConfig({ cta_text: e.target.value })}
                 placeholder="Get My Free Call"
                 description="2-4 words, action-oriented"
@@ -364,7 +364,7 @@ export default function LandingPageWizardStep({
 
               <Input
                 label="Success Message"
-                value={config.success_message}
+
                 onChange={(e) => updateConfig({ success_message: e.target.value })}
                 placeholder="We'll call you in 60 seconds!"
                 description="Shown after form submission"
@@ -375,7 +375,7 @@ export default function LandingPageWizardStep({
             <Card className="border border-gray-200">
               <CardBody className="space-y-3 p-4">
                 <BrandKitSelector
-                  value={brandKitId}
+
                   onChange={handleBrandKitChange}
                   label="Brand Kit (Optional)"
                   description="Select a brand kit to auto-populate colors and branding"
@@ -402,7 +402,7 @@ export default function LandingPageWizardStep({
                     <div className="flex items-center gap-2">
                       <input
                         type="color"
-                        value={config.theme.primary_color}
+
                         onChange={(e) =>
                           updateConfig({
                             theme: { ...config.theme, primary_color: e.target.value },
@@ -411,7 +411,7 @@ export default function LandingPageWizardStep({
                         className="h-10 w-16 rounded border cursor-pointer"
                       />
                       <Input
-                        value={config.theme.primary_color}
+
                         onChange={(e) =>
                           updateConfig({
                             theme: { ...config.theme, primary_color: e.target.value },
@@ -427,7 +427,7 @@ export default function LandingPageWizardStep({
                     <div className="flex items-center gap-2">
                       <input
                         type="color"
-                        value={config.theme.accent_color}
+
                         onChange={(e) =>
                           updateConfig({
                             theme: { ...config.theme, accent_color: e.target.value },
@@ -436,7 +436,7 @@ export default function LandingPageWizardStep({
                         className="h-10 w-16 rounded border cursor-pointer"
                       />
                       <Input
-                        value={config.theme.accent_color}
+
                         onChange={(e) =>
                           updateConfig({
                             theme: { ...config.theme, accent_color: e.target.value },
