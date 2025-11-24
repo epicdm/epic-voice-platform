@@ -46,7 +46,7 @@ export function AgentWizardStep4() {
   const handleProvisionNumber = async () => {
     setIsProvisioning(true);
     try {
-      const result = await api.post<{ phoneNumber: PhoneNumber }>("/api/user/phone-numbers/provision", {
+      const result = await api.post<{ phoneNumber: PhoneNumber } | { data: { phoneNumber: PhoneNumber } }>("/api/user/phone-numbers/provision", {
         country: "Dominica",
         prefix: "1767818",
         use_magnus: true,
@@ -55,14 +55,14 @@ export function AgentWizardStep4() {
       // Handle response structure - API route may double-wrap the backend response
       // Backend returns: { success: true, data: { phoneNumber: {...} } }
       // After api-client unwrapping: either { phoneNumber: {...} } or { data: { phoneNumber: {...} } }
-      const phoneNumber = result.data?.phoneNumber || result.phoneNumber;
+      const phoneNumber = 'data' in result ? result.data.phoneNumber : result.phoneNumber;
 
       if (!phoneNumber) {
         throw new Error("Invalid response from server - missing phone number data");
       }
 
       toast.success("Phone number provisioned successfully!", {
-        description: `${formatPhoneNumber(phoneNumber.phone_number)} is now available`,
+        description: `${formatPhoneNumber(phoneNumber.phoneNumber)} is now available`,
       });
 
       // Refresh phone numbers list
