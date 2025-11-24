@@ -81,13 +81,13 @@ export function AgentWizardStep1() {
     setValue("description", template.description, { shouldValidate: true, shouldDirty: true });
     setValue("instructions", template.config.instructions, { shouldValidate: true, shouldDirty: true });
 
-    // Set model and voice from template config
-    setValue("llm_model", template.config.llm_model, { shouldValidate: true });
-    setValue("voice", template.config.voice, { shouldValidate: true });
-    setValue("temperature", 0.7, { shouldValidate: true });
-    setValue("vad_enabled", template.config.vad_enabled, { shouldValidate: true });
-    setValue("noise_cancellation", true, { shouldValidate: true });
-    setValue("turn_detection", "semantic", { shouldValidate: true });
+    // Set voice and other config from template
+    if (template.config.voice) {
+      setValue("voice", template.config.voice, { shouldValidate: true });
+    }
+    if (template.config.temperature !== undefined) {
+      setValue("temperature", template.config.temperature, { shouldValidate: true });
+    }
 
     // Note: Tools configuration will be handled in Step 5
   };
