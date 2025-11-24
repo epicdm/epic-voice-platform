@@ -299,19 +299,19 @@ export default function FunnelCreationWizard({ isOpen, onClose }: WizardProps) {
             selectedKeys={[triggerType]}
             onChange={(e) => setTriggerType(e.target.value)}
           >
-            <SelectItem key="landing_page" value="landing_page">
+            <SelectItem key="landing_page">
               Landing Page - Trigger from landing page submission
             </SelectItem>
-            <SelectItem key="lead_created" value="lead_created">
+            <SelectItem key="lead_created">
               Lead Created - Trigger when new lead is created
             </SelectItem>
-            <SelectItem key="api_trigger" value="api_trigger">
+            <SelectItem key="api_trigger">
               API Trigger - Start manually via API
             </SelectItem>
-            <SelectItem key="scheduled" value="scheduled">
+            <SelectItem key="scheduled">
               Scheduled - Run on a schedule
             </SelectItem>
-            <SelectItem key="webhook_trigger" value="webhook_trigger">
+            <SelectItem key="webhook_trigger">
               Webhook - Trigger via external webhook
             </SelectItem>
           </Select>
