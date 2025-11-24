@@ -37,9 +37,11 @@ const TEMPLATE_UI_CONFIG: Record<string, { color: string; badge?: string }> = {
 
 // Category to color mapping
 const CATEGORY_COLORS: Record<string, string> = {
-  "support": "from-blue-500 to-cyan-500",
+  "customer_service": "from-blue-500 to-cyan-500",
   "sales": "from-green-500 to-emerald-500",
-  "scheduling": "from-purple-500 to-pink-500",
+  "appointment": "from-purple-500 to-pink-500",
+  "survey": "from-yellow-500 to-orange-500",
+  "support": "from-indigo-500 to-purple-500",
 };
 
 export function AgentWizardStep1() {
@@ -53,8 +55,8 @@ export function AgentWizardStep1() {
 
   // Get templates for selected category
   const getTemplatesForCategory = (categoryId: string) => {
-    if (categoryId === "custom") return [];
-    return AGENT_TEMPLATES.filter(t => t.category.toLowerCase() === categoryId.toLowerCase());
+    if (categoryId === "custom" || categoryId === "all") return [];
+    return AGENT_TEMPLATES.filter(t => t.category === categoryId);
   };
 
   const categoryTemplates = selectedCategory ? getTemplatesForCategory(selectedCategory) : [];
@@ -115,7 +117,7 @@ export function AgentWizardStep1() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[...TEMPLATE_CATEGORIES, { id: "custom", name: "Custom", icon: "✨", count: 0 }].map((category) => {
+            {[...TEMPLATE_CATEGORIES.filter(c => c.id !== 'all'), { id: "custom", name: "Custom", icon: "✨", count: 0 }].map((category) => {
               const color = CATEGORY_COLORS[category.id] || "from-gray-500 to-gray-600";
 
               return (
