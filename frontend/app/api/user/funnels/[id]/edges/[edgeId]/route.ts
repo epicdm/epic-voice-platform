@@ -31,10 +31,8 @@ async function getUserEmail(request: NextRequest): Promise<string | null> {
  */
 export async function DELETE(
   request: NextRequest,
-
-  props: { params: Promise<{ id: string; edgeId: string }> }
+  { params }: { params: { id: string; edgeId: string } }
 ) {
-  const params = await props.params
   try {
     const userEmail = await getUserEmail(request);
 

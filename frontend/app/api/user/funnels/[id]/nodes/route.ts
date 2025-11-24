@@ -16,10 +16,8 @@ const FLASK_API_URL = process.env.FLASK_API_URL || "http://localhost:5001";
  */
 export async function POST(
   request: NextRequest,
-
-  props: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const params = await props.params
   try {
     // LOCALHOST BYPASS: Use test user email for local development
     const hostname = request.headers.get('host') || '';

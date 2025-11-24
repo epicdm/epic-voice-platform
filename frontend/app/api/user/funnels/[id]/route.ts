@@ -43,10 +43,8 @@ function wrapError(message: string, code: string, status = 500) {
  */
 export async function GET(
   request: NextRequest,
-
-  props: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const params = await props.params
   try {
     const userEmail = await getUserEmail(request);
 
@@ -86,10 +84,8 @@ export async function GET(
  */
 export async function PUT(
   request: NextRequest,
-
-  props: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const params = await props.params
   try {
     const userEmail = await getUserEmail(request);
 
@@ -131,10 +127,8 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-
-  props: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const params = await props.params
   try {
     const userEmail = await getUserEmail(request);
 
