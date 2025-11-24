@@ -109,7 +109,7 @@ export function BrandKitSelector({
           {brandKits.map((kit) => (
             <SelectItem
               key={kit.id}
-              value={kit.id}
+
               textValue={kit.name}
             >
               <div className="flex items-center gap-2">
