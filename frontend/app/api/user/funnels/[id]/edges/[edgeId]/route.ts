@@ -31,7 +31,7 @@ async function getUserEmail(request: NextRequest): Promise<string | null> {
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string; edgeId: string } }
+  { params }: { params: Promise<{ id: string; edgeId: string }> }
 ) {
   try {
     const userEmail = await getUserEmail(request);
@@ -40,7 +40,7 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id, edgeId } = params;
+    const { id, edgeId } = await params;
 
     // Delete edge via Flask backend
     const response = await fetch(

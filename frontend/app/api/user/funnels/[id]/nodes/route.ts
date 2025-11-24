@@ -16,7 +16,7 @@ const FLASK_API_URL = process.env.FLASK_API_URL || "http://localhost:5001";
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // LOCALHOST BYPASS: Use test user email for local development
@@ -38,7 +38,7 @@ export async function POST(
       userEmail = session.user.email;
     }
 
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
 
     // Add node via Flask backend

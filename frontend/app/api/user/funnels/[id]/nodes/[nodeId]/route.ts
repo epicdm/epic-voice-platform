@@ -32,7 +32,7 @@ async function getUserEmail(request: NextRequest): Promise<string | null> {
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string; nodeId: string } }
+  { params }: { params: Promise<{ id: string; nodeId: string }> }
 ) {
   try {
     const userEmail = await getUserEmail(request);
@@ -41,7 +41,7 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id, nodeId } = params;
+    const { id, nodeId } = await params;
     const body = await request.json();
 
     // Update node via Flask backend
@@ -84,7 +84,7 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string; nodeId: string } }
+  { params }: { params: Promise<{ id: string; nodeId: string }> }
 ) {
   try {
     const userEmail = await getUserEmail(request);
@@ -93,7 +93,7 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id, nodeId } = params;
+    const { id, nodeId } = await params;
 
     // Delete node via Flask backend
     const response = await fetch(

@@ -43,7 +43,7 @@ function wrapError(message: string, code: string, status = 500) {
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const userEmail = await getUserEmail(request);
@@ -52,7 +52,7 @@ export async function GET(
       return wrapError("Unauthorized", "UNAUTHORIZED", 401);
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     // Fetch from Flask backend
     const response = await fetch(`${FLASK_API_URL}/api/funnels/${id}`, {
@@ -84,7 +84,7 @@ export async function GET(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const userEmail = await getUserEmail(request);
@@ -93,7 +93,7 @@ export async function PUT(
       return wrapError("Unauthorized", "UNAUTHORIZED", 401);
     }
 
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
 
     // Update via Flask backend
@@ -127,7 +127,7 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const userEmail = await getUserEmail(request);
@@ -136,7 +136,7 @@ export async function DELETE(
       return wrapError("Unauthorized", "UNAUTHORIZED", 401);
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     // Delete via Flask backend
     const response = await fetch(`${FLASK_API_URL}/api/funnels/${id}`, {
