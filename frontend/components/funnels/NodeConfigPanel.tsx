@@ -41,7 +41,7 @@ export default function NodeConfigPanel({
             <Input
               label="Duration (seconds)"
               type="number"
-              value={String(localConfig.duration || 60)}
+
               onChange={(e) => updateField("duration", parseInt(e.target.value))}
               placeholder="60"
               description="How long to wait before proceeding"
@@ -63,7 +63,7 @@ export default function NodeConfigPanel({
           <div className="space-y-4">
             <Input
               label="URL"
-              value={localConfig.url || ""}
+
               onChange={(e) => updateField("url", e.target.value)}
               placeholder="https://api.example.com/webhook"
               description="Webhook endpoint URL"
@@ -73,22 +73,22 @@ export default function NodeConfigPanel({
               selectedKeys={[localConfig.method || "POST"]}
               onChange={(e) => updateField("method", e.target.value)}
             >
-              <SelectItem key="GET" value="GET">
+              <SelectItem key="GET">
                 GET
               </SelectItem>
-              <SelectItem key="POST" value="POST">
+              <SelectItem key="POST">
                 POST
               </SelectItem>
-              <SelectItem key="PUT" value="PUT">
+              <SelectItem key="PUT">
                 PUT
               </SelectItem>
-              <SelectItem key="PATCH" value="PATCH">
+              <SelectItem key="PATCH">
                 PATCH
               </SelectItem>
             </Select>
             <Textarea
               label="Headers (JSON)"
-              value={JSON.stringify(localConfig.headers || {}, null, 2)}
+, null, 2)}
               onChange={(e) => {
                 try {
                   const headers = JSON.parse(e.target.value);
@@ -109,7 +109,7 @@ export default function NodeConfigPanel({
           <div className="space-y-4">
             <Input
               label="Field"
-              value={localConfig.field || ""}
+
               onChange={(e) => updateField("field", e.target.value)}
               placeholder="contact.email"
               description="Field to check (e.g., contact.email, call.duration)"
@@ -119,25 +119,25 @@ export default function NodeConfigPanel({
               selectedKeys={[localConfig.operator || "equals"]}
               onChange={(e) => updateField("operator", e.target.value)}
             >
-              <SelectItem key="equals" value="equals">
+              <SelectItem key="equals">
                 Equals
               </SelectItem>
-              <SelectItem key="not_equals" value="not_equals">
+              <SelectItem key="not_equals">
                 Not Equals
               </SelectItem>
-              <SelectItem key="greater_than" value="greater_than">
+              <SelectItem key="greater_than">
                 Greater Than
               </SelectItem>
-              <SelectItem key="less_than" value="less_than">
+              <SelectItem key="less_than">
                 Less Than
               </SelectItem>
-              <SelectItem key="contains" value="contains">
+              <SelectItem key="contains">
                 Contains
               </SelectItem>
             </Select>
             <Input
               label="Value"
-              value={localConfig.value || ""}
+
               onChange={(e) => updateField("value", e.target.value)}
               placeholder="expected value"
               description="Value to compare against"
@@ -160,7 +160,7 @@ export default function NodeConfigPanel({
           <div className="space-y-4">
             <Textarea
               label="Configuration (JSON)"
-              value={JSON.stringify(localConfig, null, 2)}
+
               onChange={(e) => {
                 try {
                   const config = JSON.parse(e.target.value);
@@ -240,7 +240,7 @@ function CallNodeConfig({ localConfig, updateField }: {
         {agents.map((agent) => (
           <SelectItem
             key={agent.id}
-            value={agent.id}
+
             textValue={agent.name}
             description={`${agent.phone_number || 'No phone'} • ${agent.voice || 'default'}`}
           >
@@ -324,7 +324,7 @@ function CallNodeConfig({ localConfig, updateField }: {
       <Input
         label="Max Duration (seconds)"
         type="number"
-        value={String(localConfig.max_duration || 300)}
+
         onChange={(e) => updateField("max_duration", parseInt(e.target.value) || 300)}
         placeholder="300"
         description="Maximum call duration (default: 5 minutes)"
@@ -360,7 +360,7 @@ function EmailNodeConfig({ localConfig, updateField }: {
     <div className="space-y-4">
       <Input
         label="Subject Line"
-        value={localConfig.subject || ""}
+
         onChange={(e) => updateField("subject", e.target.value)}
         placeholder="Thanks for your interest, {{contact.name}}!"
         isRequired
@@ -369,7 +369,7 @@ function EmailNodeConfig({ localConfig, updateField }: {
 
       <Textarea
         label="Email Body (Plain Text)"
-        value={localConfig.body || ""}
+
         onChange={(e) => updateField("body", e.target.value)}
         placeholder={`Hi {{contact.name}},\n\nThanks for reaching out...\n\nBest regards,\nYour Team`}
         minRows={8}
@@ -378,7 +378,7 @@ function EmailNodeConfig({ localConfig, updateField }: {
 
       <Textarea
         label="HTML Body (Optional)"
-        value={localConfig.html_body || ""}
+
         onChange={(e) => updateField("html_body", e.target.value)}
         placeholder="<html><body><h1>Hello {{contact.name}}</h1>...</body></html>"
         minRows={6}
@@ -466,7 +466,7 @@ function SmsNodeConfig({ localConfig, updateField }: {
     <div className="space-y-4">
       <Textarea
         label="SMS Message"
-        value={message}
+
         onChange={(e) => updateField("message", e.target.value)}
         placeholder="Hi {{contact.name}}, thanks for your interest!"
         minRows={3}
