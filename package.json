@@ -1,4 +1,10 @@
 {
+  "name": "epic-voice-platform",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "vercel-build": "cd frontend && npm install --legacy-peer-deps && npm run build"
+  },
   "dependencies": {
     "dotenv": "^17.2.3",
     "resend": "^6.2.2"
