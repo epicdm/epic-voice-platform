@@ -278,7 +278,7 @@ export default function FunnelCreationWizard({ isOpen, onClose }: WizardProps) {
           <Input
             label="Funnel Name"
             placeholder="Welcome Funnel"
-            value={name}
+
             onChange={(e) => setName(e.target.value)}
             isRequired
             autoFocus
@@ -288,7 +288,7 @@ export default function FunnelCreationWizard({ isOpen, onClose }: WizardProps) {
           <Textarea
             label="Description"
             placeholder="Describe what this funnel does..."
-            value={description}
+
             onChange={(e) => setDescription(e.target.value)}
             minRows={3}
           />
@@ -396,7 +396,7 @@ export default function FunnelCreationWizard({ isOpen, onClose }: WizardProps) {
               {agents.map((agent) => (
                 <SelectItem
                   key={agent.id}
-                  value={agent.id}
+
                   textValue={agent.name}
                   description={`${agent.phone_number || "No phone"} • ${agent.voice || "default"}`}
                 >
@@ -479,7 +479,7 @@ export default function FunnelCreationWizard({ isOpen, onClose }: WizardProps) {
             <Input
               label="Max Duration (seconds)"
               type="number"
-              value={String(config.max_duration || 300)}
+
               onChange={(e) =>
                 updateNodeConfig(currentNode.id, {
                   ...config,
@@ -501,7 +501,7 @@ export default function FunnelCreationWizard({ isOpen, onClose }: WizardProps) {
 
             <Input
               label="Subject Line"
-              value={config.subject || ""}
+
               onChange={(e) =>
                 updateNodeConfig(currentNode.id, { ...config, subject: e.target.value })
               }
@@ -512,7 +512,7 @@ export default function FunnelCreationWizard({ isOpen, onClose }: WizardProps) {
 
             <Textarea
               label="Email Body"
-              value={config.body || ""}
+
               onChange={(e) =>
                 updateNodeConfig(currentNode.id, { ...config, body: e.target.value })
               }
@@ -558,7 +558,7 @@ export default function FunnelCreationWizard({ isOpen, onClose }: WizardProps) {
 
             <Textarea
               label="SMS Message"
-              value={message}
+
               onChange={(e) =>
                 updateNodeConfig(currentNode.id, { ...config, message: e.target.value })
               }
@@ -806,7 +806,7 @@ export default function FunnelCreationWizard({ isOpen, onClose }: WizardProps) {
               <div className="w-full">
                 <h2 className="text-xl font-bold">Create New Funnel</h2>
                 <p className="text-sm font-normal text-gray-500 mt-1">{currentStepInfo.description}</p>
-                <Progress value={progress} className="mt-3" color="primary" size="sm" />
+                <Progress className="mt-3" color="primary" size="sm" />
               </div>
             </ModalHeader>
 
