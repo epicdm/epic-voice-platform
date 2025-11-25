@@ -2869,6 +2869,9 @@ def get_user_phone_numbers():
 def provision_phone_number():
     try:
         """Provision a new phone number for the user"""
+        from phone_number_manager import PhoneNumberPool
+        import os
+
         user_id = get_current_user_id()
         if not user_id:
             return jsonify({'error': 'No user found'}), 404
@@ -2891,7 +2894,6 @@ def provision_phone_number():
                     magnus_data = magnus_result
 
                     # Get LiveKit SIP domain from environment
-                    import os
                     livekit_sip_domain = os.getenv('LIVEKIT_SIP_DOMAIN', '3m4yki5jezn.sip.livekit.cloud')
 
                     # Generate password for SIP user (will be used for LiveKit outbound trunk)
@@ -2982,7 +2984,6 @@ def provision_phone_number():
                         )
 
                     # Step 5: Store all credentials and trunk IDs in database
-                    from phone_number_manager import PhoneNumberPool
                     pool_number = db.query(PhoneNumberPool).filter(
                         PhoneNumberPool.phone_number == phone_number
                     ).first()
