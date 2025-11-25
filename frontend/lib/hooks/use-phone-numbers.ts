@@ -11,7 +11,8 @@ export function usePhoneNumbers() {
         return res.json();
       })
       .then((data) => {
-        setPhoneNumbers(Array.isArray(data) ? data : []);
+        // API returns { success: true, data: [...] }
+        setPhoneNumbers(data.data || []);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -27,7 +28,7 @@ export function usePhoneNumbers() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })
-      .then((data) => setPhoneNumbers(Array.isArray(data) ? data : []))
+      .then((data) => setPhoneNumbers(data.data || []))
       .catch((err) => {
         console.error("Failed to refresh phone numbers:", err);
         setPhoneNumbers([]);
