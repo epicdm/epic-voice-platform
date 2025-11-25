@@ -3,10 +3,11 @@
 import { Button } from "@heroui/react";
 
 interface ManageSubscriptionButtonProps {
+  customerId?: string;
   variant?: "solid" | "bordered" | "light" | "flat" | "faded" | "shadow" | "ghost";
 }
 
-export function ManageSubscriptionButton({ variant = "solid" }: ManageSubscriptionButtonProps) {
+export function ManageSubscriptionButton({ customerId, variant = "solid" }: ManageSubscriptionButtonProps) {
   const handleClick = async () => {
     // TODO: Implement Stripe customer portal redirect
     window.location.href = "/dashboard/billing";
@@ -18,3 +19,5 @@ export function ManageSubscriptionButton({ variant = "solid" }: ManageSubscripti
     </Button>
   );
 }
+
+export default ManageSubscriptionButton;

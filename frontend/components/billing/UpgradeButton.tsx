@@ -2,10 +2,24 @@
 
 import { Button } from "@heroui/react";
 
-export function UpgradeButton() {
+interface UpgradeButtonProps {
+  priceId?: string;
+  planName?: string;
+  variant?: "solid" | "bordered" | "light" | "flat" | "faded" | "shadow" | "ghost";
+  size?: "sm" | "md" | "lg";
+}
+
+export function UpgradeButton({ priceId, planName, variant = "solid", size = "md" }: UpgradeButtonProps) {
   return (
-    <Button color="primary" onClick={() => window.location.href = "/dashboard/billing"}>
-      Upgrade Plan
+    <Button
+      color="primary"
+      variant={variant}
+      size={size}
+      onClick={() => window.location.href = "/dashboard/billing"}
+    >
+      {planName ? `Upgrade to ${planName}` : "Upgrade Plan"}
     </Button>
   );
 }
+
+export default UpgradeButton;
