@@ -43,7 +43,7 @@ from n8n_integration.sync import sync_funnel, activate_workflow, deactivate_work
 logger = logging.getLogger(__name__)
 
 # Create Flask blueprint
-funnel_bp = Blueprint("funnels", __name__, url_prefix="/api/funnels")
+funnel_bp = Blueprint("funnels", __name__, url_prefix="/api/user/funnels")
 
 
 def get_db() -> Session:

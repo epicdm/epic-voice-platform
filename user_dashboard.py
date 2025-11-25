@@ -106,7 +106,7 @@ print("✅ Live Listen API registered at /api/live-listen")
 # Register Funnel Engine API
 from backend.funnel_engine.routes import funnel_bp
 app.register_blueprint(funnel_bp)
-print("✅ Funnel Engine API registered at /api/funnels")
+print("✅ Funnel Engine API registered at /api/user/funnels")
 
 # Register Funnel Webhook API
 from backend.funnel_engine.webhooks import funnel_webhook_bp
