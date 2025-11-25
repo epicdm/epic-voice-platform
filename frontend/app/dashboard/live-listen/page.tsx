@@ -136,11 +136,11 @@ export default function LiveListenPage() {
       {listeningTo && (
         <div className="mb-6">
           <AudioPlayer
+            token={listeningTo.token}
+            serverUrl={listeningTo.livekit_url}
             roomName={listeningTo.room_name}
+            onDisconnect={handleDisconnect}
           />
-          <Button onClick={handleDisconnect} variant="flat" color="danger" className="mt-3">
-            Disconnect
-          </Button>
         </div>
       )}
 

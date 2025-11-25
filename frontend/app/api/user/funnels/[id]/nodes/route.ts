@@ -1,6 +1,6 @@
 /**
  * Funnel Nodes API Route
- * Proxies requests to Flask backend /api/user/funnels/:id/nodes
+ * Proxies requests to Flask backend /api/funnels/:id/nodes
  *
  * POST /api/user/funnels/:id/nodes - Add node to funnel
  */
@@ -16,8 +16,10 @@ const FLASK_API_URL = process.env.FLASK_API_URL || "http://localhost:5001";
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     // LOCALHOST BYPASS: Use test user email for local development
     const hostname = request.headers.get('host') || '';
@@ -38,11 +40,11 @@ export async function POST(
       userEmail = session.user.email;
     }
 
-    const { id } = await params;
+    const { id } = params;
     const body = await request.json();
 
     // Add node via Flask backend
-    const response = await fetch(`${FLASK_API_URL}/api/user/funnels/${id}/nodes`, {
+    const response = await fetch(`${FLASK_API_URL}/api/funnels/${id}/nodes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

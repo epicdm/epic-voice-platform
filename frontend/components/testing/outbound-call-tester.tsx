@@ -1,18 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Input, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/react";
+import { Button, Input, Select, SelectItem } from "@heroui/react";
 
-interface OutboundCallTesterProps {
-  agentId: string;
-  agentName: string;
-  agentStatus: string;
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export function OutboundCallTester({ agentId, agentName, agentStatus, isOpen, onClose }: OutboundCallTesterProps) {
+export function OutboundCallTester() {
   const [toNumber, setToNumber] = useState("");
+  const [agentId, setAgentId] = useState("");
   const [isCalling, setIsCalling] = useState(false);
 
   const handleTestCall = async () => {
@@ -33,40 +26,28 @@ export function OutboundCallTester({ agentId, agentName, agentStatus, isOpen, on
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="lg">
-      <ModalContent>
-        <ModalHeader>
-          <h3 className="font-semibold">Outbound Call Tester - {agentName}</h3>
-        </ModalHeader>
-        <ModalBody>
-          <div className="space-y-4">
-            <div className="text-sm text-gray-600">
-              <p><strong>Agent:</strong> {agentName}</p>
-              <p><strong>Status:</strong> {agentStatus}</p>
-            </div>
-            <Input
-              label="To Number"
-              value={toNumber}
-              onChange={(e) => setToNumber(e.target.value)}
-              placeholder="+1234567890"
-              description="Enter the phone number to call"
-            />
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="flat" onPress={onClose}>
-            Cancel
-          </Button>
-          <Button
-            color="primary"
-            onPress={handleTestCall}
-            isLoading={isCalling}
-            isDisabled={!toNumber}
-          >
-            {isCalling ? "Calling..." : "Test Call"}
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+    <div className="p-6 border rounded-lg">
+      <h3 className="font-semibold mb-4">Outbound Call Tester</h3>
+      <div className="space-y-4">
+        <Input
+          label="To Number"
+          value={toNumber}
+          onChange={(e) => setToNumber(e.target.value)}
+          placeholder="+1234567890"
+        />
+        <Input
+          label="Agent ID"
+          value={agentId}
+          onChange={(e) => setAgentId(e.target.value)}
+        />
+        <Button
+          color="primary"
+          onClick={handleTestCall}
+          isLoading={isCalling}
+        >
+          {isCalling ? "Calling..." : "Test Call"}
+        </Button>
+      </div>
+    </div>
   );
 }

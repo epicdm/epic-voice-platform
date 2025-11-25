@@ -1,118 +1,28 @@
-export const STEP1_FIELDS = [
-  {
-    name: "name",
+export const STEP1_FIELDS = {
+  name: {
     label: "Agent Name",
     placeholder: "Enter agent name",
     required: true,
-    component: "input",
   },
-  {
-    name: "description",
+  description: {
     label: "Description",
-    description: "Describe what this agent does and its purpose",
     placeholder: "Describe what this agent does",
     required: false,
-    component: "textarea",
-    minRows: 3,
-    maxRows: 6,
-    maxLength: 500,
-    showCounter: true,
   },
-];
+};
 
-export const STEP2_FIELDS = [
-  {
-    name: "instructions",
+export const STEP2_FIELDS = {
+  instructions: {
     label: "Instructions",
-    description: "Define how your agent should behave and respond",
     placeholder: "Enter agent instructions",
     required: true,
-    component: "textarea",
-    minRows: 5,
-    maxRows: 10,
-    maxLength: 2000,
-    showCounter: true,
   },
-  {
-    name: "llm_model",
-    label: "LLM Model",
-    description: "Select the language model for your agent",
-    placeholder: "Select a model",
-    required: true,
-    component: "select",
-    options: [
-      { id: "gpt-4o", name: "GPT-4o", description: "Most capable model" },
-      { id: "gpt-4-turbo", name: "GPT-4 Turbo", description: "Fast and powerful" },
-      { id: "gpt-3.5-turbo", name: "GPT-3.5 Turbo", description: "Fast and cost-effective" },
-    ],
-  },
-  {
-    name: "voice",
-    label: "Voice",
-    description: "Select the voice for your agent",
-    placeholder: "Select a voice",
-    required: true,
-    component: "select",
-    options: [
-      { id: "alloy", name: "Alloy", description: "Neutral and balanced" },
-      { id: "echo", name: "Echo", description: "Warm and friendly" },
-      { id: "fable", name: "Fable", description: "Clear and expressive" },
-      { id: "onyx", name: "Onyx", description: "Deep and authoritative" },
-      { id: "nova", name: "Nova", description: "Energetic and upbeat" },
-      { id: "shimmer", name: "Shimmer", description: "Soft and gentle" },
-    ],
-  },
-  {
-    name: "temperature",
-    label: "Temperature",
-    description: "Controls randomness in responses (0 = focused, 1 = creative)",
-    required: false,
-    component: "slider",
-    min: 0,
-    max: 1,
-    step: 0.1,
-    defaultValue: 0.7,
-  },
-];
+};
 
-export const STEP3_FIELDS = [
-  {
-    name: "turn_detection",
-    label: "Turn Detection",
-    description: "How the agent detects when to speak",
-    placeholder: "Select turn detection mode",
-    required: false,
-    component: "select",
-    defaultValue: "semantic",
-    options: [
-      { id: "semantic", name: "Semantic", description: "Detect turns based on meaning" },
-      { id: "silence", name: "Silence", description: "Detect turns based on silence" },
-      { id: "interruption", name: "Interruption", description: "Allow interruptions" },
-    ],
-  },
-  {
-    name: "vad_enabled",
-    label: "Voice Activity Detection",
-    description: "Automatically detect when someone is speaking",
-    required: false,
-    component: "switch",
-    defaultValue: true,
-  },
-  {
-    name: "noise_cancellation",
-    label: "Noise Cancellation",
-    description: "Reduce background noise in calls",
-    required: false,
-    component: "switch",
-    defaultValue: true,
-  },
-  {
-    name: "phoneNumber",
+export const STEP3_FIELDS = {
+  phoneNumber: {
     label: "Phone Number",
-    description: "Select a phone number to assign to this agent (optional)",
     placeholder: "Select a phone number",
     required: false,
-    component: "select",
-    options: [], // Will be populated dynamically with available phone numbers
   },
-];
+};

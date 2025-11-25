@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./fix-overlap.css";
 import { Providers } from "./providers";
-import { LayoutWrapper } from "@/components/LayoutWrapper";
+import LayoutWrapper from "@/components/LayoutWrapper";
+import { AuthProvider } from "@/lib/auth-context";
 import { NextAuthProvider } from "./session-provider";
 import { Toaster } from "sonner";
 

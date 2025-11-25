@@ -39,15 +39,9 @@ function CallHistoryContent() {
   const [endDate, setEndDate] = useState<string>("");
   const [showExportModal, setShowExportModal] = useState<boolean>(false);
 
-  const { callLogs, isLoading } = useCallLogs();
+  const { callLogs, isLoading, error, refetch, setFilters, currentPage, totalPages } =
+    useCallLogs();
   const { agents, isLoading: agentsLoading } = useAgents();
-
-  // Placeholder variables for missing properties
-  const error = null;
-  const refetch = () => {};
-  const setFilters = (filters: any) => {};
-  const currentPage = 1;
-  const totalPages = 1;
 
   /**
    * Calculate summary statistics
@@ -243,15 +237,8 @@ function CallHistoryContent() {
           }
           title="No call history yet"
           description="Calls will appear here once your agents start receiving calls. Make sure you have assigned phone numbers to your agents."
-          action={
-            <Button
-              as="a"
-              href="/dashboard/agents"
-              color="primary"
-            >
-              Go to Agents
-            </Button>
-          }
+          ctaText="Go to Agents"
+          ctaHref="/dashboard/agents"
         />
       </div>
     );
@@ -337,7 +324,7 @@ function CallHistoryContent() {
             isLoading={agentsLoading}
           >
             {agents.map((agent) => (
-              <SelectItem key={agent.id}>
+              <SelectItem key={agent.id} value={agent.id}>
                 {agent.name}
               </SelectItem>
             ))}
@@ -350,16 +337,16 @@ function CallHistoryContent() {
             selectedKeys={statusFilter ? [statusFilter] : []}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
-            <SelectItem key="completed">
+            <SelectItem key="completed" value="completed">
               Completed
             </SelectItem>
-            <SelectItem key="failed">
+            <SelectItem key="failed" value="failed">
               Failed
             </SelectItem>
-            <SelectItem key="no_answer">
+            <SelectItem key="no_answer" value="no_answer">
               No Answer
             </SelectItem>
-            <SelectItem key="busy">
+            <SelectItem key="busy" value="busy">
               Busy
             </SelectItem>
           </Select>
@@ -458,10 +445,10 @@ function CallHistoryContent() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <Chip
                       size="sm"
-                      color={getCallStatusColor(call.status || CallStatus.COMPLETED) as any}
+                      color={getCallStatusColor(call.status || CallStatus.COMPLETED).color}
                       variant="flat"
                     >
-                      {call.status || CallStatus.COMPLETED}
+                      {getCallStatusColor(call.status || CallStatus.COMPLETED).label}
                     </Chip>
                   </td>
                 </tr>
@@ -512,7 +499,14 @@ function CallHistoryContent() {
       <ExportModal
         isOpen={showExportModal}
         onClose={() => setShowExportModal(false)}
-        data={callLogs}
+        exportType="calls"
+        defaultFilters={{
+          start_date: startDate || undefined,
+          end_date: endDate || undefined,
+          status: statusFilter || undefined,
+          agent_id: agentFilter || undefined,
+        }}
+        agents={agents}
       />
     </div>
   );

@@ -24,7 +24,7 @@ export function AgentWizardStep4() {
     setValue,
   } = useFormContext<AgentCreate>();
 
-  const { phoneNumbers, isLoading, refresh: refreshPhoneNumbers } = usePhoneNumbers();
+  const { phoneNumbers, isLoading, refetch: refreshPhoneNumbers } = usePhoneNumbers();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isProvisioning, setIsProvisioning] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("DM"); // Default to Dominica (Magnus Billing)
@@ -51,7 +51,7 @@ export function AgentWizardStep4() {
       });
 
       toast.success("Phone number provisioned successfully!", {
-        description: `${formatPhoneNumber(result.phoneNumber.phoneNumber)} is now available`,
+        description: `${formatPhoneNumber(result.phoneNumber.phone_number)} is now available`,
       });
 
       // Refresh phone numbers list

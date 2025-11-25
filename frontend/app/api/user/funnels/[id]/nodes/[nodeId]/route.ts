@@ -1,6 +1,6 @@
 /**
  * Funnel Node Detail API Route
- * Proxies requests to Flask backend /api/user/funnels/:id/nodes/:nodeId
+ * Proxies requests to Flask backend /api/funnels/:id/nodes/:nodeId
  *
  * PUT /api/user/funnels/:id/nodes/:nodeId - Update node
  * DELETE /api/user/funnels/:id/nodes/:nodeId - Delete node
@@ -32,8 +32,10 @@ async function getUserEmail(request: NextRequest): Promise<string | null> {
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string; nodeId: string }> }
+
+  props: { params: Promise<{ id: string; nodeId: string }> }
 ) {
+  const params = await props.params
   try {
     const userEmail = await getUserEmail(request);
 
@@ -41,12 +43,12 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id, nodeId } = await params;
+    const { id, nodeId } = params;
     const body = await request.json();
 
     // Update node via Flask backend
     const response = await fetch(
-      `${FLASK_API_URL}/api/user/funnels/${id}/nodes/${nodeId}`,
+      `${FLASK_API_URL}/api/funnels/${id}/nodes/${nodeId}`,
       {
         method: "PUT",
         headers: {
@@ -84,8 +86,10 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string; nodeId: string }> }
+
+  props: { params: Promise<{ id: string; nodeId: string }> }
 ) {
+  const params = await props.params
   try {
     const userEmail = await getUserEmail(request);
 
@@ -93,11 +97,11 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id, nodeId } = await params;
+    const { id, nodeId } = params;
 
     // Delete node via Flask backend
     const response = await fetch(
-      `${FLASK_API_URL}/api/user/funnels/${id}/nodes/${nodeId}`,
+      `${FLASK_API_URL}/api/funnels/${id}/nodes/${nodeId}`,
       {
         method: "DELETE",
         headers: {

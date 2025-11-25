@@ -26,8 +26,8 @@ import {
 import { AgentCreate } from "@/lib/schemas/agent-schema";
 import { toast } from "sonner";
 import { api } from "@/lib/api-client";
-import { DocumentUploadModal } from "../agents/DocumentUploadModal";
-import { FAQManagerModal } from "../agents/FAQManagerModal";
+import { DocumentUploadModal } from "./DocumentUploadModal";
+import { FAQManagerModal } from "./FAQManagerModal";
 
 /**
  * Agent Wizard Step 5: Tools & Integrations
@@ -64,7 +64,7 @@ export function AgentWizardStep5() {
     : null;
 
   // Watch current tools configuration
-  const toolsConfig = (watch("tools_config") || {}) as Record<string, { enabled?: boolean }>;
+  const toolsConfig = watch("tools_config") || {};
 
   // Load knowledge base statistics (if agent exists)
   useEffect(() => {
@@ -161,11 +161,10 @@ export function AgentWizardStep5() {
 
   const handleToggleTool = (toolType: string, enabled: boolean) => {
     // Type-safe update: merge the new tool config with existing config
-    const currentConfig = (watch("tools_config") || {}) as Record<string, any>;
-    const existingToolConfig = currentConfig[toolType] || {};
+    const currentConfig = watch("tools_config") || {};
     setValue("tools_config", {
       ...currentConfig,
-      [toolType]: { ...existingToolConfig, enabled }
+      [toolType]: { ...currentConfig[toolType as keyof typeof currentConfig], enabled }
     }, {
       shouldValidate: true,
       shouldDirty: true,

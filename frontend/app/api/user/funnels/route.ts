@@ -1,6 +1,6 @@
 /**
  * Funnels API Route
- * Proxies requests to Flask backend /api/user/funnels
+ * Proxies requests to Flask backend /api/funnels
  *
  * GET /api/user/funnels - List funnels
  * POST /api/user/funnels - Create funnel
@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
 
     // Fetch from Flask backend
     const response = await fetch(
-      `${FLASK_API_URL}/api/user/funnels${query ? `?${query}` : ""}`,
+      `${FLASK_API_URL}/api/funnels${query ? `?${query}` : ""}`,
       {
         method: "GET",
         headers: {
@@ -120,7 +120,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     // Create funnel via Flask backend
-    const response = await fetch(`${FLASK_API_URL}/api/user/funnels`, {
+    const response = await fetch(`${FLASK_API_URL}/api/funnels`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

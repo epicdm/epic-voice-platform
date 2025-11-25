@@ -6,42 +6,30 @@ const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5001';
 // POST /api/user/phone-numbers/provision - Provision new phone number
 export async function POST(req: NextRequest) {
   try {
-    // LOCALHOST BYPASS: Use test user email for local development
-    const hostname = req.headers.get('host') || '';
-    const isLocalhost = hostname.includes('localhost') || hostname.includes('127.0.0.1');
+    const session = await auth();
 
-    let userEmail: string | null = null;
+    console.log('🔐 Phone provision auth check:', {
+      hasSession: !!session,
+      hasUser: !!session?.user,
+      hasEmail: !!session?.user?.email,
+      email: session?.user?.email
+    });
 
-    if (isLocalhost) {
-      userEmail = 'giraud.eric@gmail.com';
-      console.log('🔓 LOCALHOST: Using test user for phone provision');
-    } else {
-      const session = await auth();
-
-      console.log('🔐 Phone provision auth check:', {
-        hasSession: !!session,
-        hasUser: !!session?.user,
-        hasEmail: !!session?.user?.email,
-        email: session?.user?.email
-      });
-
-      if (!session?.user?.email) {
-        console.error('🔐 Authentication failed - no session or email');
-        return NextResponse.json(
-          {
-            success: false,
-            error: {
-              message: 'Authentication required',
-              code: 'UNAUTHORIZED'
-            }
-          },
-          { status: 401 }
-        );
-      }
-
-      userEmail = session.user.email;
-      console.log('🔐 Authentication successful:', session.user.email);
+    if (!session?.user?.email) {
+      console.error('🔐 Authentication failed - no session or email');
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            message: 'Authentication required',
+            code: 'UNAUTHORIZED'
+          }
+        },
+        { status: 401 }
+      );
     }
+
+    console.log('🔐 Authentication successful:', session.user.email);
 
     const body = await req.json();
 
@@ -52,7 +40,7 @@ export async function POST(req: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-User-Email': userEmail,
+        'X-User-Email': session.user.email,
       },
       body: JSON.stringify(body),
     });

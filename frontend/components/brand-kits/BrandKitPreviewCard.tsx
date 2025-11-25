@@ -1,109 +1,30 @@
-"use client";
-
-import { Card, CardBody } from "@heroui/card";
-import { Chip } from "@heroui/chip";
-import { Image } from "@heroui/image";
-import type { BrandKit } from "@/lib/api/brand-kits";
-
 interface BrandKitPreviewCardProps {
-  brandKit: BrandKit;
-  compact?: boolean;
-  showName?: boolean;
+  brandKit: any;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
-export function BrandKitPreviewCard({
-  brandKit,
-  compact = false,
-  showName = false
-}: BrandKitPreviewCardProps) {
+export function BrandKitPreviewCard({ brandKit, onEdit, onDelete }: BrandKitPreviewCardProps) {
   return (
-    <div className="space-y-3">
-      {/* Name */}
-      {showName && (
+    <div className="p-4 border rounded-lg">
+      <div className="flex justify-between items-start">
         <div>
-          <h4 className="font-semibold">{brandKit.name}</h4>
-          {brandKit.companyName && brandKit.companyName !== brandKit.name && (
-            <p className="text-sm text-foreground-500">{brandKit.companyName}</p>
+          <h3 className="font-semibold">{brandKit.name}</h3>
+          <p className="text-sm text-gray-500 mt-1">{brandKit.description}</p>
+        </div>
+        <div className="flex gap-2">
+          {onEdit && (
+            <button onClick={onEdit} className="text-blue-600 text-sm">
+              Edit
+            </button>
+          )}
+          {onDelete && (
+            <button onClick={onDelete} className="text-red-600 text-sm">
+              Delete
+            </button>
           )}
         </div>
-      )}
-
-      {/* Logo */}
-      {brandKit.logoUrl && (
-        <div className={`flex items-center justify-center bg-default-100 rounded-lg ${compact ? 'p-4' : 'p-6'}`}>
-          <Image
-            src={brandKit.logoUrl}
-            alt={`${brandKit.name} logo`}
-            className="max-h-16 w-auto object-contain"
-            removeWrapper
-          />
-        </div>
-      )}
-
-      {/* Colors */}
-      {brandKit.brandColors && brandKit.brandColors.length > 0 && (
-        <div>
-          <p className="text-xs font-medium text-foreground-500 mb-2">
-            Brand Colors
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {brandKit.brandColors.slice(0, compact ? 4 : 8).map((color, idx) => (
-              <div
-                key={idx}
-                className="flex flex-col items-center gap-1"
-              >
-                <div
-                  className="w-10 h-10 rounded-lg border-2 border-default-200 shadow-sm"
-                  style={{ backgroundColor: color.hex }}
-                  title={`${color.name}: ${color.hex}`}
-                />
-                {!compact && (
-                  <span className="text-xs text-foreground-400">
-                    {color.hex}
-                  </span>
-                )}
-              </div>
-            ))}
-            {brandKit.brandColors.length > (compact ? 4 : 8) && (
-              <div className="flex items-center justify-center w-10 h-10 rounded-lg border-2 border-dashed border-default-300 text-xs text-foreground-400">
-                +{brandKit.brandColors.length - (compact ? 4 : 8)}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Fonts */}
-      {!compact && brandKit.fonts && brandKit.fonts.length > 0 && (
-        <div>
-          <p className="text-xs font-medium text-foreground-500 mb-2">
-            Typography
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {brandKit.fonts.slice(0, 3).map((font, idx) => (
-              <Chip
-                key={idx}
-                size="sm"
-                variant="flat"
-              >
-                {font.family}
-              </Chip>
-            ))}
-            {brandKit.fonts.length > 3 && (
-              <Chip size="sm" variant="flat">
-                +{brandKit.fonts.length - 3} more
-              </Chip>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Tagline */}
-      {!compact && brandKit.tagline && (
-        <div className="text-sm italic text-foreground-500 border-l-2 border-primary pl-3">
-          "{brandKit.tagline}"
-        </div>
-      )}
+      </div>
     </div>
   );
 }

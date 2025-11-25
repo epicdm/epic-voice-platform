@@ -33,15 +33,11 @@ export default function LeadUploadPage() {
   const [uploadErrors, setUploadErrors] = useState<UploadError[]>([])
   const [showResults, setShowResults] = useState(false)
 
-  interface CampaignsResponse {
-    campaigns: any[]
-  }
-
   // Load campaigns on mount
   useState(() => {
     const loadCampaigns = async () => {
       try {
-        const response = await api.get<CampaignsResponse>('/api/user/campaigns')
+        const response = await api.get('/api/user/campaigns')
         setCampaigns(response.campaigns || [])
       } catch (error) {
         console.error('Failed to load campaigns:', error)
@@ -86,11 +82,11 @@ export default function LeadUploadPage() {
         setUploadProgress(prev => Math.min(prev + 10, 90))
       }, 200)
 
-      const res = await fetch('/api/user/leads/upload', {
-        method: 'POST',
-        body: formData,
+      const response = await api.post('/api/user/leads/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       })
-      const response = await res.json()
 
       clearInterval(progressInterval)
       setUploadProgress(100)
@@ -196,11 +192,11 @@ export default function LeadUploadPage() {
                       setSelectedCampaign(selected)
                     }}
                   >
-                    {campaigns.map((campaign: any) => (
-                      <SelectItem key={campaign.id}>
+                    {campaigns.map((campaign) => (
+                      <SelectItem key={campaign.id} value={campaign.id}>
                         {campaign.name}
                       </SelectItem>
-                    )) as any}
+                    ))}
                   </Select>
                   <p className="text-xs text-muted-foreground mt-1">
                     If not selected, leads will be uploaded without a campaign assignment

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Chip, Input } from "@heroui/react";
-import { AgentCard } from "@/components/agents/AgentCard";
+import { AgentInsightCard } from "@/components/agents/AgentInsightCard";
 import { AgentInspector } from "@/components/agents/AgentInspector";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -77,7 +77,7 @@ function AgentsListContent() {
    */
   const handleStartAgent = async (agent: Agent) => {
     try {
-      await api.post<void>(`/api/user/agents/${agent.id}/deploy`, {});
+      await api.post(`/api/user/agents/${agent.id}/deploy`);
       toast.success("Agent deployed successfully", {
         description: `${agent.name} is starting up...`,
       });
@@ -94,7 +94,7 @@ function AgentsListContent() {
    */
   const handleStopAgent = async (agent: Agent) => {
     try {
-      await api.post<void>(`/api/user/agents/${agent.id}/undeploy`, {});
+      await api.post(`/api/user/agents/${agent.id}/undeploy`);
       toast.success("Agent stopped", {
         description: `${agent.name} has been stopped.`,
       });
@@ -121,7 +121,7 @@ function AgentsListContent() {
     }
 
     try {
-      await api.delete<void>(`/api/user/agents/${agent.id}`);
+      await api.delete(`/api/user/agents/${agent.id}`);
       toast.success("Agent deleted", {
         description: `${agent.name} has been removed.`,
       });
@@ -189,7 +189,7 @@ function AgentsListContent() {
                   <Skeleton className="w-32 h-6" />
                   <Skeleton className="w-20 h-5" />
                 </div>
-                <Skeleton className="h-12 w-12 rounded-full" />
+                <Skeleton className="w-12 h-12 rounded-full" />
               </div>
               <Skeleton className="w-full h-16" />
               <div className="grid grid-cols-2 gap-2">
@@ -404,7 +404,7 @@ function AgentsListContent() {
         {/* Agents Grid - Now with AgentInsightCard */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredAgents.map((agent) => (
-            <AgentCard
+            <AgentInsightCard
               key={agent.id}
               agent={agent}
               metrics={agentMetrics[agent.id] || {

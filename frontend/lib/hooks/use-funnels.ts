@@ -6,19 +6,12 @@ export function useFunnels() {
 
   useEffect(() => {
     fetch("/api/user/funnels")
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
-        setFunnels(Array.isArray(data) ? data : []);
+        setFunnels(data);
         setIsLoading(false);
       })
-      .catch((err) => {
-        console.error("Failed to fetch funnels:", err);
-        setFunnels([]);
-        setIsLoading(false);
-      });
+      .catch(() => setIsLoading(false));
   }, []);
 
   return { funnels, isLoading };

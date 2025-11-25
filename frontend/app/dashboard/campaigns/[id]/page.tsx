@@ -45,14 +45,6 @@ interface CampaignCall {
   outcome?: CallOutcome
 }
 
-interface CampaignResponse {
-  campaign: Campaign
-}
-
-interface CallsResponse {
-  calls: CampaignCall[]
-}
-
 export default function CampaignDetailPage() {
   const router = useRouter()
   const params = useParams()
@@ -75,11 +67,11 @@ export default function CampaignDetailPage() {
       setError(null)
 
       // Load campaign details
-      const campaignResponse = await api.get<CampaignResponse>(`/api/user/campaigns/${campaignId}`)
+      const campaignResponse = await api.get(`/api/user/campaigns/${campaignId}`)
       setCampaign(campaignResponse.campaign)
 
       // Load campaign calls with outcomes
-      const callsResponse = await api.get<CallsResponse>(`/api/user/campaigns/${campaignId}/calls`)
+      const callsResponse = await api.get(`/api/user/campaigns/${campaignId}/calls`)
       setCalls(callsResponse.calls || [])
     } catch (err) {
       console.error('Failed to load campaign:', err)
@@ -301,9 +293,8 @@ export default function CampaignDetailPage() {
       {/* Campaign ROI Analytics Widget */}
       <div className="mb-6">
         <CampaignROIWidget
-          campaignId={campaignId}
-          spent={0}
-          revenue={0}
+          outcomes={calls.map(call => call.outcome).filter(Boolean) as CallOutcome[]}
+          loading={loading}
         />
       </div>
 
@@ -358,9 +349,9 @@ export default function CampaignDetailPage() {
                     {/* Call Outcome */}
                     <div>
                       <CallOutcomeCard
-                        outcome={call.outcome?.outcome}
-                        notes={call.outcome?.notes}
-                        timestamp={call.outcome?.timestamp}
+                        outcome={call.outcome}
+                        loading={false}
+                        compact={true}
                       />
                     </div>
                   </div>

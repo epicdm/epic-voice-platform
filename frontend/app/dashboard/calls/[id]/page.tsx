@@ -41,7 +41,7 @@ export default function CallDetailPage() {
       setError(null)
 
       // Load call details with outcome
-      const response = await api.get<CallDetailResponse>(`/api/v1/calls/${callId}`)
+      const response = await api.get(`/api/v1/calls/${callId}`)
       setCallData(response)
     } catch (err) {
       console.error('Failed to load call:', err)
@@ -60,8 +60,12 @@ export default function CallDetailPage() {
   }, [callId])
 
   // Fetch transcript for sidebar panel
-  const { transcript, isLoading: transcriptLoading } = useCallTranscript(callId)
-  const transcriptError = null;
+  const { transcript, loading: transcriptLoading, error: transcriptError } = useCallTranscript(callId, {
+    userId: session?.user?.id,
+    autoFetch: true,
+    // Don't set refreshInterval here - it will be handled by the hook internally
+    refreshInterval: 0
+  })
 
   // Loading state
   if (loading) {
@@ -108,8 +112,7 @@ export default function CallDetailPage() {
   }
 
   const { call, outcome } = callData
-  const statusColor = getCallStatusColor(call.status || CallStatus.COMPLETED)
-  const statusLabel = call.status || CallStatus.COMPLETED
+  const statusConfig = getCallStatusColor(call.status || CallStatus.COMPLETED)
 
   return (
     <div className="flex h-screen">
@@ -135,10 +138,10 @@ export default function CallDetailPage() {
                     <Phone className="h-8 w-8 text-primary" />
                     <h1 className="text-3xl font-bold text-foreground">Call Details</h1>
                     <Chip
-                      color={statusColor as any}
+                      color={statusConfig.color}
                       variant="flat"
                     >
-                      {statusLabel}
+                      {statusConfig.label}
                     </Chip>
                   </div>
                   <p className="text-lg text-muted-foreground">
@@ -254,25 +257,24 @@ export default function CallDetailPage() {
 
             {/* Call Outcome Card */}
             <CallOutcomeCard
-              outcome={outcome?.outcome}
-              notes={outcome?.notes}
-              timestamp={outcome?.timestamp}
+              outcome={outcome}
+              loading={false}
+              compact={false}
             />
           </div>
 
           {/* Cost Breakdown Card */}
-          <CallCostBreakdown
-            cost={call.cost_usd || call.cost}
-            duration={call.duration_seconds || call.durationSeconds}
-          />
+          <CallCostBreakdown callId={callId} />
         </div>
       </main>
 
       {/* Transcript Sidebar Panel - Fixed */}
       <aside className="w-96 border-l border-border bg-card">
         <CallTranscriptPanel
-          callId={callId}
           transcript={transcript}
+          loading={transcriptLoading}
+          error={transcriptError}
+          height="100vh"
         />
       </aside>
     </div>

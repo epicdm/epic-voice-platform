@@ -306,7 +306,7 @@ export default function AdvancedCallControls({ calls, onRefresh }: AdvancedCallC
                 onChange={(e) => setSelectedCall(e.target.value)}
               >
                 {calls.map((call) => (
-                  <SelectItem key={call.channelId}>
+                  <SelectItem key={call.channelId} value={call.channelId}>
                     {getCallDisplay(call)}
                   </SelectItem>
                 ))}

@@ -5,17 +5,17 @@ import { useState } from "react";
 
 interface WebhookModalProps {
   isOpen: boolean;
-  onClose: (success?: boolean) => void;
+  onClose: () => void;
+  onSave: (data: any) => void;
   webhook?: any;
 }
 
-export function WebhookModal({ isOpen, onClose, webhook }: WebhookModalProps) {
+export function WebhookModal({ isOpen, onClose, onSave, webhook }: WebhookModalProps) {
   const [url, setUrl] = useState(webhook?.url || "");
 
   const handleSave = () => {
-    // TODO: Implement actual save logic via API
-    // For now, just close with success flag
-    onClose(true);
+    onSave({ url, events: ["call.completed"] });
+    onClose();
   };
 
   return (
@@ -31,7 +31,7 @@ export function WebhookModal({ isOpen, onClose, webhook }: WebhookModalProps) {
               placeholder="https://example.com/webhook"
             />
             <div className="flex gap-2 justify-end">
-              <Button variant="bordered" onClick={() => onClose()}>
+              <Button variant="bordered" onClick={onClose}>
                 Cancel
               </Button>
               <Button color="primary" onClick={handleSave}>

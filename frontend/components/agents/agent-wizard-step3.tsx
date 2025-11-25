@@ -83,12 +83,12 @@ export function AgentWizardStep3() {
 
           // Switch field
           if (field.component === "switch") {
-            const currentValue: boolean =
+            const currentValue =
               field.name === "vad_enabled"
                 ? vadEnabled
                 : field.name === "noise_cancellation"
                 ? noiseCancellation
-                : (field.defaultValue as boolean) ?? false;
+                : field.defaultValue;
 
             return (
               <div

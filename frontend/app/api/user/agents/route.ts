@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Proxy to Flask backend with user email
-    const response = await fetch(`${BACKEND_URL}/api/user/agents`, {
+    const response = await fetch(`${BACKEND_URL}/api/v1/agents`, {
       headers: {
         'X-User-Email': userEmail,
         'Content-Type': 'application/json',

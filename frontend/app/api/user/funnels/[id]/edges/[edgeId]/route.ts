@@ -1,6 +1,6 @@
 /**
  * Funnel Edge Detail API Route
- * Proxies requests to Flask backend /api/user/funnels/:id/edges/:edgeId
+ * Proxies requests to Flask backend /api/funnels/:id/edges/:edgeId
  *
  * DELETE /api/user/funnels/:id/edges/:edgeId - Delete edge
  */
@@ -31,8 +31,10 @@ async function getUserEmail(request: NextRequest): Promise<string | null> {
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string; edgeId: string }> }
+
+  props: { params: Promise<{ id: string; edgeId: string }> }
 ) {
+  const params = await props.params
   try {
     const userEmail = await getUserEmail(request);
 
@@ -40,11 +42,11 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id, edgeId } = await params;
+    const { id, edgeId } = params;
 
     // Delete edge via Flask backend
     const response = await fetch(
-      `${FLASK_API_URL}/api/user/funnels/${id}/edges/${edgeId}`,
+      `${FLASK_API_URL}/api/funnels/${id}/edges/${edgeId}`,
       {
         method: "DELETE",
         headers: {

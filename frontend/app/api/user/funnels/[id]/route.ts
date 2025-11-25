@@ -1,6 +1,6 @@
 /**
  * Funnel Detail API Route
- * Proxies requests to Flask backend /api/user/funnels/:id
+ * Proxies requests to Flask backend /api/funnels/:id
  *
  * GET /api/user/funnels/:id - Get funnel
  * PUT /api/user/funnels/:id - Update funnel
@@ -43,8 +43,10 @@ function wrapError(message: string, code: string, status = 500) {
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     const userEmail = await getUserEmail(request);
 
@@ -52,10 +54,10 @@ export async function GET(
       return wrapError("Unauthorized", "UNAUTHORIZED", 401);
     }
 
-    const { id } = await params;
+    const { id } = params;
 
     // Fetch from Flask backend
-    const response = await fetch(`${FLASK_API_URL}/api/user/funnels/${id}`, {
+    const response = await fetch(`${FLASK_API_URL}/api/funnels/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -84,8 +86,10 @@ export async function GET(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     const userEmail = await getUserEmail(request);
 
@@ -93,11 +97,11 @@ export async function PUT(
       return wrapError("Unauthorized", "UNAUTHORIZED", 401);
     }
 
-    const { id } = await params;
+    const { id } = params;
     const body = await request.json();
 
     // Update via Flask backend
-    const response = await fetch(`${FLASK_API_URL}/api/user/funnels/${id}`, {
+    const response = await fetch(`${FLASK_API_URL}/api/funnels/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -127,8 +131,10 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     const userEmail = await getUserEmail(request);
 
@@ -136,10 +142,10 @@ export async function DELETE(
       return wrapError("Unauthorized", "UNAUTHORIZED", 401);
     }
 
-    const { id } = await params;
+    const { id } = params;
 
     // Delete via Flask backend
-    const response = await fetch(`${FLASK_API_URL}/api/user/funnels/${id}`, {
+    const response = await fetch(`${FLASK_API_URL}/api/funnels/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

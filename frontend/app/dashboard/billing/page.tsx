@@ -5,32 +5,14 @@ import { Card, CardBody, Chip, Button } from '@heroui/react'
 import { CreditCard, Download, Receipt, TrendingUp, AlertCircle, DollarSign, Calendar, Clock } from 'lucide-react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
-import { UsageCard } from '@/components/billing/UsageCard'
-import { ManageSubscriptionButton } from '@/components/billing/ManageSubscriptionButton'
-import { UpgradeButton } from '@/components/billing/UpgradeButton'
+import UsageCard from '@/components/billing/UsageCard'
+import ManageSubscriptionButton from '@/components/billing/ManageSubscriptionButton'
+import UpgradeButton from '@/components/billing/UpgradeButton'
 import { BalanceWidget } from '@/components/BalanceWidget'
 import { api } from '@/lib/api-client'
+import { PLANS } from '@/lib/billing'
 import { STRIPE_PRICE_IDS } from '@/lib/stripe'
-
-interface Usage {
-  userId: string;
-  planId: string;
-  currentPeriodStart: Date;
-  currentPeriodEnd: Date;
-  minutesUsed: number;
-  minutesLimit: number;
-  agentsCount: number;
-  agentsLimit: number;
-  apiCallsCount: number;
-  estimatedCost: number;
-}
-
-const PLANS: Record<string, { name: string; price: number; minutes: number | typeof Infinity; agents: number | typeof Infinity }> = {
-  free: { name: 'Free', price: 0, minutes: 1000, agents: 2 },
-  starter: { name: 'Starter', price: 29, minutes: 5000, agents: 5 },
-  pro: { name: 'Pro', price: 99, minutes: 20000, agents: 20 },
-  enterprise: { name: 'Enterprise', price: 499, minutes: Infinity, agents: Infinity },
-};
+import type { Usage } from '@/lib/billing'
 
 interface Transaction {
   id: string
@@ -132,7 +114,7 @@ export default function BillingPage() {
 
       {/* Credit Balance Widget */}
       <div className="mb-8">
-        <BalanceWidget />
+        <BalanceWidget showDetails />
       </div>
 
       {/* Current Plan Card */}
@@ -193,10 +175,17 @@ export default function BillingPage() {
             {/* Action Buttons */}
             <div className="flex gap-3">
               {isFreePlan ? (
-                <UpgradeButton />
+                <UpgradeButton
+                  priceId={STRIPE_PRICE_IDS.pro_monthly}
+                  planName="Pro"
+                  variant="solid"
+                />
               ) : (
                 subscription.customerId && (
-                  <ManageSubscriptionButton variant="solid" />
+                  <ManageSubscriptionButton
+                    customerId={subscription.customerId}
+                    variant="solid"
+                  />
                 )
               )}
             </div>
@@ -262,19 +251,8 @@ export default function BillingPage() {
       </div>
 
       {/* Usage Card */}
-      <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <UsageCard
-          title="Minutes Used"
-          current={usage.minutesUsed}
-          limit={usage.minutesLimit}
-          unit="minutes"
-        />
-        <UsageCard
-          title="Active Agents"
-          current={usage.agentsCount}
-          limit={usage.agentsLimit}
-          unit="agents"
-        />
+      <div className="mb-8">
+        <UsageCard usage={usage} />
       </div>
 
       {/* Usage Warning */}
@@ -292,7 +270,13 @@ export default function BillingPage() {
                   Upgrade to Pro for 10x more capacity.
                 </p>
                 <div className="flex gap-3">
-                  {isFreePlan && <UpgradeButton />}
+                  {isFreePlan && (
+                    <UpgradeButton
+                      priceId={STRIPE_PRICE_IDS.pro_monthly}
+                      planName="Pro"
+                      size="sm"
+                    />
+                  )}
                 </div>
               </div>
             </div>

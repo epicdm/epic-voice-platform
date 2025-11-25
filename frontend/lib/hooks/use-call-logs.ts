@@ -6,19 +6,12 @@ export function useCallLogs() {
 
   useEffect(() => {
     fetch("/api/user/call-logs")
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
-        setCallLogs(Array.isArray(data) ? data : []);
+        setCallLogs(data);
         setIsLoading(false);
       })
-      .catch((err) => {
-        console.error("Failed to fetch call logs:", err);
-        setCallLogs([]);
-        setIsLoading(false);
-      });
+      .catch(() => setIsLoading(false));
   }, []);
 
   return { callLogs, isLoading };

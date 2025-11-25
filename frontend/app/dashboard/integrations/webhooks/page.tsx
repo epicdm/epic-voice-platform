@@ -24,10 +24,7 @@ import { Webhook as WebhookType } from "@/types/webhook";
  * - Event subscription management
  */
 function WebhookManagementContent() {
-  const { webhooks, isLoading, refresh } = useWebhooks();
-  const stats = null;
-  const error = null;
-  const refetch = refresh;
+  const { webhooks, stats, isLoading, error, refetch } = useWebhooks();
   const [showWebhookModal, setShowWebhookModal] = useState(false);
   const [showDeliveryLogs, setShowDeliveryLogs] = useState(false);
   const [selectedWebhook, setSelectedWebhook] = useState<WebhookType | null>(null);
@@ -119,7 +116,7 @@ function WebhookManagementContent() {
           <DeliveryLogsModal
             isOpen={showDeliveryLogs}
             onClose={handleLogsClose}
-            webhookId={selectedWebhook.id}
+            webhook={selectedWebhook}
           />
         )}
       </div>
@@ -200,7 +197,7 @@ function WebhookManagementContent() {
           <DeliveryLogsModal
             isOpen={showDeliveryLogs}
             onClose={handleLogsClose}
-            webhookId={selectedWebhook.id}
+            webhook={selectedWebhook}
           />
         )}
       </div>
@@ -290,7 +287,7 @@ function WebhookManagementContent() {
         <DeliveryLogsModal
           isOpen={showDeliveryLogs}
           onClose={handleLogsClose}
-          webhookId={selectedWebhook.id}
+          webhook={selectedWebhook}
         />
       )}
     </div>

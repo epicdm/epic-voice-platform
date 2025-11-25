@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useProfile } from "@/lib/hooks/use-profile";
-import { profileUpdateSchema, ProfileUpdateForm } from "@/lib/schemas/settings-schema";
+import { profileUpdateSchema, ProfileUpdate } from "@/lib/schemas/settings-schema";
 import { api, isApiError } from "@/lib/api-client";
 
 /**
@@ -27,9 +27,7 @@ import { api, isApiError } from "@/lib/api-client";
  * - Error boundary wrapper (FR-UX-002)
  */
 function SettingsContent() {
-  const { profile, isLoading, updateProfile } = useProfile();
-  const error = null;
-  const refetch = () => {};
+  const { profile, isLoading, error, refetch } = useProfile();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -39,7 +37,7 @@ function SettingsContent() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<ProfileUpdateForm>({
+  } = useForm<ProfileUpdate>({
     resolver: zodResolver(profileUpdateSchema),
     values: profile
       ? {
@@ -58,13 +56,13 @@ function SettingsContent() {
   /**
    * Handle form submission
    */
-  const onSubmit = async (data: ProfileUpdateForm) => {
+  const onSubmit = async (data: ProfileUpdate) => {
     setIsSubmitting(true);
     setSubmitError(null);
 
     try {
       // Call PUT /api/user/profile
-      await api.put<void>("/api/user/profile", data);
+      await api.put("/api/user/profile", data);
 
       // Success toast (FR-UX-003)
       toast.success("Profile updated successfully", {

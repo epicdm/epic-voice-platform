@@ -24,7 +24,7 @@ export function AgentWizardStep4() {
     setValue,
   } = useFormContext<AgentCreate>();
 
-  const { phoneNumbers, isLoading, refresh: refreshPhoneNumbers } = usePhoneNumbers();
+  const { phoneNumbers, isLoading, refetch: refreshPhoneNumbers } = usePhoneNumbers();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isProvisioning, setIsProvisioning] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("DM"); // Default to Dominica (Magnus Billing)
@@ -46,30 +46,19 @@ export function AgentWizardStep4() {
   const handleProvisionNumber = async () => {
     setIsProvisioning(true);
     try {
-      const result = await api.post<{ phoneNumber: PhoneNumber } | { data: { phoneNumber: PhoneNumber } }>("/api/user/phone-numbers/provision", {
-        country: "Dominica",
-        prefix: "1767818",
-        use_magnus: true,
+      const result = await api.post<{ phoneNumber: PhoneNumber }>("/api/user/phone-numbers/provision", {
+        country_code: selectedCountry,
       });
 
-      // Handle response structure - API route may double-wrap the backend response
-      // Backend returns: { success: true, data: { phoneNumber: {...} } }
-      // After api-client unwrapping: either { phoneNumber: {...} } or { data: { phoneNumber: {...} } }
-      const phoneNumber = 'data' in result ? result.data.phoneNumber : result.phoneNumber;
-
-      if (!phoneNumber) {
-        throw new Error("Invalid response from server - missing phone number data");
-      }
-
       toast.success("Phone number provisioned successfully!", {
-        description: `${formatPhoneNumber(phoneNumber.phoneNumber)} is now available`,
+        description: `${formatPhoneNumber(result.phoneNumber.phone_number)} is now available`,
       });
 
       // Refresh phone numbers list
       await refreshPhoneNumbers();
 
       // Auto-select the newly provisioned number (REPLACE any previous selection since only one number allowed per agent)
-      setValue("phone_number_ids", [phoneNumber.id]);
+      setValue("phone_number_ids", [result.phoneNumber.id]);
 
       onClose();
     } catch (error) {

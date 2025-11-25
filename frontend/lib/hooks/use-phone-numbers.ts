@@ -6,33 +6,18 @@ export function usePhoneNumbers() {
 
   useEffect(() => {
     fetch("/api/user/phone-numbers")
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
-        // API returns { success: true, data: [...] }
-        setPhoneNumbers(data.data || []);
+        setPhoneNumbers(data);
         setIsLoading(false);
       })
-      .catch((err) => {
-        console.error("Failed to fetch phone numbers:", err);
-        setPhoneNumbers([]);
-        setIsLoading(false);
-      });
+      .catch(() => setIsLoading(false));
   }, []);
 
   const refresh = () => {
     fetch("/api/user/phone-numbers")
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
-      .then((data) => setPhoneNumbers(data.data || []))
-      .catch((err) => {
-        console.error("Failed to refresh phone numbers:", err);
-        setPhoneNumbers([]);
-      });
+      .then((res) => res.json())
+      .then((data) => setPhoneNumbers(data));
   };
 
   return { phoneNumbers, isLoading, refresh };

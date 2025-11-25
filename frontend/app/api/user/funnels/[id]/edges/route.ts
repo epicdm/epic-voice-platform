@@ -1,6 +1,6 @@
 /**
  * Funnel Edges API Route
- * Proxies requests to Flask backend /api/user/funnels/:id/edges
+ * Proxies requests to Flask backend /api/funnels/:id/edges
  *
  * POST /api/user/funnels/:id/edges - Add edge to funnel
  */
@@ -31,8 +31,10 @@ async function getUserEmail(request: NextRequest): Promise<string | null> {
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params
   try {
     const userEmail = await getUserEmail(request);
 
@@ -40,11 +42,11 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = await params;
+    const { id } = params;
     const body = await request.json();
 
     // Add edge via Flask backend
-    const response = await fetch(`${FLASK_API_URL}/api/user/funnels/${id}/edges`, {
+    const response = await fetch(`${FLASK_API_URL}/api/funnels/${id}/edges`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

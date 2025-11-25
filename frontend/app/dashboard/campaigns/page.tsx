@@ -53,11 +53,6 @@ export default function CampaignsPage() {
     loadCampaigns()
   }, [pagination.page, statusFilter])
 
-  interface CampaignsResponse {
-    campaigns: Campaign[]
-    pagination: Pagination
-  }
-
   const loadCampaigns = async () => {
     try {
       setLoading(true)
@@ -68,7 +63,7 @@ export default function CampaignsPage() {
 
       if (statusFilter) params.append('status', statusFilter)
 
-      const response = await api.get<CampaignsResponse>(`/api/user/campaigns?${params}`)
+      const response = await api.get(`/api/user/campaigns?${params}`)
       setCampaigns(response.campaigns || [])
       setPagination(response.pagination)
     } catch (error) {
@@ -84,7 +79,7 @@ export default function CampaignsPage() {
     }
 
     try {
-      await api.delete<void>(`/api/user/campaigns/${campaignId}`)
+      await api.delete(`/api/user/campaigns/${campaignId}`)
       loadCampaigns()
     } catch (error) {
       console.error('Failed to delete campaign:', error)
@@ -157,13 +152,13 @@ export default function CampaignsPage() {
               }}
               label="Filter by Status"
             >
-              <SelectItem key="">All Statuses</SelectItem>
-              <SelectItem key="draft">Draft</SelectItem>
-              <SelectItem key="scheduled">Scheduled</SelectItem>
-              <SelectItem key="running">Running</SelectItem>
-              <SelectItem key="paused">Paused</SelectItem>
-              <SelectItem key="completed">Completed</SelectItem>
-              <SelectItem key="cancelled">Cancelled</SelectItem>
+              <SelectItem key="" value="">All Statuses</SelectItem>
+              <SelectItem key="draft" value="draft">Draft</SelectItem>
+              <SelectItem key="scheduled" value="scheduled">Scheduled</SelectItem>
+              <SelectItem key="running" value="running">Running</SelectItem>
+              <SelectItem key="paused" value="paused">Paused</SelectItem>
+              <SelectItem key="completed" value="completed">Completed</SelectItem>
+              <SelectItem key="cancelled" value="cancelled">Cancelled</SelectItem>
             </Select>
           </div>
         </CardBody>

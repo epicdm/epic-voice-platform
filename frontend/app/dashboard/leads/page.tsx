@@ -69,11 +69,6 @@ export default function LeadsPage() {
     return () => clearTimeout(timer)
   }, [searchQuery])
 
-  interface LeadsResponse {
-    leads: Lead[]
-    pagination: Pagination
-  }
-
   const loadLeads = async () => {
     try {
       setLoading(true)
@@ -86,7 +81,7 @@ export default function LeadsPage() {
       if (statusFilter) params.append('status', statusFilter)
       if (campaignFilter) params.append('campaign_id', campaignFilter)
 
-      const response = await api.get<LeadsResponse>(`/api/user/leads?${params}`)
+      const response = await api.get(`/api/user/leads?${params}`)
       setLeads(response.leads || [])
       setPagination(response.pagination)
     } catch (error) {
@@ -96,13 +91,9 @@ export default function LeadsPage() {
     }
   }
 
-  interface CampaignsResponse {
-    campaigns: any[]
-  }
-
   const loadCampaigns = async () => {
     try {
-      const response = await api.get<CampaignsResponse>('/api/user/campaigns')
+      const response = await api.get('/api/user/campaigns')
       setCampaigns(response.campaigns || [])
     } catch (error) {
       console.error('Failed to load campaigns:', error)
@@ -113,7 +104,7 @@ export default function LeadsPage() {
     if (!confirm('Are you sure you want to delete this lead?')) return
 
     try {
-      await api.delete<void>(`/api/user/leads/${leadId}`)
+      await api.delete(`/api/user/leads/${leadId}`)
       loadLeads()
     } catch (error) {
       console.error('Failed to delete lead:', error)
@@ -189,13 +180,13 @@ export default function LeadsPage() {
               }}
               startContent={<Filter className="h-4 w-4 text-muted-foreground" />}
             >
-              <SelectItem key="">All Statuses</SelectItem>
-              <SelectItem key="new">New</SelectItem>
-              <SelectItem key="queued">Queued</SelectItem>
-              <SelectItem key="calling">Calling</SelectItem>
-              <SelectItem key="completed">Completed</SelectItem>
-              <SelectItem key="failed">Failed</SelectItem>
-              <SelectItem key="dnc">Do Not Call</SelectItem>
+              <SelectItem key="" value="">All Statuses</SelectItem>
+              <SelectItem key="new" value="new">New</SelectItem>
+              <SelectItem key="queued" value="queued">Queued</SelectItem>
+              <SelectItem key="calling" value="calling">Calling</SelectItem>
+              <SelectItem key="completed" value="completed">Completed</SelectItem>
+              <SelectItem key="failed" value="failed">Failed</SelectItem>
+              <SelectItem key="dnc" value="dnc">Do Not Call</SelectItem>
             </Select>
 
             {/* Campaign Filter */}
@@ -207,12 +198,12 @@ export default function LeadsPage() {
                 setCampaignFilter(selected || '')
               }}
             >
-              <SelectItem key="">All Campaigns</SelectItem>
-              {campaigns.map((campaign: any) => (
-                <SelectItem key={campaign.id}>
+              <SelectItem key="" value="">All Campaigns</SelectItem>
+              {campaigns.map((campaign) => (
+                <SelectItem key={campaign.id} value={campaign.id}>
                   {campaign.name}
                 </SelectItem>
-              )) as any}
+              ))}
             </Select>
           </div>
         </CardBody>
@@ -425,7 +416,11 @@ export default function LeadsPage() {
       <ExportModal
         isOpen={showExportModal}
         onClose={() => setShowExportModal(false)}
-        data={leads}
+        exportType="leads"
+        defaultFilters={{
+          status: statusFilter || undefined,
+          campaign_id: campaignFilter || undefined,
+        }}
       />
     </div>
   )

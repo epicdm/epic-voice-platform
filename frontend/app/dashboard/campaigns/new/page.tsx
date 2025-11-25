@@ -39,23 +39,13 @@ export default function NewCampaignPage() {
     loadAgents()
   }, [])
 
-  interface AgentsResponse {
-    agents: Agent[]
-  }
-
   const loadAgents = async () => {
     try {
-      const response = await api.get<AgentsResponse>('/api/user/agents')
+      const response = await api.get('/api/user/agents')
       setAgents(response.agents || [])
     } catch (error) {
       console.error('Failed to load agents:', error)
     }
-  }
-
-  interface CreateCampaignResponse {
-    success: boolean
-    campaign_id: string
-    error?: string
   }
 
   const handleCreateCampaign = async () => {
@@ -75,7 +65,7 @@ export default function NewCampaignPage() {
         timezone: timezone
       }
 
-      const response = await api.post<CreateCampaignResponse>('/api/user/campaigns', {
+      const response = await api.post('/api/user/campaigns', {
         name: campaignName,
         description: campaignDescription,
         agent_id: selectedAgent || null,
@@ -383,16 +373,16 @@ export default function NewCampaignPage() {
                           setTimezone(selected)
                         }}
                       >
-                        <SelectItem key="America/New_York">
+                        <SelectItem key="America/New_York" value="America/New_York">
                           Eastern (ET)
                         </SelectItem>
-                        <SelectItem key="America/Chicago">
+                        <SelectItem key="America/Chicago" value="America/Chicago">
                           Central (CT)
                         </SelectItem>
-                        <SelectItem key="America/Denver">
+                        <SelectItem key="America/Denver" value="America/Denver">
                           Mountain (MT)
                         </SelectItem>
-                        <SelectItem key="America/Los_Angeles">
+                        <SelectItem key="America/Los_Angeles" value="America/Los_Angeles">
                           Pacific (PT)
                         </SelectItem>
                       </Select>

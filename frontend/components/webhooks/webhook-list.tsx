@@ -2,11 +2,9 @@ interface WebhookListProps {
   webhooks: any[];
   onEdit?: (webhook: any) => void;
   onDelete?: (id: string) => void;
-  onViewLogs?: (webhook: any) => void;
-  onRefetch?: () => void;
 }
 
-export function WebhookList({ webhooks, onEdit, onDelete, onViewLogs, onRefetch }: WebhookListProps) {
+export function WebhookList({ webhooks, onEdit, onDelete }: WebhookListProps) {
   return (
     <div className="space-y-3">
       {webhooks.map((webhook) => (
