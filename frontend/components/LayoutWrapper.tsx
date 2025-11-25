@@ -6,6 +6,8 @@ interface LayoutWrapperProps {
   children: ReactNode;
 }
 
-export function LayoutWrapper({ children }: LayoutWrapperProps) {
+export default function LayoutWrapper({ children }: LayoutWrapperProps) {
   return <>{children}</>;
 }
+
+export { LayoutWrapper };
