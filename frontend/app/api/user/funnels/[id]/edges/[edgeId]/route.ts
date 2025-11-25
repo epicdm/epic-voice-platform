@@ -1,6 +1,6 @@
 /**
  * Funnel Edge Detail API Route
- * Proxies requests to Flask backend /api/funnels/:id/edges/:edgeId
+ * Proxies requests to Flask backend /api/user/funnels/:id/edges/:edgeId
  *
  * DELETE /api/user/funnels/:id/edges/:edgeId - Delete edge
  */
@@ -44,7 +44,7 @@ export async function DELETE(
 
     // Delete edge via Flask backend
     const response = await fetch(
-      `${FLASK_API_URL}/api/funnels/${id}/edges/${edgeId}`,
+      `${FLASK_API_URL}/api/user/funnels/${id}/edges/${edgeId}`,
       {
         method: "DELETE",
         headers: {

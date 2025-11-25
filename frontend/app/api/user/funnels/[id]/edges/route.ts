@@ -1,6 +1,6 @@
 /**
  * Funnel Edges API Route
- * Proxies requests to Flask backend /api/funnels/:id/edges
+ * Proxies requests to Flask backend /api/user/funnels/:id/edges
  *
  * POST /api/user/funnels/:id/edges - Add edge to funnel
  */
@@ -44,7 +44,7 @@ export async function POST(
     const body = await request.json();
 
     // Add edge via Flask backend
-    const response = await fetch(`${FLASK_API_URL}/api/funnels/${id}/edges`, {
+    const response = await fetch(`${FLASK_API_URL}/api/user/funnels/${id}/edges`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

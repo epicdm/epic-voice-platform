@@ -1,6 +1,6 @@
 /**
  * Funnel Nodes API Route
- * Proxies requests to Flask backend /api/funnels/:id/nodes
+ * Proxies requests to Flask backend /api/user/funnels/:id/nodes
  *
  * POST /api/user/funnels/:id/nodes - Add node to funnel
  */
@@ -42,7 +42,7 @@ export async function POST(
     const body = await request.json();
 
     // Add node via Flask backend
-    const response = await fetch(`${FLASK_API_URL}/api/funnels/${id}/nodes`, {
+    const response = await fetch(`${FLASK_API_URL}/api/user/funnels/${id}/nodes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

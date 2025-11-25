@@ -1,6 +1,6 @@
 /**
  * Funnel Detail API Route
- * Proxies requests to Flask backend /api/funnels/:id
+ * Proxies requests to Flask backend /api/user/funnels/:id
  *
  * GET /api/user/funnels/:id - Get funnel
  * PUT /api/user/funnels/:id - Update funnel
@@ -55,7 +55,7 @@ export async function GET(
     const { id } = await params;
 
     // Fetch from Flask backend
-    const response = await fetch(`${FLASK_API_URL}/api/funnels/${id}`, {
+    const response = await fetch(`${FLASK_API_URL}/api/user/funnels/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -97,7 +97,7 @@ export async function PUT(
     const body = await request.json();
 
     // Update via Flask backend
-    const response = await fetch(`${FLASK_API_URL}/api/funnels/${id}`, {
+    const response = await fetch(`${FLASK_API_URL}/api/user/funnels/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -139,7 +139,7 @@ export async function DELETE(
     const { id } = await params;
 
     // Delete via Flask backend
-    const response = await fetch(`${FLASK_API_URL}/api/funnels/${id}`, {
+    const response = await fetch(`${FLASK_API_URL}/api/user/funnels/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

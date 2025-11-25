@@ -1,6 +1,6 @@
 /**
  * Funnel Node Detail API Route
- * Proxies requests to Flask backend /api/funnels/:id/nodes/:nodeId
+ * Proxies requests to Flask backend /api/user/funnels/:id/nodes/:nodeId
  *
  * PUT /api/user/funnels/:id/nodes/:nodeId - Update node
  * DELETE /api/user/funnels/:id/nodes/:nodeId - Delete node
@@ -46,7 +46,7 @@ export async function PUT(
 
     // Update node via Flask backend
     const response = await fetch(
-      `${FLASK_API_URL}/api/funnels/${id}/nodes/${nodeId}`,
+      `${FLASK_API_URL}/api/user/funnels/${id}/nodes/${nodeId}`,
       {
         method: "PUT",
         headers: {
@@ -97,7 +97,7 @@ export async function DELETE(
 
     // Delete node via Flask backend
     const response = await fetch(
-      `${FLASK_API_URL}/api/funnels/${id}/nodes/${nodeId}`,
+      `${FLASK_API_URL}/api/user/funnels/${id}/nodes/${nodeId}`,
       {
         method: "DELETE",
         headers: {
