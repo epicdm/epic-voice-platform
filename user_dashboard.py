@@ -365,6 +365,10 @@ def dashboard():
 # Helper function for authentication
 def get_current_user_id():
     """Get current user ID from session or authorization header."""
+    # LOCALHOST BYPASS: Return test UUID for local development
+    if request.host.startswith('localhost') or request.host.startswith('127.0.0.1'):
+        return "00000000-0000-0000-0000-000000000001"
+
     # Check Flask session first
     if 'user_id' in session:
         return session['user_id']

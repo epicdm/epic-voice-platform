@@ -53,6 +53,10 @@ def get_db() -> Session:
 
 def get_current_user_id() -> str:
     """Get current user ID from Flask session or X-User-Email header"""
+    # LOCALHOST BYPASS: Return test UUID for local development
+    if request.host.startswith('localhost') or request.host.startswith('127.0.0.1'):
+        return "00000000-0000-0000-0000-000000000001"
+
     # First try X-User-Email header (for Next.js proxy requests)
     user_email = request.headers.get('X-User-Email')
     if user_email:
@@ -83,6 +87,10 @@ def auth_required(f):
 
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        # LOCALHOST BYPASS: Skip auth for local development
+        if request.host.startswith('localhost') or request.host.startswith('127.0.0.1'):
+            return f(*args, **kwargs)
+
         # Check X-User-Email header first
         user_email = request.headers.get('X-User-Email')
         if user_email:
