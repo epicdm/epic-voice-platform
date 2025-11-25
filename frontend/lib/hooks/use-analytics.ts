@@ -8,7 +8,7 @@ export function useAnalytics(initialPeriod: AnalyticsPeriod = "30d") {
   const [callsData, setCallsData] = useState<any[]>([]);
   const [costData, setCostData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
 
   const fetchData = async () => {
     try {
@@ -33,7 +33,7 @@ export function useAnalytics(initialPeriod: AnalyticsPeriod = "30d") {
 
       setIsLoading(false);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load analytics");
+      setError(err instanceof Error ? err : new Error("Failed to load analytics"));
       setIsLoading(false);
     }
   };
