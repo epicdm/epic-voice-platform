@@ -51,11 +51,7 @@ export default function BillingPage() {
     currentPeriodStart: new Date(),
     currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     minutesUsed: 750,
-    minutesLimit: 1000,
-    agentsCount: 2,
-    agentsLimit: 2,
-    apiCallsCount: 1250,
-    estimatedCost: 0,
+    agentsCreated: 2,
   })
 
   const [subscription] = useState<{
