@@ -24,7 +24,7 @@ function getStatusColor(status: AgentStatus): "success" | "warning" | "danger" |
       return 'success'
     case AgentStatus.DEPLOYING:
       return 'warning'
-    case AgentStatus.FAILED:
+    case AgentStatus.ERROR:
       return 'danger'
     default:
       return 'default'
@@ -37,9 +37,7 @@ function getStatusLabel(status: AgentStatus): string {
       return 'Running'
     case AgentStatus.DEPLOYING:
       return 'Deploying'
-    case AgentStatus.UNDEPLOYING:
-      return 'Stopping'
-    case AgentStatus.FAILED:
+    case AgentStatus.ERROR:
       return 'Error'
     case AgentStatus.CREATED:
       return 'Created'
