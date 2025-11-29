@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Chip, Input } from "@heroui/react";
-import { AgentInsightCard } from "@/components/agents/AgentInsightCard";
+import { AgentCard } from "@/components/agents/AgentCard";
 import { AgentInspector } from "@/components/agents/AgentInspector";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -404,23 +404,17 @@ function AgentsListContent() {
         {/* Agents Grid - Now with AgentInsightCard */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredAgents.map((agent) => (
-            <AgentInsightCard
+            <AgentCard
               key={agent.id}
               agent={agent}
               metrics={agentMetrics[agent.id] || {
                 callsToday: 0,
                 successRate: 0,
                 avgDuration: "0:00",
-                lastCallAt: undefined,
-                activeCalls: 0,
-                totalCalls: 0,
               }}
-              expandOnHover={true}
-              onSelect={handleAgentSelect}
-              onStart={handleStartAgent}
-              onStop={handleStopAgent}
-              onEdit={handleEditAgent}
-              onDelete={handleDeleteAgent}
+              onSelect={() => handleAgentSelect(agent)}
+              onEdit={() => handleEditAgent(agent)}
+              onDelete={() => handleDeleteAgent(agent)}
             />
           ))}
         </div>
