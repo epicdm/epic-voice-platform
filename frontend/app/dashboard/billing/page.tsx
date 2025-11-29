@@ -26,7 +26,9 @@ interface Usage {
   currentPeriodStart: Date
   currentPeriodEnd: Date
   minutesUsed: number
+  minutesLimit: number
   agentsCreated: number
+  estimatedCost: number
 }
 
 interface Transaction {
@@ -51,7 +53,9 @@ export default function BillingPage() {
     currentPeriodStart: new Date(),
     currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     minutesUsed: 750,
+    minutesLimit: 1000,
     agentsCreated: 2,
+    estimatedCost: 0,
   })
 
   const [subscription] = useState<{

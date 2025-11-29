@@ -71,8 +71,8 @@ export default function AgentEditPage() {
           vad_enabled: agent.vad_enabled ?? true,
           turn_detection: turnDetection,
           noise_cancellation: agent.noise_cancellation_enabled ?? true,
-          phone_number_ids: (agent as any).phone_number_ids || [],
-          tools_config: (agent as any).tools_config || {},
+          phone_number_ids: agent.phone_number_ids || [],
+          tools_config: agent.tools_config || {},
         });
         
         setLoadError(null);
