@@ -38,7 +38,7 @@ function getAgentStatusColor(status: AgentStatus): "success" | "warning" | "dang
       return 'success'
     case AgentStatus.DEPLOYING:
       return 'warning'
-    case AgentStatus.FAILED:
+    case AgentStatus.ERROR:
       return 'danger'
     default:
       return 'default'
@@ -54,10 +54,8 @@ function getAgentStatusLabel(status: AgentStatus): string {
       return 'Deployed'
     case AgentStatus.DEPLOYING:
       return 'Deploying'
-    case AgentStatus.UNDEPLOYING:
-      return 'Undeploying'
-    case AgentStatus.FAILED:
-      return 'Failed'
+    case AgentStatus.ERROR:
+      return 'Error'
     case AgentStatus.CREATED:
       return 'Created'
     case AgentStatus.ACTIVE:
@@ -178,11 +176,11 @@ export function AgentInspector({
   // Fetch persona details when agent changes
   useEffect(() => {
     const fetchPersona = async () => {
-      if (!agent.persona_id || !open) return
+      if (!agent.personaId || !open) return
 
       try {
         setPersonaLoading(true)
-        const personaData = await api.get<Persona>(`/api/user/personas/${agent.persona_id}`)
+        const personaData = await api.get<Persona>(`/api/user/personas/${agent.personaId}`)
         setPersona(personaData)
       } catch (error) {
         console.error('Failed to fetch persona:', error)
@@ -193,7 +191,7 @@ export function AgentInspector({
     }
 
     fetchPersona()
-  }, [agent.persona_id, open])
+  }, [agent.personaId, open])
 
   return (
     <Modal
@@ -240,9 +238,9 @@ export function AgentInspector({
                       )}
                     </InspectorField>
                     <InspectorField label="Description" value={agent.description || agent.instructions || 'No description'} />
-                    <InspectorField label="LLM Provider" value={agent.llm_provider} />
-                    <InspectorField label="LLM Model" value={agent.llm_model} />
-                    <InspectorField label="Voice" value={agent.voice || agent.realtime_voice || 'N/A'} />
+                    <InspectorField label="LLM Provider" value={agent.llmProvider} />
+                    <InspectorField label="LLM Model" value={agent.llmModel} />
+                    <InspectorField label="Voice" value={agent.voice || agent.realtimeVoice || 'N/A'} />
                   </div>
                 </InspectorSection>
 
@@ -255,19 +253,19 @@ export function AgentInspector({
                     />
                     <InspectorField
                       label="Max Tokens"
-                      value={agent.max_tokens?.toString() || 'Default'}
+                      value={agent.maxTokens?.toString() || 'Default'}
                     />
                     <InspectorField
                       label="VAD Enabled"
-                      value={agent.vad_enabled ? 'Yes' : 'No'}
+                      value={agent.vadEnabled ? 'Yes' : 'No'}
                     />
                     <InspectorField
                       label="VAD Threshold"
-                      value={agent.vad_threshold?.toString() || 'Default'}
+                      value={agent.vadThreshold?.toString() || 'Default'}
                     />
                     <InspectorField
                       label="Min Endpointing Delay"
-                      value={agent.min_endpointing_delay ? `${agent.min_endpointing_delay}ms` : 'Default'}
+                      value={agent.minEndpointingDelay ? `${agent.minEndpointingDelay}ms` : 'Default'}
                     />
                   </div>
                 </InspectorSection>
@@ -290,7 +288,7 @@ export function AgentInspector({
                             <div className="flex items-center gap-2">
                               <Phone className="h-4 w-4 text-gray-500" />
                               <span className="text-sm font-medium">
-                                {call.phone_number || call.caller_number || 'Unknown'}
+                                {call.phoneNumber || call.callerNumber || 'Unknown'}
                               </span>
                             </div>
                             <Chip
@@ -305,21 +303,21 @@ export function AgentInspector({
                           <div className="grid grid-cols-3 gap-2 text-xs text-gray-500">
                             <div className="flex items-center gap-1">
                               <Clock className="h-3 w-3" />
-                              <span>{formatDuration(call.duration_seconds)}</span>
+                              <span>{formatDuration(call.durationSeconds)}</span>
                             </div>
                             <div className="flex items-center gap-1">
                               <DollarSign className="h-3 w-3" />
-                              <span>{formatCost(call.cost_usd)}</span>
+                              <span>{formatCost(call.costUsd)}</span>
                             </div>
                             <div className="flex items-center gap-1">
                               <Calendar className="h-3 w-3" />
-                              <span>{formatDate(call.started_at)}</span>
+                              <span>{formatDate(call.startedAt)}</span>
                             </div>
                           </div>
 
-                          {call.room_name && (
+                          {call.roomName && (
                             <div className="mt-2 text-xs text-gray-500">
-                              Room: <span className="font-mono">{call.room_name}</span>
+                              Room: <span className="font-mono">{call.roomName}</span>
                             </div>
                           )}
                         </div>
