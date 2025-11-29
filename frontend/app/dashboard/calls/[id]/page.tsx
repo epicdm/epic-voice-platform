@@ -145,11 +145,11 @@ export default function CallDetailPage() {
                     </Chip>
                   </div>
                   <p className="text-lg text-muted-foreground">
-                    Phone: <span className="font-medium text-foreground">{call.phone_number || 'N/A'}</span>
+                    Phone: <span className="font-medium text-foreground">{call.phoneNumber || 'N/A'}</span>
                   </p>
-                  {call.caller_number && (
+                  {call.callerNumber && (
                     <p className="text-sm text-muted-foreground mt-1">
-                      Caller: <span className="font-medium">{call.caller_number}</span>
+                      Caller: <span className="font-medium">{call.callerNumber}</span>
                     </p>
                   )}
                 </div>
@@ -162,17 +162,17 @@ export default function CallDetailPage() {
                   <div>
                     <p className="text-xs text-muted-foreground">Started At</p>
                     <p className="text-sm font-medium text-foreground">
-                      {new Date(call.started_at).toLocaleString()}
+                      {new Date(call.startedAt).toLocaleString()}
                     </p>
                   </div>
                 </div>
-                {call.ended_at && (
+                {call.endedAt && (
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <div>
                       <p className="text-xs text-muted-foreground">Ended At</p>
                       <p className="text-sm font-medium text-foreground">
-                        {new Date(call.ended_at).toLocaleString()}
+                        {new Date(call.endedAt).toLocaleString()}
                       </p>
                     </div>
                   </div>
@@ -198,56 +198,56 @@ export default function CallDetailPage() {
                       <span className="text-sm text-muted-foreground">Duration</span>
                     </div>
                     <span className="text-lg font-bold text-foreground">
-                      {formatDuration(call.duration_seconds)}
+                      {formatDuration(call.durationSeconds)}
                     </span>
                   </div>
 
                   {/* Cost */}
-                  {(call.cost_usd || call.cost) && (
+                  {(call.costUsd || call.cost) && (
                     <div className="flex items-center justify-between py-2 border-b border-border">
                       <div className="flex items-center gap-2">
                         <DollarSign className="h-4 w-4 text-muted-foreground" />
                         <span className="text-sm text-muted-foreground">Cost</span>
                       </div>
                       <span className="text-lg font-bold text-foreground">
-                        {formatCost(call.cost_usd || call.cost || 0)}
+                        {formatCost(call.costUsd || call.cost || 0)}
                       </span>
                     </div>
                   )}
 
                   {/* Agent */}
-                  {call.agent_name && (
+                  {call.agentName && (
                     <div className="flex items-center justify-between py-2 border-b border-border">
                       <div className="flex items-center gap-2">
                         <User className="h-4 w-4 text-muted-foreground" />
                         <span className="text-sm text-muted-foreground">Agent</span>
                       </div>
-                      <span className="text-sm font-medium text-foreground">{call.agent_name}</span>
+                      <span className="text-sm font-medium text-foreground">{call.agentName}</span>
                     </div>
                   )}
 
                   {/* Room Name */}
-                  {call.room_name && (
+                  {call.roomName && (
                     <div className="flex items-center justify-between py-2 border-b border-border">
                       <div className="flex items-center gap-2">
                         <Phone className="h-4 w-4 text-muted-foreground" />
                         <span className="text-sm text-muted-foreground">Room</span>
                       </div>
                       <span className="text-xs font-mono text-muted-foreground">
-                        {call.room_name}
+                        {call.roomName}
                       </span>
                     </div>
                   )}
 
                   {/* Call SID */}
-                  {call.call_sid && (
+                  {call.callSid && (
                     <div className="flex items-center justify-between py-2">
                       <div className="flex items-center gap-2">
                         <FileText className="h-4 w-4 text-muted-foreground" />
                         <span className="text-sm text-muted-foreground">Call SID</span>
                       </div>
                       <span className="text-xs font-mono text-muted-foreground">
-                        {call.call_sid}
+                        {call.callSid}
                       </span>
                     </div>
                   )}

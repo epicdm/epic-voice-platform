@@ -58,8 +58,8 @@ function CallHistoryContent() {
     }
 
     const totalCalls = callLogs.length;
-    const totalDuration = callLogs.reduce((sum, call) => sum + (call.duration_seconds || 0), 0);
-    const totalCost = callLogs.reduce((sum, call) => sum + (call.cost_usd || call.cost || 0), 0);
+    const totalDuration = callLogs.reduce((sum, call) => sum + (call.durationSeconds || 0), 0);
+    const totalCost = callLogs.reduce((sum, call) => sum + (call.costUsd || call.cost || 0), 0);
     const avgDuration = totalCalls > 0 ? totalDuration / totalCalls : 0;
 
     return {
@@ -428,19 +428,19 @@ function CallHistoryContent() {
                   onClick={() => router.push(`/dashboard/calls/${call.id}`)}
                 >
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                    {format(new Date(call.started_at), "MMM d, yyyy h:mm a")}
+                    {format(new Date(call.startedAt), "MMM d, yyyy h:mm a")}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                    {call.agent_name}
+                    {call.agentName}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
-                    {call.phone_number}
+                    {call.phoneNumber}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                    {formatDuration(call.duration_seconds)}
+                    {formatDuration(call.durationSeconds)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                    {formatCost(call.cost_usd || call.cost || 0)}
+                    {formatCost(call.costUsd || call.cost || 0)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <Chip
