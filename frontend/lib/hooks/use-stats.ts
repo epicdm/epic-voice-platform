@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import { DashboardStats } from "@/types/stats";
 
 export function useStats() {
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<DashboardStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

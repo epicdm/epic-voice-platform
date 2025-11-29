@@ -19,24 +19,33 @@ export interface CallLog {
   startedAt: Date;
   endedAt?: Date;
   cost?: number;
+  costUsd?: number;
   status?: CallStatus;
+  callerNumber?: string;
+  agentName?: string;
+  callSid?: string;
 }
 
-export function getCallStatusColor(status: CallStatus | string): string {
+export function getCallStatusColor(status: CallStatus | string): { color: string; label: string } {
   switch (status) {
     case CallStatus.COMPLETED:
-      return "success";
+      return { color: "success", label: "Completed" };
     case CallStatus.IN_PROGRESS:
+      return { color: "primary", label: "In Progress" };
     case CallStatus.RINGING:
-      return "primary";
+      return { color: "primary", label: "Ringing" };
     case CallStatus.FAILED:
+      return { color: "danger", label: "Failed" };
     case CallStatus.BUSY:
-      return "danger";
+      return { color: "danger", label: "Busy" };
     case CallStatus.NO_ANSWER:
+      return { color: "warning", label: "No Answer" };
     case CallStatus.CANCELLED:
-      return "warning";
+      return { color: "warning", label: "Cancelled" };
+    case CallStatus.PENDING:
+      return { color: "default", label: "Pending" };
     default:
-      return "default";
+      return { color: "default", label: String(status) };
   }
 }
 
