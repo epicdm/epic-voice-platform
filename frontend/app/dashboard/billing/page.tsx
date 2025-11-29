@@ -125,7 +125,7 @@ export default function BillingPage() {
 
       {/* Credit Balance Widget */}
       <div className="mb-8">
-        <BalanceWidget showDetails />
+        <BalanceWidget />
       </div>
 
       {/* Current Plan Card */}
