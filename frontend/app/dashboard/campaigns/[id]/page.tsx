@@ -20,28 +20,28 @@ interface Campaign {
   name: string
   description: string
   status: string
-  agent_id: string
-  agent_name?: string
-  scheduled_start: string | null
-  scheduled_end: string | null
-  leads_total: number
-  leads_completed: number
-  leads_failed: number
-  leads_in_progress: number
-  total_calls: number
-  successful_calls: number
-  failed_calls: number
-  created_at: string
-  updated_at: string
+  agentId: string
+  agentName?: string
+  scheduledStart: string | null
+  scheduledEnd: string | null
+  leadsTotal: number
+  leadsCompleted: number
+  leadsFailed: number
+  leadsInProgress: number
+  totalCalls: number
+  successfulCalls: number
+  failedCalls: number
+  createdAt: string
+  updatedAt: string
 }
 
 interface CampaignCall {
   id: string
-  phone_number: string
+  phoneNumber: string
   status: string
-  duration_seconds: number
-  started_at: string
-  ended_at?: string
+  durationSeconds: number
+  startedAt: string
+  endedAt?: string
   outcome?: CallOutcome
 }
 
@@ -104,13 +104,13 @@ export default function CampaignDetailPage() {
   }
 
   const calculateSuccessRate = () => {
-    if (!campaign || campaign.total_calls === 0) return 0
-    return Math.round((campaign.successful_calls / campaign.total_calls) * 100)
+    if (!campaign || campaign.totalCalls === 0) return 0
+    return Math.round((campaign.successfulCalls / campaign.totalCalls) * 100)
   }
 
   const calculateProgress = () => {
-    if (!campaign || campaign.leads_total === 0) return 0
-    return Math.round((campaign.leads_completed / campaign.leads_total) * 100)
+    if (!campaign || campaign.leadsTotal === 0) return 0
+    return Math.round((campaign.leadsCompleted / campaign.leadsTotal) * 100)
   }
 
   // Loading state
@@ -190,9 +190,9 @@ export default function CampaignDetailPage() {
               {campaign.description && (
                 <p className="text-muted-foreground">{campaign.description}</p>
               )}
-              {campaign.agent_name && (
+              {campaign.agentName && (
                 <p className="text-sm text-muted-foreground mt-2">
-                  Agent: <span className="font-medium">{campaign.agent_name}</span>
+                  Agent: <span className="font-medium">{campaign.agentName}</span>
                 </p>
               )}
             </div>
@@ -207,17 +207,17 @@ export default function CampaignDetailPage() {
           </div>
 
           {/* Scheduling Info */}
-          {campaign.scheduled_start && (
+          {campaign.scheduledStart && (
             <div className="pt-4 border-t border-border">
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
-                  <span>Start: {new Date(campaign.scheduled_start).toLocaleString()}</span>
+                  <span>Start: {new Date(campaign.scheduledStart).toLocaleString()}</span>
                 </div>
-                {campaign.scheduled_end && (
+                {campaign.scheduledEnd && (
                   <div className="flex items-center gap-1">
                     <Calendar className="h-4 w-4" />
-                    <span>End: {new Date(campaign.scheduled_end).toLocaleString()}</span>
+                    <span>End: {new Date(campaign.scheduledEnd).toLocaleString()}</span>
                   </div>
                 )}
               </div>
@@ -231,21 +231,21 @@ export default function CampaignDetailPage() {
         <Card>
           <CardBody className="text-center p-6">
             <Users className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-            <p className="text-3xl font-bold text-foreground">{campaign.leads_total}</p>
+            <p className="text-3xl font-bold text-foreground">{campaign.leadsTotal}</p>
             <p className="text-sm text-muted-foreground mt-1">Total Leads</p>
           </CardBody>
         </Card>
         <Card>
           <CardBody className="text-center p-6">
             <Phone className="h-8 w-8 text-primary mx-auto mb-2" />
-            <p className="text-3xl font-bold text-primary">{campaign.total_calls}</p>
+            <p className="text-3xl font-bold text-primary">{campaign.totalCalls}</p>
             <p className="text-sm text-muted-foreground mt-1">Total Calls</p>
           </CardBody>
         </Card>
         <Card>
           <CardBody className="text-center p-6">
             <CheckCircle className="h-8 w-8 text-success mx-auto mb-2" />
-            <p className="text-3xl font-bold text-success">{campaign.leads_completed}</p>
+            <p className="text-3xl font-bold text-success">{campaign.leadsCompleted}</p>
             <p className="text-sm text-muted-foreground mt-1">Completed</p>
           </CardBody>
         </Card>
@@ -259,7 +259,7 @@ export default function CampaignDetailPage() {
       </div>
 
       {/* Progress Bar */}
-      {campaign.leads_total > 0 && (
+      {campaign.leadsTotal > 0 && (
         <Card className="mb-6">
           <CardBody className="p-6">
             <div className="flex items-center justify-between mb-2">
@@ -275,15 +275,15 @@ export default function CampaignDetailPage() {
             <div className="grid grid-cols-3 gap-4 mt-4 text-center">
               <div>
                 <p className="text-xs text-muted-foreground">In Progress</p>
-                <p className="text-lg font-bold text-warning">{campaign.leads_in_progress}</p>
+                <p className="text-lg font-bold text-warning">{campaign.leadsInProgress}</p>
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Completed</p>
-                <p className="text-lg font-bold text-success">{campaign.leads_completed}</p>
+                <p className="text-lg font-bold text-success">{campaign.leadsCompleted}</p>
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Failed</p>
-                <p className="text-lg font-bold text-danger">{campaign.leads_failed}</p>
+                <p className="text-lg font-bold text-danger">{campaign.leadsFailed}</p>
               </div>
             </div>
           </CardBody>
@@ -321,7 +321,7 @@ export default function CampaignDetailPage() {
                       <div className="space-y-2 text-sm">
                         <div className="flex items-center justify-between">
                           <span className="text-muted-foreground">Phone Number:</span>
-                          <span className="font-medium text-foreground">{call.phone_number}</span>
+                          <span className="font-medium text-foreground">{call.phoneNumber}</span>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-muted-foreground">Status:</span>
@@ -332,14 +332,14 @@ export default function CampaignDetailPage() {
                         <div className="flex items-center justify-between">
                           <span className="text-muted-foreground">Started:</span>
                           <span className="font-medium text-foreground">
-                            {new Date(call.started_at).toLocaleString()}
+                            {new Date(call.startedAt).toLocaleString()}
                           </span>
                         </div>
-                        {call.ended_at && (
+                        {call.endedAt && (
                           <div className="flex items-center justify-between">
                             <span className="text-muted-foreground">Ended:</span>
                             <span className="font-medium text-foreground">
-                              {new Date(call.ended_at).toLocaleString()}
+                              {new Date(call.endedAt).toLocaleString()}
                             </span>
                           </div>
                         )}

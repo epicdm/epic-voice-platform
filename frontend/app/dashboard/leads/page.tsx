@@ -297,8 +297,8 @@ export default function LeadsPage() {
                       <td className="px-4 py-4">
                         <div>
                           <p className="font-medium text-foreground">
-                            {lead.first_name || lead.last_name
-                              ? `${lead.first_name || ''} ${lead.last_name || ''}`.trim()
+                            {lead.firstName || lead.lastName
+                              ? `${lead.firstName || ''} ${lead.lastName || ''}`.trim()
                               : 'No Name'}
                           </p>
                           {lead.email && (
@@ -318,7 +318,7 @@ export default function LeadsPage() {
                       <td className="px-4 py-4">
                         <p className="flex items-center text-foreground">
                           <Phone className="h-4 w-4 mr-2 text-muted-foreground" />
-                          {lead.phone_number}
+                          {lead.phoneNumber}
                         </p>
                       </td>
                       <td className="px-4 py-4">
@@ -350,7 +350,7 @@ export default function LeadsPage() {
                       <td className="px-4 py-4">
                         <p className="text-sm text-muted-foreground flex items-center">
                           <Calendar className="h-4 w-4 mr-1" />
-                          {new Date(lead.created_at).toLocaleDateString()}
+                          {new Date(lead.createdAt).toLocaleDateString()}
                         </p>
                       </td>
                       <td className="px-4 py-4">

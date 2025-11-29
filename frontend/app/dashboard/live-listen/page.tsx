@@ -10,20 +10,20 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { AudioPlayer } from '@/components/live-listen/AudioPlayer'
 
 interface ActiveRoom {
-  room_name: string
-  room_sid: string
-  num_participants: number
-  num_publishers: number
-  creation_time: number
-  phone_number?: string
-  caller_number?: string
-  active_recording: boolean
+  roomName: string
+  roomSid: string
+  numParticipants: number
+  numPublishers: number
+  creationTime: number
+  phoneNumber?: string
+  callerNumber?: string
+  activeRecording: boolean
 }
 
 interface JoinData {
   token: string
-  livekit_url: string
-  room_name: string
+  livekitUrl: string
+  roomName: string
 }
 
 export default function LiveListenPage() {
@@ -67,14 +67,14 @@ export default function LiveListenPage() {
       const data = await api.post<{
         success: boolean
         token: string
-        livekit_url: string
-        room_name: string
+        livekitUrl: string
+        roomName: string
       }>(`/api/live-listen/rooms/${encodeURIComponent(roomName)}/join`, {})
 
       setListeningTo({
         token: data.token,
-        livekit_url: data.livekit_url,
-        room_name: data.room_name
+        livekitUrl: data.livekitUrl,
+        roomName: data.roomName
       })
     } catch (err) {
       console.error('Failed to join room:', err)
@@ -137,8 +137,8 @@ export default function LiveListenPage() {
         <div className="mb-6">
           <AudioPlayer
             token={listeningTo.token}
-            serverUrl={listeningTo.livekit_url}
-            roomName={listeningTo.room_name}
+            serverUrl={listeningTo.livekitUrl}
+            roomName={listeningTo.roomName}
             onDisconnect={handleDisconnect}
           />
         </div>
@@ -166,7 +166,7 @@ export default function LiveListenPage() {
       ) : (
         <div className="space-y-4">
           {rooms.map((room) => (
-            <Card key={room.room_sid} className="border-success-200">
+            <Card key={room.roomSid} className="border-success-200">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between w-full">
                   <div className="flex items-center gap-3">
@@ -175,11 +175,11 @@ export default function LiveListenPage() {
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-foreground">
-                        {room.phone_number || 'Unknown Number'}
+                        {room.phoneNumber || 'Unknown Number'}
                       </h3>
-                      {room.caller_number && (
+                      {room.callerNumber && (
                         <p className="text-sm text-muted-foreground">
-                          Caller: {room.caller_number}
+                          Caller: {room.callerNumber}
                         </p>
                       )}
                     </div>
@@ -192,7 +192,7 @@ export default function LiveListenPage() {
                     color="primary"
                     size="sm"
                     startContent={<Headphones className="h-4 w-4" />}
-                    onClick={() => handleJoinRoom(room.room_name)}
+                    onClick={() => handleJoinRoom(room.roomName)}
                   >
                     Listen
                   </Button>
@@ -206,7 +206,7 @@ export default function LiveListenPage() {
                     <div>
                       <p className="text-xs text-muted-foreground">Duration</p>
                       <p className="font-mono font-semibold text-foreground">
-                        {formatDuration(room.creation_time)}
+                        {formatDuration(room.creationTime)}
                       </p>
                     </div>
                   </div>
@@ -217,7 +217,7 @@ export default function LiveListenPage() {
                     <div>
                       <p className="text-xs text-muted-foreground">Participants</p>
                       <p className="font-semibold text-foreground">
-                        {room.num_participants}
+                        {room.numParticipants}
                       </p>
                     </div>
                   </div>
@@ -228,7 +228,7 @@ export default function LiveListenPage() {
                     <div>
                       <p className="text-xs text-muted-foreground">Recording</p>
                       <p className="font-semibold text-foreground">
-                        {room.active_recording ? 'Yes' : 'No'}
+                        {room.activeRecording ? 'Yes' : 'No'}
                       </p>
                     </div>
                   </div>
@@ -237,7 +237,7 @@ export default function LiveListenPage() {
                   <div>
                     <p className="text-xs text-muted-foreground">Room SID</p>
                     <p className="font-mono text-xs text-foreground truncate">
-                      {room.room_sid}
+                      {room.roomSid}
                     </p>
                   </div>
                 </div>
@@ -246,7 +246,7 @@ export default function LiveListenPage() {
                 <div className="mt-4 pt-4 border-t border-border">
                   <p className="text-xs text-muted-foreground mb-1">Room Name</p>
                   <p className="font-mono text-sm text-muted-foreground">
-                    {room.room_name}
+                    {room.roomName}
                   </p>
                 </div>
               </CardBody>
