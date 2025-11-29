@@ -51,7 +51,7 @@ export function AgentWizardStep4() {
       });
 
       toast.success("Phone number provisioned successfully!", {
-        description: `${formatPhoneNumber(result.phoneNumber.phone_number)} is now available`,
+        description: `${formatPhoneNumber(result.phoneNumber.phoneNumber)} is now available`,
       });
 
       // Refresh phone numbers list
@@ -143,7 +143,7 @@ export function AgentWizardStep4() {
                           color="primary"
                           size="sm"
                         >
-                          {getCountryFlag(phone.country_code)} {formatPhoneNumber(phone.phone_number)}
+                          {getCountryFlag(phone.countryCode)} {formatPhoneNumber(phone.phoneNumber)}
                         </Chip>
                       );
                     })}
@@ -154,11 +154,11 @@ export function AgentWizardStep4() {
               {availablePhones.map((phone) => (
                 <SelectItem
                   key={phone.id}
-                  textValue={phone.phone_number}
+                  textValue={phone.phoneNumber}
                 >
                   <div className="flex items-center gap-2">
-                    <span>{getCountryFlag(phone.country_code)}</span>
-                    <span>{formatPhoneNumber(phone.phone_number)}</span>
+                    <span>{getCountryFlag(phone.countryCode)}</span>
+                    <span>{formatPhoneNumber(phone.phoneNumber)}</span>
                     <Chip size="sm" variant="flat" color="success">
                       Available
                     </Chip>
@@ -187,9 +187,9 @@ export function AgentWizardStep4() {
                     className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-2xl">{getCountryFlag(phone.country_code)}</span>
+                      <span className="text-2xl">{getCountryFlag(phone.countryCode)}</span>
                       <div>
-                        <div className="font-medium">{formatPhoneNumber(phone.phone_number)}</div>
+                        <div className="font-medium">{formatPhoneNumber(phone.phoneNumber)}</div>
                         <div className="text-xs text-gray-500">
                           Provider: {phone.provider}
                         </div>
