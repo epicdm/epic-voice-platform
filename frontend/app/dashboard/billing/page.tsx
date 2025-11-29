@@ -5,14 +5,29 @@ import { Card, CardBody, Chip, Button } from '@heroui/react'
 import { CreditCard, Download, Receipt, TrendingUp, AlertCircle, DollarSign, Calendar, Clock } from 'lucide-react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
-import UsageCard from '@/components/billing/UsageCard'
-import ManageSubscriptionButton from '@/components/billing/ManageSubscriptionButton'
-import UpgradeButton from '@/components/billing/UpgradeButton'
+import { UsageCard } from '@/components/billing/UsageCard'
+import { ManageSubscriptionButton } from '@/components/billing/ManageSubscriptionButton'
+import { UpgradeButton } from '@/components/billing/UpgradeButton'
 import { BalanceWidget } from '@/components/BalanceWidget'
 import { api } from '@/lib/api-client'
-import { PLANS } from '@/lib/billing'
 import { STRIPE_PRICE_IDS } from '@/lib/stripe'
-import type { Usage } from '@/lib/billing'
+
+// Stub PLANS until billing lib is available
+const PLANS: Record<string, { name: string; minutes: number; agents: number; minutesLimit: number; agentsLimit: number; price: number }> = {
+  free: { name: 'Free', minutes: 1000, agents: 2, minutesLimit: 1000, agentsLimit: 2, price: 0 },
+  pro: { name: 'Pro', minutes: 5000, agents: 10, minutesLimit: 5000, agentsLimit: 10, price: 29 },
+  enterprise: { name: 'Enterprise', minutes: Infinity, agents: Infinity, minutesLimit: Infinity, agentsLimit: Infinity, price: 99 }
+}
+
+// Stub Usage type until billing lib is available
+interface Usage {
+  userId: string
+  planId: string
+  currentPeriodStart: Date
+  currentPeriodEnd: Date
+  minutesUsed: number
+  agentsCreated: number
+}
 
 interface Transaction {
   id: string
