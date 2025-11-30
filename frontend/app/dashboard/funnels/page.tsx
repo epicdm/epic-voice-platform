@@ -307,17 +307,18 @@ function FunnelsListContent() {
       {renderContent()}
 
       {/* Advanced Funnel Creation Wizard */}
-      <AdvancedFunnelWizard
-        isOpen={showCreateWizard}
-        onClose={() => {
-          setShowCreateWizard(false);
-          refetch(); // Refresh list after creating funnel
-        }}
-        onFunnelCreated={(funnel) => {
-          console.log("Funnel created:", funnel);
-          refetch(); // Refresh list after creating funnel
-        }}
-      />
+      {showCreateWizard && (
+        <AdvancedFunnelWizard
+          onComplete={(funnel) => {
+            console.log("Funnel created:", funnel);
+            setShowCreateWizard(false);
+            refetch(); // Refresh list after creating funnel
+          }}
+          onCancel={() => {
+            setShowCreateWizard(false);
+          }}
+        />
+      )}
     </>
   );
 }
