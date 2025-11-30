@@ -128,10 +128,7 @@ export default function TestingPage() {
       {/* Call Simulator */}
       {selectedAgent && (
         <>
-          <CallSimulator
-            agentId={selectedAgent.id}
-            agentName={selectedAgent.name}
-          />
+          <CallSimulator />
 
           <OutboundCallTester
             agentId={selectedAgent.id}
