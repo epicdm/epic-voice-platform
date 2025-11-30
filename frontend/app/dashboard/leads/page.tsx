@@ -198,12 +198,14 @@ export default function LeadsPage() {
                 setCampaignFilter(selected || '')
               }}
             >
-              <SelectItem key="">All Campaigns</SelectItem>
-              {campaigns.map((campaign) => (
-                <SelectItem key={campaign.id}>
-                  {campaign.name}
-                </SelectItem>
-              ))}
+              {[
+                <SelectItem key="">All Campaigns</SelectItem>,
+                ...campaigns.map((campaign) => (
+                  <SelectItem key={campaign.id}>
+                    {campaign.name}
+                  </SelectItem>
+                ))
+              ]}
             </Select>
           </div>
         </CardBody>
