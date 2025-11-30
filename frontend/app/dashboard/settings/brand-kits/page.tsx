@@ -94,7 +94,6 @@ export default function BrandKitsPage() {
     return (
       <div className="min-h-screen bg-background">
         <BrandKitWizard
-          editingKit={editingKit}
           onComplete={handleWizardComplete}
           onCancel={() => {
             setShowWizard(false);
