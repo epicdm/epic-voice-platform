@@ -12,7 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { useFunnels } from "@/lib/hooks/use-funnels";
 import { createFunnel, updateFunnel, deleteFunnel } from "@/lib/api/funnels";
-import { FunnelListItem, FunnelStatus } from "@/types/funnel";
+import { Funnel, FunnelStatus } from "@/types/funnel";
 
 /**
  * Funnels List Page
