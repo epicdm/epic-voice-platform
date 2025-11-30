@@ -13,8 +13,6 @@ import {
 import { RecentCalls } from "@/components/dashboard/recent-calls";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { useStats } from "@/lib/hooks/use-stats";
-import { useEffect, useState } from "react";
-import { CallLog } from "@/types/call-log";
 import { api, isApiError } from "@/lib/api-client";
 
 /**
@@ -32,38 +30,6 @@ import { api, isApiError } from "@/lib/api-client";
 function DashboardContent() {
   const router = useRouter();
   const { stats, isLoading } = useStats();
-  const [recentCalls, setRecentCalls] = useState<CallLog[]>([]);
-  const [callsLoading, setCallsLoading] = useState(true);
-
-  /**
-   * Fetch recent calls (last 5)
-   */
-  useEffect(() => {
-    const fetchRecentCalls = async () => {
-      setCallsLoading(true);
-      try {
-        const response = await api.get<{
-          calls: CallLog[];
-          pagination: {
-            page: number;
-            limit: number;
-            total: number;
-            total_pages: number;
-          };
-        }>("/api/user/call-logs?limit=5");
-        setRecentCalls(response.calls || []);
-      } catch (err) {
-        // Fail silently for recent calls - not critical
-        console.error("Failed to load recent calls:", err);
-      } finally {
-        setCallsLoading(false);
-      }
-    };
-
-    if (!isLoading) {
-      fetchRecentCalls();
-    }
-  }, [isLoading]);
 
   // Error state with retry (FR-UX-006)
   // TODO: Add error and refetch to useStats hook
@@ -207,7 +173,7 @@ function DashboardContent() {
 
       {/* Recent Calls Widget */}
       <div className="mb-8">
-        <RecentCalls calls={recentCalls} isLoading={callsLoading} />
+        <RecentCalls limit={5} />
       </div>
 
       {/* Quick Links */}
