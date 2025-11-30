@@ -21,9 +21,9 @@ export interface AgentTemplate {
 }
 
 export const TEMPLATE_CATEGORIES = [
-  { id: "support", name: "Support" },
-  { id: "sales", name: "Sales" },
-  { id: "scheduling", name: "Scheduling" },
+  { id: "support", name: "Support", icon: "💬", count: 0 },
+  { id: "sales", name: "Sales", icon: "💼", count: 0 },
+  { id: "scheduling", name: "Scheduling", icon: "📅", count: 0 },
 ];
 
 export const AGENT_TEMPLATES: AgentTemplate[] = [
