@@ -39,9 +39,14 @@ function CallHistoryContent() {
   const [endDate, setEndDate] = useState<string>("");
   const [showExportModal, setShowExportModal] = useState<boolean>(false);
 
-  const { callLogs, isLoading, error, refetch, setFilters, currentPage, totalPages } =
-    useCallLogs();
+  const { callLogs, isLoading } = useCallLogs();
   const { agents, isLoading: agentsLoading } = useAgents();
+
+  // Stub missing hook properties until full hook implementation
+  const refetch = () => {};
+  const setFilters = () => {};
+  const currentPage = 1;
+  const totalPages = Math.ceil(callLogs.length / 20) || 1;
 
   /**
    * Calculate summary statistics
