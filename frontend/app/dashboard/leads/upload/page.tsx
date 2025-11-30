@@ -82,11 +82,13 @@ export default function LeadUploadPage() {
         setUploadProgress(prev => Math.min(prev + 10, 90))
       }, 200)
 
-      const response = await api.post('/api/user/leads/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+      // Use fetch directly for FormData upload (api.post doesn't support multipart)
+      const res = await fetch('/api/user/leads/upload', {
+        method: 'POST',
+        body: formData, // Let browser set Content-Type with boundary
       })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const response = await res.json()
 
       clearInterval(progressInterval)
       setUploadProgress(100)
