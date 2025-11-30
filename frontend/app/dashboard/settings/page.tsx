@@ -60,7 +60,7 @@ function SettingsContent() {
   /**
    * Handle form submission
    */
-  const onSubmit = async (data: ProfileUpdate) => {
+  const onSubmit = async (data: ProfileUpdateForm) => {
     setIsSubmitting(true);
     setSubmitError(null);
 
