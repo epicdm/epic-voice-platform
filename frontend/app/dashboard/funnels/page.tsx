@@ -60,7 +60,7 @@ function FunnelsListContent() {
         name: `${funnel.name} (Copy)`,
         description: funnel.description || undefined,
         status: FunnelStatus.DRAFT,
-        settings: funnel.settings,
+        settings: (funnel as any).settings,
       });
 
       refetch();
@@ -115,7 +115,7 @@ function FunnelsListContent() {
     return (
       funnel.name.toLowerCase().includes(query) ||
       funnel.description?.toLowerCase().includes(query) ||
-      funnel.settings?.trigger_type?.toLowerCase().includes(query)
+      (funnel as any).settings?.trigger_type?.toLowerCase().includes(query)
     );
   });
 
