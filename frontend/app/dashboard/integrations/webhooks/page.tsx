@@ -131,7 +131,7 @@ function WebhookManagementContent() {
           <DeliveryLogsModal
             isOpen={showDeliveryLogs}
             onClose={handleLogsClose}
-            webhook={selectedWebhook}
+            webhookId={selectedWebhook?.id || ""}
           />
         )}
       </div>
@@ -213,7 +213,7 @@ function WebhookManagementContent() {
           <DeliveryLogsModal
             isOpen={showDeliveryLogs}
             onClose={handleLogsClose}
-            webhook={selectedWebhook}
+            webhookId={selectedWebhook?.id || ""}
           />
         )}
       </div>
