@@ -243,8 +243,11 @@ function CallHistoryContent() {
           }
           title="No call history yet"
           description="Calls will appear here once your agents start receiving calls. Make sure you have assigned phone numbers to your agents."
-          ctaText="Go to Agents"
-          ctaHref="/dashboard/agents"
+          action={
+            <Button color="primary" onPress={() => router.push("/dashboard/agents")}>
+              Go to Agents
+            </Button>
+          }
         />
       </div>
     );
