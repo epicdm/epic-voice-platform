@@ -204,10 +204,13 @@ function FunnelsListContent() {
     if (funnels.length === 0) {
       return (
         <div className="flex flex-col h-screen">
-          <PageHeader
-            title="Funnels"
-            subtitle="Manage your automation funnels"
-            actions={
+          {/* Custom header with action button */}
+          <div className="p-6 border-b border-border">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-3xl font-bold">Funnels</h1>
+                <p className="text-gray-600 mt-2">Manage your automation funnels</p>
+              </div>
               <Button
                 color="primary"
                 size="lg"
@@ -216,8 +219,8 @@ function FunnelsListContent() {
               >
                 Create Funnel
               </Button>
-            }
-          />
+            </div>
+          </div>
           <div className="flex-1 flex items-center justify-center p-8 bg-grid-pattern">
             <EmptyState
               icon={<Workflow className="h-16 w-16" />}
