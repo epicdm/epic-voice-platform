@@ -62,24 +62,24 @@ function PhoneNumbersListContent() {
   };
 
   /**
-   * Handle assign success (refetch list)
+   * Handle assign success (refresh list)
    */
   const handleAssignSuccess = () => {
-    refetch();
+    refresh();
   };
 
   /**
-   * Handle unassign (refetch list)
+   * Handle unassign (refresh list)
    */
   const handleUnassign = () => {
-    refetch();
+    refresh();
   };
 
   /**
-   * Handle delete (refetch list)
+   * Handle delete (refresh list)
    */
   const handleDelete = () => {
-    refetch();
+    refresh();
   };
 
   // Loading state with skeleton loaders (FR-UX-001)
