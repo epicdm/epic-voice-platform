@@ -9,6 +9,7 @@ export interface AgentTemplate {
   downloads: number;
   color: string;
   popular?: boolean;
+  estimatedSetupTime: string;
   config: {
     instructions: string;
     llm_model: string;
@@ -40,6 +41,7 @@ export const AGENT_TEMPLATES: AgentTemplate[] = [
     downloads: 1247,
     color: "bg-blue-100",
     popular: true,
+    estimatedSetupTime: "5 min",
     config: {
       instructions: "You are a helpful customer support agent.",
       llm_model: "gpt-4",
@@ -62,6 +64,7 @@ export const AGENT_TEMPLATES: AgentTemplate[] = [
     icon: "💼",
     downloads: 892,
     color: "bg-green-100",
+    estimatedSetupTime: "10 min",
     config: {
       instructions: "You are a sales assistant that qualifies leads.",
       llm_model: "gpt-4",
@@ -84,6 +87,7 @@ export const AGENT_TEMPLATES: AgentTemplate[] = [
     icon: "📅",
     downloads: 673,
     color: "bg-purple-100",
+    estimatedSetupTime: "7 min",
     config: {
       instructions: "You are an appointment scheduling assistant.",
       llm_model: "gpt-4",
