@@ -57,6 +57,17 @@ function WebhookManagementContent() {
   };
 
   /**
+   * Handle webhook save
+   */
+  const handleSaveWebhook = async (data: any) => {
+    // TODO: Implement API call to create/update webhook
+    console.log("Saving webhook:", data);
+    setShowWebhookModal(false);
+    setSelectedWebhook(null);
+    refresh();
+  };
+
+  /**
    * Handle webhook modal close
    */
   const handleModalClose = (success?: boolean) => {
@@ -112,6 +123,7 @@ function WebhookManagementContent() {
         <WebhookModal
           isOpen={showWebhookModal}
           onClose={handleModalClose}
+          onSave={handleSaveWebhook}
           webhook={selectedWebhook}
         />
 
@@ -193,6 +205,7 @@ function WebhookManagementContent() {
         <WebhookModal
           isOpen={showWebhookModal}
           onClose={handleModalClose}
+          onSave={handleSaveWebhook}
           webhook={selectedWebhook}
         />
 
@@ -282,6 +295,7 @@ function WebhookManagementContent() {
         <WebhookModal
           isOpen={showWebhookModal}
           onClose={handleModalClose}
+          onSave={handleSaveWebhook}
           webhook={selectedWebhook}
         />
       )}
