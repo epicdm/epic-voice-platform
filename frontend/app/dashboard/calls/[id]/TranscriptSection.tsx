@@ -48,7 +48,7 @@ export function TranscriptSection({
   const { transcript, loading, error, refresh } = useCallTranscript(callLogId, {
     userId,
     autoFetch: true,
-    refreshInterval: transcript?.status === 'processing' ? 5000 : 0 // Refresh every 5s if processing
+    refreshInterval: 0 // Disable auto-refresh to avoid circular dependency
   })
 
   // Handle copy action
