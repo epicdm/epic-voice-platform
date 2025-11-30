@@ -184,7 +184,7 @@ function PhoneNumbersListContent() {
         <SimpleProvisionModal
           isOpen={showProvisionModal}
           onClose={() => setShowProvisionModal(false)}
-          onSuccess={handleProvisionSuccess}
+          onProvision={handleProvisionSuccess}
         />
       </div>
     );
@@ -339,18 +339,18 @@ function PhoneNumbersListContent() {
       <SimpleProvisionModal
         isOpen={showProvisionModal}
         onClose={() => setShowProvisionModal(false)}
-        onSuccess={handleProvisionSuccess}
+        onProvision={handleProvisionSuccess}
       />
 
       {/* Assign Modal */}
       <AssignModal
-        phoneNumber={selectedPhone}
+        phoneNumber={selectedPhone?.phone_number || ""}
         isOpen={showAssignModal}
         onClose={() => {
           setShowAssignModal(false);
           setSelectedPhone(null);
         }}
-        onSuccess={handleAssignSuccess}
+        onAssign={handleAssignSuccess}
       />
 
       {/* Export Modal */}
