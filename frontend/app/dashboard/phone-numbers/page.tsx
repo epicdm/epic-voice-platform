@@ -27,12 +27,15 @@ import { ExportModal } from "@/components/exports/ExportModal";
  * - Assign/unassign/delete actions (T036-T039)
  */
 function PhoneNumbersListContent() {
-  const { phoneNumbers, isLoading, error, refetch } = usePhoneNumbers();
+  const { phoneNumbers, isLoading, refresh } = usePhoneNumbers();
   const [showProvisionModal, setShowProvisionModal] = useState(false);
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
   const [selectedPhone, setSelectedPhone] = useState<PhoneNumber | null>(null);
   const [selectedTab, setSelectedTab] = useState("numbers");
+
+  // TODO: Add error to usePhoneNumbers hook
+  const error = null;
 
   /**
    * Handle provision modal open
@@ -44,10 +47,10 @@ function PhoneNumbersListContent() {
   };
 
   /**
-   * Handle provision success (refetch list)
+   * Handle provision success (refresh list)
    */
   const handleProvisionSuccess = () => {
-    refetch();
+    refresh();
   };
 
   /**
@@ -137,7 +140,7 @@ function PhoneNumbersListContent() {
                   Failed to Load Phone Numbers
                 </h3>
                 <p className="text-sm text-danger-800 mb-4">{error.message}</p>
-                <Button color="danger" variant="flat" onPress={refetch}>
+                <Button color="danger" variant="flat" onPress={refresh}>
                   Retry
                 </Button>
               </div>
