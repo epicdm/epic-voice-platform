@@ -99,7 +99,7 @@ function FunnelEditorContent() {
 
     try {
       const settings: any = {
-        ...funnel.settings,
+        ...(funnel.settings || {}),
         trigger_type: triggerType as any,
       };
 
