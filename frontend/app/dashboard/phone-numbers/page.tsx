@@ -57,7 +57,7 @@ function PhoneNumbersListContent() {
    * Handle assign modal open
    */
   const handleAssign = (number: string) => {
-    const phone = phoneNumbers.find(p => p.phone_number === number);
+    const phone = phoneNumbers.find(p => p.phoneNumber === number);
     setSelectedPhone(phone || null);
     setShowAssignModal(true);
   };
@@ -345,7 +345,7 @@ function PhoneNumbersListContent() {
 
       {/* Assign Modal */}
       <AssignModal
-        phoneNumber={selectedPhone?.phone_number || ""}
+        phoneNumber={selectedPhone?.phoneNumber || ""}
         isOpen={showAssignModal}
         onClose={() => {
           setShowAssignModal(false);
