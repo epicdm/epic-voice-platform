@@ -595,7 +595,7 @@ function FunnelEditorContent() {
 
       {/* Funnel Editor (Visual Builder) */}
       <div className="flex-1 overflow-hidden p-6">
-        <FunnelEditor funnel={funnel} onFunnelUpdated={handleFunnelUpdated} />
+        <FunnelEditor funnelId={funnel.id} />
       </div>
     </div>
   );
