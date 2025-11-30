@@ -40,8 +40,8 @@ function FunnelsListContent() {
   /**
    * Handle funnel selection - navigate to edit page
    */
-  const handleSelectFunnel = (funnel: Funnel) => {
-    router.push(`/dashboard/funnels/${funnel.id}/edit`);
+  const handleSelectFunnel = (id: string) => {
+    router.push(`/dashboard/funnels/${id}/edit`);
   };
 
   /**
@@ -295,15 +295,6 @@ function FunnelsListContent() {
         <FunnelGrid
           funnels={filteredFunnels}
           onSelect={handleSelectFunnel}
-          onEdit={handleEditFunnel}
-          onDuplicate={handleDuplicateFunnel}
-          onDelete={handleDeleteFunnel}
-          onToggleStatus={handleToggleStatus}
-          emptyMessage={
-            searchQuery
-              ? `No funnels match "${searchQuery}"`
-              : "No funnels found"
-          }
         />
       </div>
     </div>
