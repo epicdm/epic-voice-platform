@@ -212,7 +212,7 @@ export default function BrandKitsPage() {
 
               <CardBody className="space-y-4">
                 {/* Brand Preview */}
-                <BrandKitPreviewCard brandKit={kit} compact />
+                <BrandKitPreviewCard brandKit={kit} />
 
                 {/* Company Info */}
                 {kit.companyName && (
