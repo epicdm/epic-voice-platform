@@ -6,9 +6,19 @@ interface ExportModalProps {
   isOpen: boolean;
   onClose: () => void;
   data?: any[];
+  exportType?: string;
+  defaultFilters?: any;
+  agents?: any[];
 }
 
-export function ExportModal({ isOpen, onClose, data = [] }: ExportModalProps) {
+export function ExportModal({
+  isOpen,
+  onClose,
+  data = [],
+  exportType = 'data',
+  defaultFilters = {},
+  agents = []
+}: ExportModalProps) {
   const handleExport = (format: string) => {
     // TODO: Implement export functionality
     console.log(`Exporting ${data.length} items as ${format}`);

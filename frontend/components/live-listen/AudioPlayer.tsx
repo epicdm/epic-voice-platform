@@ -6,9 +6,12 @@ import { Button } from "@heroui/react";
 interface AudioPlayerProps {
   roomName: string;
   audioUrl?: string;
+  token?: string;
+  serverUrl?: string;
+  onDisconnect?: () => void;
 }
 
-export function AudioPlayer({ roomName, audioUrl }: AudioPlayerProps) {
+export function AudioPlayer({ roomName, audioUrl, token, serverUrl, onDisconnect }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 

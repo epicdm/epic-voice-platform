@@ -26,7 +26,7 @@ export interface CallLog {
   callSid?: string;
 }
 
-export function getCallStatusColor(status: CallStatus | string): { color: string; label: string } {
+export function getCallStatusColor(status: CallStatus | string): { color: "default" | "primary" | "secondary" | "success" | "warning" | "danger"; label: string } {
   switch (status) {
     case CallStatus.COMPLETED:
       return { color: "success", label: "Completed" };

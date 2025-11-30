@@ -1,10 +1,25 @@
+import { CallOutcome } from '@/types/call-outcome'
+
 interface CampaignROIWidgetProps {
-  campaignId: string;
+  campaignId?: string;
   spent?: number;
   revenue?: number;
+  outcomes?: CallOutcome[];
+  loading?: boolean;
 }
 
-export function CampaignROIWidget({ campaignId, spent = 0, revenue = 0 }: CampaignROIWidgetProps) {
+export function CampaignROIWidget({
+  campaignId,
+  spent = 0,
+  revenue = 0,
+  outcomes = [],
+  loading = false
+}: CampaignROIWidgetProps) {
+  // Calculate ROI from outcomes if provided
+  if (outcomes.length > 0) {
+    // TODO: Calculate spent and revenue from outcomes
+    // For now, use defaults
+  }
   const roi = spent > 0 ? ((revenue - spent) / spent) * 100 : 0;
 
   return (
