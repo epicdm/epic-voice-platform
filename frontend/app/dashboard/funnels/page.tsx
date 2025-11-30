@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Input } from "@heroui/react";
 import { Plus, Search, Filter, Workflow } from "lucide-react";
-import { PageHeader, Toolbar } from "@/components/layout";
+// PageHeader and Toolbar not used - using custom div structures instead
 import { FunnelGrid } from "@/components/funnels";
 import { AdvancedFunnelWizard } from "@/components/AdvancedFunnelWizard";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -264,30 +264,26 @@ function FunnelsListContent() {
       </div>
 
       {/* Toolbar */}
-      <Toolbar
-        left={
-          <Input
-            placeholder="Search funnels..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            startContent={<Search className="h-4 w-4 text-muted-foreground" />}
-            className="w-80"
-            classNames={{
-              input: "text-sm",
-              inputWrapper: "h-10"
-            }}
-          />
-        }
-        right={
-          <Button
-            variant="flat"
-            size="sm"
-            startContent={<Filter className="h-4 w-4" />}
-          >
-            Filters
-          </Button>
-        }
-      />
+      <div className="flex items-center justify-between py-4 px-6 border-b bg-white">
+        <Input
+          placeholder="Search funnels..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          startContent={<Search className="h-4 w-4 text-muted-foreground" />}
+          className="w-80"
+          classNames={{
+            input: "text-sm",
+            inputWrapper: "h-10"
+          }}
+        />
+        <Button
+          variant="flat"
+          size="sm"
+          startContent={<Filter className="h-4 w-4" />}
+        >
+          Filters
+        </Button>
+      </div>
 
       {/* Funnel Grid */}
       <div className="flex-1 overflow-auto p-6 bg-grid-pattern">
