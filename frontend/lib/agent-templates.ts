@@ -7,6 +7,7 @@ export interface AgentTemplate {
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   icon: string;
   downloads: number;
+  color: string;
   config: {
     instructions: string;
     llm_model: string;
@@ -36,6 +37,7 @@ export const AGENT_TEMPLATES: AgentTemplate[] = [
     difficulty: "beginner",
     icon: "💬",
     downloads: 1247,
+    color: "bg-blue-100",
     config: {
       instructions: "You are a helpful customer support agent.",
       llm_model: "gpt-4",
@@ -57,6 +59,7 @@ export const AGENT_TEMPLATES: AgentTemplate[] = [
     difficulty: "intermediate",
     icon: "💼",
     downloads: 892,
+    color: "bg-green-100",
     config: {
       instructions: "You are a sales assistant that qualifies leads.",
       llm_model: "gpt-4",
@@ -78,6 +81,7 @@ export const AGENT_TEMPLATES: AgentTemplate[] = [
     difficulty: "beginner",
     icon: "📅",
     downloads: 673,
+    color: "bg-purple-100",
     config: {
       instructions: "You are an appointment scheduling assistant.",
       llm_model: "gpt-4",
