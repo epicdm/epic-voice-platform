@@ -6,9 +6,9 @@
  */
 
 import { useState } from 'react';
-import { Card, CardBody, CardHeader } from '@heroui/card';
-import { Button } from '@heroui/button';
-import { Chip } from '@heroui/chip';
+import { Card, CardBody, CardHeader } from '@heroui/react';
+import { Button } from '@heroui/react';
+import { Chip } from '@heroui/react';
 import {
   Modal,
   ModalContent,
@@ -16,8 +16,8 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure
-} from '@heroui/modal';
-import { Select, SelectItem } from '@heroui/select';
+} from '@heroui/react';
+import { Select, SelectItem } from '@heroui/react';
 import { Ear, Volume2, Users, AlertCircle, Info } from 'lucide-react';
 import { toast } from 'sonner';
 

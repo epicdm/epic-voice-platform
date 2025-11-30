@@ -6,10 +6,10 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Tabs, Tab } from '@heroui/tabs';
-import { Card, CardBody } from '@heroui/card';
-import { Button } from '@heroui/button';
-import { useDisclosure } from '@heroui/modal';
+import { Tabs, Tab } from '@heroui/react';
+import { Card, CardBody } from '@heroui/react';
+import { Button } from '@heroui/react';
+import { useDisclosure } from '@heroui/react';
 import {
   Activity,
   Phone,

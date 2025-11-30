@@ -12,10 +12,10 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from '@heroui/modal';
-import { Button } from '@heroui/button';
-import { Input } from '@heroui/input';
-import { Select, SelectItem } from '@heroui/select';
+} from '@heroui/react';
+import { Button } from '@heroui/react';
+import { Input } from '@heroui/react';
+import { Select, SelectItem } from '@heroui/react';
 import { Phone } from 'lucide-react';
 import { toast } from 'sonner';
 

@@ -6,8 +6,8 @@
  */
 
 import { useState } from 'react';
-import { Button } from '@heroui/button';
-import { Chip } from '@heroui/chip';
+import { Button } from '@heroui/react';
+import { Chip } from '@heroui/react';
 import {
   Modal,
   ModalContent,
@@ -15,8 +15,8 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure
-} from '@heroui/modal';
-import { Input } from '@heroui/input';
+} from '@heroui/react';
+import { Input } from '@heroui/react';
 import { Mic, MicOff, Circle, Square } from 'lucide-react';
 import { toast } from 'sonner';
 

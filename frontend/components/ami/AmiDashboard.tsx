@@ -6,10 +6,10 @@
  */
 
 import { useEffect, useState } from 'react';
-import { Card, CardBody, CardHeader } from '@heroui/card';
-import { Chip } from '@heroui/chip';
-import { Button } from '@heroui/button';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@heroui/table';
+import { Card, CardBody, CardHeader } from '@heroui/react';
+import { Chip } from '@heroui/react';
+import { Button } from '@heroui/react';
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@heroui/react';
 import { Phone, PhoneOff, Activity, Server, TrendingUp, Clock } from 'lucide-react';
 import { io, Socket } from 'socket.io-client';
 

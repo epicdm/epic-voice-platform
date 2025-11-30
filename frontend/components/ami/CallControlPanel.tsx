@@ -6,9 +6,9 @@
  */
 
 import { useState } from 'react';
-import { Card, CardBody, CardHeader } from '@heroui/card';
-import { Button } from '@heroui/button';
-import { Input } from '@heroui/input';
+import { Card, CardBody, CardHeader } from '@heroui/react';
+import { Button } from '@heroui/react';
+import { Input } from '@heroui/react';
 import {
   Modal,
   ModalContent,
@@ -16,7 +16,7 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure
-} from '@heroui/modal';
+} from '@heroui/react';
 import {
   PhoneForwarded,
   PhoneOff,

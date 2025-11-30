@@ -6,11 +6,11 @@
  */
 
 import { useEffect, useState } from 'react';
-import { Card, CardBody, CardHeader } from '@heroui/card';
-import { Chip } from '@heroui/chip';
-import { Button } from '@heroui/button';
-import { Progress } from '@heroui/progress';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@heroui/table';
+import { Card, CardBody, CardHeader } from '@heroui/react';
+import { Chip } from '@heroui/react';
+import { Button } from '@heroui/react';
+import { Progress } from '@heroui/react';
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@heroui/react';
 import { Users, Clock, PhoneIncoming, UserCheck, UserX, Activity } from 'lucide-react';
 import { toast } from 'sonner';
 

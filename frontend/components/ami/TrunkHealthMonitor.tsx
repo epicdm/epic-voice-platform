@@ -6,10 +6,10 @@
  */
 
 import { useEffect, useState } from 'react';
-import { Card, CardBody, CardHeader } from '@heroui/card';
-import { Chip } from '@heroui/chip';
-import { Button } from '@heroui/button';
-import { Progress } from '@heroui/progress';
+import { Card, CardBody, CardHeader } from '@heroui/react';
+import { Chip } from '@heroui/react';
+import { Button } from '@heroui/react';
+import { Progress } from '@heroui/react';
 import {
   Modal,
   ModalContent,
@@ -17,8 +17,8 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure
-} from '@heroui/modal';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@heroui/table';
+} from '@heroui/react';
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@heroui/react';
 import { Server, Activity, AlertTriangle, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { toast } from 'sonner';
 
