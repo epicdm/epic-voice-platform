@@ -163,7 +163,12 @@ function FunnelsListContent() {
   if (error) {
     return (
       <div className="flex flex-col h-screen">
-        <PageHeader title="Funnels" description="Manage your automation funnels" />
+        <div className="p-6 border-b border-border">
+          <div>
+            <h1 className="text-3xl font-bold">Funnels</h1>
+            <p className="text-gray-600 mt-2">Manage your automation funnels</p>
+          </div>
+        </div>
         <div className="flex-1 flex items-center justify-center p-8">
           <div className="max-w-2xl w-full">
             <div className="bg-danger-50 border border-danger-200 rounded-lg p-6">
