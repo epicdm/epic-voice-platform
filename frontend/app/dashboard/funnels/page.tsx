@@ -226,8 +226,16 @@ function FunnelsListContent() {
               icon={<Workflow className="h-16 w-16" />}
               title="No funnels yet"
               description="Create your first automation funnel to engage leads with multi-step workflows."
-              ctaText="Create Funnel"
-              ctaAction={() => setShowCreateWizard(true)}
+              action={
+                <Button
+                  color="primary"
+                  size="lg"
+                  startContent={<Plus className="h-4 w-4" />}
+                  onPress={() => setShowCreateWizard(true)}
+                >
+                  Create Funnel
+                </Button>
+              }
             />
           </div>
         </div>
