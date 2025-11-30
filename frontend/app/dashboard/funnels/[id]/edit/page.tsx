@@ -67,8 +67,8 @@ function FunnelEditorContent() {
       setName(data.name);
       setDescription(data.description || "");
       setStatus(data.status);
-      setTriggerType(data.settings?.trigger_type || "manual");
-      setLandingPageConfig(data.settings?.landing_page || null);
+      setTriggerType((data as any).settings?.trigger_type || "manual");
+      setLandingPageConfig((data as any).settings?.landing_page || null);
     } catch (err) {
       console.error("Failed to load funnel:", err);
       setError(new Error("Failed to load funnel"));
@@ -99,7 +99,7 @@ function FunnelEditorContent() {
 
     try {
       const settings: any = {
-        ...(funnel.settings || {}),
+        ...((funnel as any).settings || {}),
         trigger_type: triggerType as any,
       };
 
