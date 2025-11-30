@@ -115,7 +115,7 @@ function DashboardContent() {
     stats &&
     stats.total_agents === 0 &&
     stats.total_phone_numbers === 0 &&
-    stats.total_calls_today === 0;
+    stats.total_calls === 0;
 
   return (
     <div className="container mx-auto px-4 py-8">
