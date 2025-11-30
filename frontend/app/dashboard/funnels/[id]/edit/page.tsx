@@ -171,7 +171,7 @@ function FunnelEditorContent() {
       <div className="flex flex-col h-screen">
         <PageHeader
           title="Edit Funnel"
-          subtitle="Funnel not found"
+          description="Funnel not found"
           actions={
             <Button
               variant="flat"
@@ -204,7 +204,7 @@ function FunnelEditorContent() {
       {/* Page Header */}
       <PageHeader
         title={funnel.name}
-        subtitle={getFunnelStatusLabel(funnel.status)}
+        description={getFunnelStatusLabel(funnel.status)}
         actions={
           <div className="flex gap-3">
             <Button
