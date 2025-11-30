@@ -173,8 +173,11 @@ function PhoneNumbersListContent() {
           }
           title="No phone numbers yet"
           description="Add your first phone number to start receiving calls. Phone numbers are provisioned from Magnus Billing and can be assigned to agents."
-          ctaText="Add Phone Number"
-          ctaAction={handleProvision}
+          action={
+            <Button color="primary" onPress={handleProvision}>
+              Add Phone Number
+            </Button>
+          }
         />
 
         {/* Provision Modal */}
