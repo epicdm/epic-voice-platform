@@ -324,7 +324,7 @@ function PhoneNumbersListContent() {
             {phoneNumbers.map((phoneNumber) => (
               <NumberListItem
                 key={phoneNumber.id}
-                phoneNumber={phoneNumber}
+                number={phoneNumber}
                 onDelete={handleDelete}
                 onAssign={handleAssign}
                 onUnassign={handleUnassign}
