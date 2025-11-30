@@ -56,8 +56,9 @@ function PhoneNumbersListContent() {
   /**
    * Handle assign modal open
    */
-  const handleAssign = (phoneNumber: PhoneNumber) => {
-    setSelectedPhone(phoneNumber);
+  const handleAssign = (number: string) => {
+    const phone = phoneNumbers.find(p => p.phone_number === number);
+    setSelectedPhone(phone || null);
     setShowAssignModal(true);
   };
 
