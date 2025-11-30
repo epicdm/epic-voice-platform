@@ -115,7 +115,7 @@ export default function ClickToDialModal({
               description="Which AI agent should handle this call?"
             >
               {agents.map((agent) => (
-                <SelectItem key={agent.id} value={agent.id}>
+                <SelectItem key={agent.id}>
                   {agent.name}
                   {agent.phoneNumber && ` (${agent.phoneNumber})`}
                 </SelectItem>

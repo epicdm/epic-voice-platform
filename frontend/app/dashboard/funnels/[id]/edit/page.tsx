@@ -283,19 +283,19 @@ function FunnelEditorContent() {
                     setIsDirty(true);
                   }}
                 >
-                  <SelectItem key="manual" value="manual">
+                  <SelectItem key="manual">
                     Manual
                   </SelectItem>
-                  <SelectItem key="lead_created" value="lead_created">
+                  <SelectItem key="lead_created">
                     Lead Created
                   </SelectItem>
-                  <SelectItem key="landing_page" value="landing_page">
+                  <SelectItem key="landing_page">
                     Landing Page
                   </SelectItem>
-                  <SelectItem key="campaign" value="campaign">
+                  <SelectItem key="campaign">
                     Campaign
                   </SelectItem>
-                  <SelectItem key="webhook" value="webhook">
+                  <SelectItem key="webhook">
                     Webhook
                   </SelectItem>
                 </Select>

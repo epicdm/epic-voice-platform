@@ -193,7 +193,7 @@ export default function LeadUploadPage() {
                     }}
                   >
                     {campaigns.map((campaign) => (
-                      <SelectItem key={campaign.id} value={campaign.id}>
+                      <SelectItem key={campaign.id}>
                         {campaign.name}
                       </SelectItem>
                     ))}

@@ -42,7 +42,7 @@ export function AssignModal({ isOpen, onClose, phoneNumber, onAssign }: AssignMo
               onChange={(e) => setSelectedAgent(e.target.value)}
             >
               {agents.map((agent) => (
-                <SelectItem key={agent.id} value={agent.id}>
+                <SelectItem key={agent.id}>
                   {agent.name}
                 </SelectItem>
               ))}

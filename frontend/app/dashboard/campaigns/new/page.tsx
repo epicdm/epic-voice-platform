@@ -373,16 +373,16 @@ export default function NewCampaignPage() {
                           setTimezone(selected)
                         }}
                       >
-                        <SelectItem key="America/New_York" value="America/New_York">
+                        <SelectItem key="America/New_York">
                           Eastern (ET)
                         </SelectItem>
-                        <SelectItem key="America/Chicago" value="America/Chicago">
+                        <SelectItem key="America/Chicago">
                           Central (CT)
                         </SelectItem>
-                        <SelectItem key="America/Denver" value="America/Denver">
+                        <SelectItem key="America/Denver">
                           Mountain (MT)
                         </SelectItem>
-                        <SelectItem key="America/Los_Angeles" value="America/Los_Angeles">
+                        <SelectItem key="America/Los_Angeles">
                           Pacific (PT)
                         </SelectItem>
                       </Select>

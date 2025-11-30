@@ -180,13 +180,13 @@ export default function LeadsPage() {
               }}
               startContent={<Filter className="h-4 w-4 text-muted-foreground" />}
             >
-              <SelectItem key="" value="">All Statuses</SelectItem>
-              <SelectItem key="new" value="new">New</SelectItem>
-              <SelectItem key="queued" value="queued">Queued</SelectItem>
-              <SelectItem key="calling" value="calling">Calling</SelectItem>
-              <SelectItem key="completed" value="completed">Completed</SelectItem>
-              <SelectItem key="failed" value="failed">Failed</SelectItem>
-              <SelectItem key="dnc" value="dnc">Do Not Call</SelectItem>
+              <SelectItem key="">All Statuses</SelectItem>
+              <SelectItem key="new">New</SelectItem>
+              <SelectItem key="queued">Queued</SelectItem>
+              <SelectItem key="calling">Calling</SelectItem>
+              <SelectItem key="completed">Completed</SelectItem>
+              <SelectItem key="failed">Failed</SelectItem>
+              <SelectItem key="dnc">Do Not Call</SelectItem>
             </Select>
 
             {/* Campaign Filter */}
@@ -198,9 +198,9 @@ export default function LeadsPage() {
                 setCampaignFilter(selected || '')
               }}
             >
-              <SelectItem key="" value="">All Campaigns</SelectItem>
+              <SelectItem key="">All Campaigns</SelectItem>
               {campaigns.map((campaign) => (
-                <SelectItem key={campaign.id} value={campaign.id}>
+                <SelectItem key={campaign.id}>
                   {campaign.name}
                 </SelectItem>
               ))}
