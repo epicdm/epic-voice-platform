@@ -86,7 +86,7 @@ export function TranscriptSection({
       transcript={transcript}
       loading={loading}
       error={error}
-      showViewButton={!!transcript && transcript.segmentCount > 0}
+      showViewButton={!!transcript && Array.isArray(transcript) && transcript.length > 0}
       onView={onViewTranscript}
     />
   )
