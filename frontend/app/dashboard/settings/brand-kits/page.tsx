@@ -20,17 +20,16 @@ import {
 import {
   listBrandKits,
   deleteBrandKit,
-  setDefaultBrandKit,
-  type BrandKit
+  setDefaultBrandKit
 } from "@/lib/api/brand-kits";
 import { BrandKitWizard } from "@/components/brand-kits/BrandKitWizard";
 import { BrandKitPreviewCard } from "@/components/brand-kits/BrandKitPreviewCard";
 
 export default function BrandKitsPage() {
-  const [brandKits, setBrandKits] = useState<BrandKit[]>([]);
+  const [brandKits, setBrandKits] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showWizard, setShowWizard] = useState(false);
-  const [editingKit, setEditingKit] = useState<BrandKit | null>(null);
+  const [editingKit, setEditingKit] = useState<any | null>(null);
 
   const loadBrandKits = async () => {
     try {
