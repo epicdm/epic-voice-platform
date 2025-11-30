@@ -246,10 +246,12 @@ function FunnelsListContent() {
     return (
       <div className="flex flex-col h-screen">
       {/* Page Header */}
-      <PageHeader
-        title="Funnels"
-        subtitle={`${funnels.length} funnel${funnels.length !== 1 ? 's' : ''} configured`}
-        actions={
+      <div className="p-6 border-b border-border">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">Funnels</h1>
+            <p className="text-gray-600 mt-2">{`${funnels.length} funnel${funnels.length !== 1 ? 's' : ''} configured`}</p>
+          </div>
           <Button
             color="primary"
             size="lg"
@@ -258,8 +260,8 @@ function FunnelsListContent() {
           >
             Create Funnel
           </Button>
-        }
-      />
+        </div>
+      </div>
 
       {/* Toolbar */}
       <Toolbar
