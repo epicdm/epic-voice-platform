@@ -286,8 +286,6 @@ function WebhookManagementContent() {
       <WebhookList
         webhooks={webhooks}
         onEdit={handleEditWebhook}
-        onViewLogs={handleViewLogs}
-        onRefetch={refresh}
       />
 
       {/* Modals */}
