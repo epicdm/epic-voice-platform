@@ -130,13 +130,7 @@ export default function TestingPage() {
         <>
           <CallSimulator />
 
-          <OutboundCallTester
-            agentId={selectedAgent.id}
-            agentName={selectedAgent.name}
-            agentStatus={selectedAgent.status}
-            isOpen={isOutboundModalOpen}
-            onClose={() => setIsOutboundModalOpen(false)}
-          />
+          <OutboundCallTester />
         </>
       )}
 
