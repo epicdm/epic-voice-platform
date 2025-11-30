@@ -15,7 +15,7 @@ export const agentCreateSchema = z.object({
   turn_detection: z.enum(["semantic", "vad_based"]).optional(),
   noise_cancellation: z.boolean().optional(),
   phone_number_ids: z.array(z.string()).optional(),
-  tools_config: z.record(z.any()).optional(),
+  tools_config: z.record(z.string(), z.any()).optional(),
 });
 
 export type AgentCreate = z.infer<typeof agentCreateSchema>;

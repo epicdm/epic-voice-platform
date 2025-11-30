@@ -64,7 +64,7 @@ export function AgentWizardStep5() {
     : null;
 
   // Watch current tools configuration
-  const toolsConfig = watch("tools_config") || {};
+  const toolsConfig = (watch("tools_config") || {}) as Record<string, any>;
 
   // Load knowledge base statistics (if agent exists)
   useEffect(() => {
@@ -161,10 +161,11 @@ export function AgentWizardStep5() {
 
   const handleToggleTool = (toolType: string, enabled: boolean) => {
     // Type-safe update: merge the new tool config with existing config
-    const currentConfig = watch("tools_config") || {};
+    const currentConfig = (watch("tools_config") || {}) as Record<string, any>;
+    const existingToolConfig = currentConfig[toolType] || {};
     setValue("tools_config", {
       ...currentConfig,
-      [toolType]: { ...currentConfig[toolType as keyof typeof currentConfig], enabled }
+      [toolType]: { ...existingToolConfig, enabled }
     }, {
       shouldValidate: true,
       shouldDirty: true,

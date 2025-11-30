@@ -24,7 +24,7 @@ export function AgentWizardStep4() {
     setValue,
   } = useFormContext<AgentCreate>();
 
-  const { phoneNumbers, isLoading, refetch: refreshPhoneNumbers } = usePhoneNumbers();
+  const { phoneNumbers, isLoading, refresh: refreshPhoneNumbers } = usePhoneNumbers();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isProvisioning, setIsProvisioning] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("DM"); // Default to Dominica (Magnus Billing)
