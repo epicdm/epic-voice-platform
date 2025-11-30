@@ -11,6 +11,7 @@ export interface AgentTemplate {
   popular?: boolean;
   estimatedSetupTime: string;
   features: string[];
+  useCases: string[];
   config: {
     instructions: string;
     llm_model: string;
@@ -44,6 +45,7 @@ export const AGENT_TEMPLATES: AgentTemplate[] = [
     popular: true,
     estimatedSetupTime: "5 min",
     features: ["24/7 availability", "Multi-language support", "FAQ handling", "Ticket creation"],
+    useCases: ["E-commerce", "SaaS", "Healthcare", "Education"],
     config: {
       instructions: "You are a helpful customer support agent.",
       llm_model: "gpt-4",
@@ -68,6 +70,7 @@ export const AGENT_TEMPLATES: AgentTemplate[] = [
     color: "bg-green-100",
     estimatedSetupTime: "10 min",
     features: ["Lead qualification", "Meeting scheduling", "CRM integration", "Follow-up emails"],
+    useCases: ["B2B Sales", "Real Estate", "Consulting", "Agencies"],
     config: {
       instructions: "You are a sales assistant that qualifies leads.",
       llm_model: "gpt-4",
@@ -92,6 +95,7 @@ export const AGENT_TEMPLATES: AgentTemplate[] = [
     color: "bg-purple-100",
     estimatedSetupTime: "7 min",
     features: ["Calendar integration", "Automated reminders", "Timezone handling", "Rescheduling support"],
+    useCases: ["Medical practices", "Service businesses", "Salons & Spas", "Consultants"],
     config: {
       instructions: "You are an appointment scheduling assistant.",
       llm_model: "gpt-4",
