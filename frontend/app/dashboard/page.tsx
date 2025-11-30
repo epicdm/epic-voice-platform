@@ -65,13 +65,6 @@ function DashboardContent() {
     }
   }, [isLoading]);
 
-  /**
-   * Format cost as USD currency
-   */
-  const formatCost = (value: number) => {
-    return `$${value.toFixed(2)}`;
-  };
-
   // Error state with retry (FR-UX-006)
   // TODO: Add error and refetch to useStats hook
   const error = null;
@@ -112,6 +105,7 @@ function DashboardContent() {
 
   // Check if user has zero data (FR-API-010)
   const hasZeroData =
+    !isLoading &&
     stats &&
     stats.total_agents === 0 &&
     stats.total_phone_numbers === 0 &&
@@ -182,50 +176,32 @@ function DashboardContent() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {/* Total Agents */}
         <TotalAgentsCard
-          value={stats?.total_agents ?? 0}
-          subtitle={
-            stats?.total_agents === 1 ? "1 agent" : `${stats?.total_agents ?? 0} agents`
-          }
-          isLoading={isLoading}
+          value={isLoading ? "-" : stats?.total_agents ?? 0}
         />
 
         {/* Phone Numbers */}
         <PhoneNumbersCard
-          value={stats?.total_phone_numbers ?? 0}
-          subtitle={
-            stats?.total_phone_numbers === 1
-              ? "1 number provisioned"
-              : `${stats?.total_phone_numbers ?? 0} numbers provisioned`
-          }
-          isLoading={isLoading}
+          value={isLoading ? "-" : stats?.total_phone_numbers ?? 0}
         />
 
-        {/* Calls Today */}
+        {/* Total Calls */}
         <CallsTodayCard
-          value={stats?.total_calls_today ?? 0}
-          subtitle="Since midnight"
-          isLoading={isLoading}
+          value={isLoading ? "-" : stats?.total_calls ?? 0}
         />
 
-        {/* Calls This Month */}
+        {/* Total Minutes */}
         <CallsMonthCard
-          value={stats?.total_calls_month ?? 0}
-          subtitle="Current billing period"
-          isLoading={isLoading}
+          value={isLoading ? "-" : stats?.total_minutes ?? 0}
         />
 
-        {/* Cost Today */}
+        {/* Active Calls */}
         <CostTodayCard
-          value={formatCost(stats?.total_cost_today_usd ?? 0)}
-          subtitle="Since midnight"
-          isLoading={isLoading}
+          value={isLoading ? "-" : stats?.active_calls ?? 0}
         />
 
-        {/* Cost This Month */}
+        {/* Pending Calls */}
         <CostMonthCard
-          value={formatCost(stats?.total_cost_month_usd ?? 0)}
-          subtitle="Current billing period"
-          isLoading={isLoading}
+          value={isLoading ? "-" : stats?.pending_calls ?? 0}
         />
       </div>
 
