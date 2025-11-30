@@ -57,7 +57,7 @@ export default function MarketplacePage() {
         greeting_message: selectedTemplate.config.greeting_message || '',
       }
       
-      await api.createAgent(agentData)
+      await api.post('/api/user/agents', agentData)
       
       toast.success('Agent created!', {
         description: `${selectedTemplate.name} has been created successfully.`,
