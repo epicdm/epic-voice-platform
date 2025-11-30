@@ -8,6 +8,7 @@ export interface AgentTemplate {
   icon: string;
   downloads: number;
   color: string;
+  popular?: boolean;
   config: {
     instructions: string;
     llm_model: string;
@@ -38,6 +39,7 @@ export const AGENT_TEMPLATES: AgentTemplate[] = [
     icon: "💬",
     downloads: 1247,
     color: "bg-blue-100",
+    popular: true,
     config: {
       instructions: "You are a helpful customer support agent.",
       llm_model: "gpt-4",
