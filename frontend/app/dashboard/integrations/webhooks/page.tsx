@@ -24,7 +24,10 @@ import { Webhook as WebhookType } from "@/types/webhook";
  * - Event subscription management
  */
 function WebhookManagementContent() {
-  const { webhooks, stats, isLoading, error, refetch } = useWebhooks();
+  const { webhooks, isLoading, refresh } = useWebhooks();
+  // TODO: Add stats and error tracking to useWebhooks hook
+  const stats = null;
+  const error = null;
   const [showWebhookModal, setShowWebhookModal] = useState(false);
   const [showDeliveryLogs, setShowDeliveryLogs] = useState(false);
   const [selectedWebhook, setSelectedWebhook] = useState<WebhookType | null>(null);
@@ -60,7 +63,7 @@ function WebhookManagementContent() {
     setShowWebhookModal(false);
     setSelectedWebhook(null);
     if (success) {
-      refetch();
+      refresh();
     }
   };
 
@@ -99,7 +102,7 @@ function WebhookManagementContent() {
             <AlertCircle className="w-12 h-12 mx-auto mb-4 text-danger" />
             <h3 className="text-lg font-semibold mb-2">Error Loading Webhooks</h3>
             <p className="text-default-500 mb-4">{error}</p>
-            <Button color="primary" onClick={() => refetch()}>
+            <Button color="primary" onClick={() => refresh()}>
               Try Again
             </Button>
           </CardBody>
@@ -271,7 +274,7 @@ function WebhookManagementContent() {
         webhooks={webhooks}
         onEdit={handleEditWebhook}
         onViewLogs={handleViewLogs}
-        onRefetch={refetch}
+        onRefetch={refresh}
       />
 
       {/* Modals */}
