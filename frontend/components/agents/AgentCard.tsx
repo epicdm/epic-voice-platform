@@ -17,7 +17,7 @@ export interface AgentCardProps {
   className?: string
 }
 
-function getStatusColor(status: AgentStatus): "success" | "warning" | "danger" | "default" {
+function getStatusColor(status: string | undefined): "success" | "warning" | "danger" | "default" {
   switch (status) {
     case AgentStatus.ACTIVE:
     case AgentStatus.DEPLOYED:
@@ -31,7 +31,7 @@ function getStatusColor(status: AgentStatus): "success" | "warning" | "danger" |
   }
 }
 
-function getStatusLabel(status: AgentStatus): string {
+function getStatusLabel(status: string | undefined): string {
   switch (status) {
     case AgentStatus.DEPLOYED:
       return 'Running'
@@ -103,10 +103,10 @@ export function AgentCard({
 
         {/* Details */}
         <div className="space-y-2 mb-4">
-          {agent.model && (
+          {(agent.llmModel || agent.llm_model) && (
             <div className="flex items-center gap-2 text-sm">
               <span className="text-gray-500">Model:</span>
-              <span className="font-medium">{agent.model}</span>
+              <span className="font-medium">{agent.llmModel || agent.llm_model}</span>
             </div>
           )}
           {agent.voice && (
@@ -115,10 +115,10 @@ export function AgentCard({
               <span className="font-medium">{agent.voice}</span>
             </div>
           )}
-          {agent.phoneNumber && (
+          {agent.did_number && (
             <div className="flex items-center gap-2 text-sm">
               <Phone className="w-4 h-4 text-gray-500" />
-              <span className="font-medium">{agent.phoneNumber}</span>
+              <span className="font-medium">{agent.did_number}</span>
             </div>
           )}
         </div>
@@ -131,10 +131,7 @@ export function AgentCard({
               variant="flat"
               color="primary"
               startContent={<Edit className="w-4 h-4" />}
-              onPress={(e) => {
-                e.stopPropagation()
-                onEdit(agent)
-              }}
+              onPress={() => onEdit(agent)}
             >
               Edit
             </Button>
@@ -145,10 +142,7 @@ export function AgentCard({
               variant="flat"
               color="danger"
               startContent={<Trash2 className="w-4 h-4" />}
-              onPress={(e) => {
-                e.stopPropagation()
-                onDelete(agent)
-              }}
+              onPress={() => onDelete(agent)}
             >
               Delete
             </Button>

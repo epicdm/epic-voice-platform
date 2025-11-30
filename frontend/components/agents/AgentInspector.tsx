@@ -31,7 +31,7 @@ export interface AgentInspectorProps {
 /**
  * Get status color for agent
  */
-function getAgentStatusColor(status: AgentStatus): "success" | "warning" | "danger" | "default" {
+function getAgentStatusColor(status: string | undefined): "success" | "warning" | "danger" | "default" {
   switch (status) {
     case AgentStatus.ACTIVE:
     case AgentStatus.DEPLOYED:
@@ -48,7 +48,7 @@ function getAgentStatusColor(status: AgentStatus): "success" | "warning" | "dang
 /**
  * Get status label for agent
  */
-function getAgentStatusLabel(status: AgentStatus): string {
+function getAgentStatusLabel(status: string | undefined): string {
   switch (status) {
     case AgentStatus.DEPLOYED:
       return 'Deployed'
@@ -123,8 +123,8 @@ function formatCost(cost?: number | null): string {
 /**
  * Format date to human readable
  */
-function formatDate(dateString: string): string {
-  const date = new Date(dateString)
+function formatDate(dateString: string | Date): string {
+  const date = typeof dateString === 'string' ? new Date(dateString) : dateString
   return date.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
@@ -174,24 +174,24 @@ export function AgentInspector({
   const recentCalls = callHistory.slice(0, 10)
 
   // Fetch persona details when agent changes
+  // Note: Agent type doesn't currently have personaId field
   useEffect(() => {
-    const fetchPersona = async () => {
-      if (!agent.personaId || !open) return
-
-      try {
-        setPersonaLoading(true)
-        const personaData = await api.get<Persona>(`/api/user/personas/${agent.personaId}`)
-        setPersona(personaData)
-      } catch (error) {
-        console.error('Failed to fetch persona:', error)
-        setPersona(null)
-      } finally {
-        setPersonaLoading(false)
-      }
-    }
-
-    fetchPersona()
-  }, [agent.personaId, open])
+    // Disabled until personaId is added to Agent type
+    // const fetchPersona = async () => {
+    //   if (!agent.personaId || !open) return
+    //   try {
+    //     setPersonaLoading(true)
+    //     const personaData = await api.get<Persona>(`/api/user/personas/${agent.personaId}`)
+    //     setPersona(personaData)
+    //   } catch (error) {
+    //     console.error('Failed to fetch persona:', error)
+    //     setPersona(null)
+    //   } finally {
+    //     setPersonaLoading(false)
+    //   }
+    // }
+    // fetchPersona()
+  }, [open])
 
   return (
     <Modal
@@ -240,7 +240,7 @@ export function AgentInspector({
                     <InspectorField label="Description" value={agent.description || agent.instructions || 'No description'} />
                     <InspectorField label="LLM Provider" value={agent.llmProvider} />
                     <InspectorField label="LLM Model" value={agent.llmModel} />
-                    <InspectorField label="Voice" value={agent.voice || agent.realtimeVoice || 'N/A'} />
+                    <InspectorField label="Voice" value={agent.voice || agent.realtime_voice || 'N/A'} />
                   </div>
                 </InspectorSection>
 
@@ -252,20 +252,16 @@ export function AgentInspector({
                       value={agent.temperature?.toString() || 'Default'}
                     />
                     <InspectorField
-                      label="Max Tokens"
-                      value={agent.maxTokens?.toString() || 'Default'}
-                    />
-                    <InspectorField
                       label="VAD Enabled"
-                      value={agent.vadEnabled ? 'Yes' : 'No'}
+                      value={agent.vad_enabled ? 'Yes' : 'No'}
                     />
                     <InspectorField
-                      label="VAD Threshold"
-                      value={agent.vadThreshold?.toString() || 'Default'}
+                      label="Turn Detection Model"
+                      value={agent.turn_detection_model || 'Default'}
                     />
                     <InspectorField
-                      label="Min Endpointing Delay"
-                      value={agent.minEndpointingDelay ? `${agent.minEndpointingDelay}ms` : 'Default'}
+                      label="Noise Cancellation"
+                      value={agent.noise_cancellation_enabled ? 'Yes' : 'No'}
                     />
                   </div>
                 </InspectorSection>

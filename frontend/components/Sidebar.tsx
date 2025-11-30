@@ -118,7 +118,7 @@ export default function Sidebar() {
       </nav>
 
       {/* Balance Widget */}
-      <BalanceWidget compact />
+      <BalanceWidget />
 
       {/* User Profile */}
       <div className="border-t border-border p-4">

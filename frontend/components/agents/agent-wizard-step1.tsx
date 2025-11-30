@@ -30,36 +30,21 @@ export function AgentWizardStep1() {
 
       {/* Schema-driven fields */}
       <div className="space-y-6">
-        {STEP1_FIELDS.map((field) => (
+        {Object.entries(STEP1_FIELDS).map(([fieldName, fieldConfig]) => (
           <FormField
-            key={field.name}
-            name={field.name}
-            label={field.label}
-            description={field.description}
-            required={field.required}
+            key={fieldName}
+            label={fieldConfig.label}
+            required={fieldConfig.required}
           >
-            {(fieldProps) =>
-              field.component === "textarea" ? (
-                <AutoTextarea
-                  {...fieldProps}
-                  placeholder={field.placeholder}
-                  minRows={field.minRows}
-                  maxRows={field.maxRows}
-                  maxLength={field.maxLength}
-                  showCounter={field.showCounter}
-                />
-              ) : (
-                <Input
-                  {...fieldProps}
-                  placeholder={field.placeholder}
-                  autoFocus={field.name === "name"} // Auto-focus first field
-                  className="w-full"
-                  classNames={{
-                    inputWrapper: "min-h-12",
-                  }}
-                />
-              )
-            }
+            <Input
+              name={fieldName}
+              placeholder={fieldConfig.placeholder}
+              autoFocus={fieldName === "name"} // Auto-focus first field
+              className="w-full"
+              classNames={{
+                inputWrapper: "min-h-12",
+              }}
+            />
           </FormField>
         ))}
       </div>
