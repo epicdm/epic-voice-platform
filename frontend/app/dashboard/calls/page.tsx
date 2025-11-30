@@ -43,6 +43,7 @@ function CallHistoryContent() {
   const { agents, isLoading: agentsLoading } = useAgents();
 
   // Stub missing hook properties until full hook implementation
+  const error = null;
   const refetch = () => {};
   const setFilters = (_filters: any) => {};
   const currentPage = 1;
