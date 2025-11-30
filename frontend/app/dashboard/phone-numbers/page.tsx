@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Button, Tabs, Tab } from "@heroui/react";
 import { Phone, Settings, Zap, ArrowDownCircle, Download } from "lucide-react";
 import { NumberListItem } from "@/components/phone-numbers/number-list-item";
-import { ProvisionModal } from "@/components/phone-numbers/provision-modal";
 import { SimpleProvisionModal } from "@/components/phone-numbers/simple-provision-modal";
 import { AssignModal } from "@/components/phone-numbers/assign-modal";
 import { SIPConfigTab } from "@/components/phone-numbers/sip-config-tab";
