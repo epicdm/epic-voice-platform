@@ -27,9 +27,13 @@ import { api, isApiError } from "@/lib/api-client";
  * - Error boundary wrapper (FR-UX-002)
  */
 function SettingsContent() {
-  const { profile, isLoading, error, refetch } = useProfile();
+  const { profile, isLoading } = useProfile();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+
+  // TODO: Add error and refetch to useProfile hook
+  const error = null;
+  const refetch = () => {};
 
   const {
     register,
