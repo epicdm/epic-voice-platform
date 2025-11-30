@@ -333,7 +333,7 @@ function CallHistoryContent() {
             isLoading={agentsLoading}
           >
             {agents.map((agent) => (
-              <SelectItem key={agent.id} value={agent.id}>
+              <SelectItem key={agent.id}>
                 {agent.name}
               </SelectItem>
             ))}
@@ -346,16 +346,16 @@ function CallHistoryContent() {
             selectedKeys={statusFilter ? [statusFilter] : []}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
-            <SelectItem key="completed" value="completed">
+            <SelectItem key="completed">
               Completed
             </SelectItem>
-            <SelectItem key="failed" value="failed">
+            <SelectItem key="failed">
               Failed
             </SelectItem>
-            <SelectItem key="no_answer" value="no_answer">
+            <SelectItem key="no_answer">
               No Answer
             </SelectItem>
-            <SelectItem key="busy" value="busy">
+            <SelectItem key="busy">
               Busy
             </SelectItem>
           </Select>
