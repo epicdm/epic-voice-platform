@@ -44,7 +44,7 @@ function CallHistoryContent() {
 
   // Stub missing hook properties until full hook implementation
   const refetch = () => {};
-  const setFilters = () => {};
+  const setFilters = (_filters: any) => {};
   const currentPage = 1;
   const totalPages = Math.ceil(callLogs.length / 20) || 1;
 
