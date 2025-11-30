@@ -8,7 +8,10 @@ export const settingsSchema = z.object({
 
 export const profileUpdateSchema = z.object({
   name: z.string().min(1).optional(),
+  full_name: z.string().min(1).optional(),
   email: z.string().email().optional(),
+  company: z.string().optional(),
+  timezone: z.string().optional(),
 });
 
 export type SettingsForm = z.infer<typeof settingsSchema>;
