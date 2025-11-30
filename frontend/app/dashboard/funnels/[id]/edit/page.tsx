@@ -307,28 +307,16 @@ function FunnelEditorContent() {
                     setIsDirty(true);
                   }}
                 >
-                  <SelectItem
-                    key={FunnelStatus.DRAFT}
-                    value={FunnelStatus.DRAFT}
-                  >
+                  <SelectItem key={FunnelStatus.DRAFT}>
                     Draft
                   </SelectItem>
-                  <SelectItem
-                    key={FunnelStatus.ACTIVE}
-                    value={FunnelStatus.ACTIVE}
-                  >
+                  <SelectItem key={FunnelStatus.ACTIVE}>
                     Active
                   </SelectItem>
-                  <SelectItem
-                    key={FunnelStatus.PAUSED}
-                    value={FunnelStatus.PAUSED}
-                  >
+                  <SelectItem key={FunnelStatus.PAUSED}>
                     Paused
                   </SelectItem>
-                  <SelectItem
-                    key={FunnelStatus.ARCHIVED}
-                    value={FunnelStatus.ARCHIVED}
-                  >
+                  <SelectItem key={FunnelStatus.ARCHIVED}>
                     Archived
                   </SelectItem>
                 </Select>
