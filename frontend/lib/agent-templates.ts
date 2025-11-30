@@ -36,3 +36,8 @@ export function getAllTemplates() {
 export function getPopularTemplates() {
   return AGENT_TEMPLATES.slice(0, 3);
 }
+
+export function getTemplatesByCategory(category: string) {
+  if (category === 'all') return AGENT_TEMPLATES;
+  return AGENT_TEMPLATES.filter((t) => t.category.toLowerCase() === category.toLowerCase());
+}
