@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useProfile } from "@/lib/hooks/use-profile";
-import { profileUpdateSchema, ProfileUpdate } from "@/lib/schemas/settings-schema";
+import { profileUpdateSchema, ProfileUpdateForm } from "@/lib/schemas/settings-schema";
 import { api, isApiError } from "@/lib/api-client";
 
 /**
@@ -37,7 +37,7 @@ function SettingsContent() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<ProfileUpdate>({
+  } = useForm<ProfileUpdateForm>({
     resolver: zodResolver(profileUpdateSchema),
     values: profile
       ? {
