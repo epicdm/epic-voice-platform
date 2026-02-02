@@ -129,7 +129,7 @@ LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
         
         content = f'''"""
 Agent Logic
-Auto-generated from Epic.ai agent builder
+Auto-generated from OpenClaw agent builder
 """
 import logging
 from livekit.agents import Agent, AgentSession, JobContext, RunContext
@@ -143,10 +143,21 @@ from config import (
     LLM_TEMPERATURE,
     STT_MODEL,
     TTS_VOICE,
+    TTS_PROVIDER,
     PREEMPTIVE_GENERATION,
     RESUME_FALSE_INTERRUPTION,
     TRANSCRIPTION_ENABLED,
 )
+
+# Import TTS providers dynamically based on config
+if TTS_PROVIDER == "inworld":
+    from livekit.plugins import inworld as tts_provider
+elif TTS_PROVIDER == "elevenlabs":
+    from livekit.plugins import elevenlabs as tts_provider
+elif TTS_PROVIDER == "cartesia":
+    from livekit.plugins import cartesia as tts_provider
+else:
+    tts_provider = openai  # default
 
 logger = logging.getLogger(__name__)
 
@@ -187,12 +198,22 @@ async def entrypoint(ctx: JobContext):
     
     logger.info(f"Starting agent: {{AGENT_NAME}}")
     
+    # Create TTS instance based on provider
+    if TTS_PROVIDER == "inworld":
+        tts_instance = tts_provider.TTS(voice_name=TTS_VOICE)
+    elif TTS_PROVIDER == "elevenlabs":
+        tts_instance = tts_provider.TTS(voice=TTS_VOICE)
+    elif TTS_PROVIDER == "cartesia":
+        tts_instance = tts_provider.TTS(voice=TTS_VOICE)
+    else:
+        tts_instance = openai.TTS(voice=TTS_VOICE)
+    
     # Create agent session
     session = AgentSession(
         vad=silero.VAD.load(),
         llm=openai.LLM(model=LLM_MODEL, temperature=LLM_TEMPERATURE),
         stt=deepgram.STT(model=STT_MODEL, language="multi"),
-        tts=openai.TTS(voice=TTS_VOICE),
+        tts=tts_instance,
         preemptive_generation=PREEMPTIVE_GENERATION,
         resume_false_interruption=RESUME_FALSE_INTERRUPTION,
         transcription_enabled=TRANSCRIPTION_ENABLED,
@@ -268,6 +289,11 @@ LIVEKIT_API_SECRET=your_api_secret
 OPENAI_API_KEY=your_openai_key
 DEEPGRAM_API_KEY=your_deepgram_key
 
+# TTS Provider Keys (set the one you use)
+# INWORLD_API_KEY=your_inworld_key     # https://platform.inworld.ai
+# ELEVENLABS_API_KEY=your_elevenlabs_key
+# CARTESIA_API_KEY=your_cartesia_key
+
 # Optional
 LOG_LEVEL=INFO
 '''
@@ -280,9 +306,10 @@ LOG_LEVEL=INFO
 livekit-agents[openai,deepgram,silero]>=1.0.0
 python-dotenv>=1.0.0
 
-# Additional dependencies (uncomment as needed)
-# livekit-plugins-elevenlabs
-# livekit-plugins-cartesia
+# TTS Providers (uncomment as needed)
+# livekit-plugins-inworld        # $5-10/1M chars, #1 ranked quality
+# livekit-plugins-elevenlabs     # $120/1M chars, high quality
+# livekit-plugins-cartesia       # $25/1M chars
 # livekit-plugins-anthropic
 '''
         
